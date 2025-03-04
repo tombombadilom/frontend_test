@@ -118,14 +118,14 @@ flowchart TD
     classDef start fill:#4CAF50,color:white
     classDef process fill:#2196F3,color:white
     classDef decision fill:#9C27B0,color:white
-    classDef end fill:#F44336,color:white
-    classDef approval fill:#FF9800,color:black
+    classDef content fill:#FF9800,color:black
+    classDef display fill:#F44336,color:white
+    classDef endclass fill:#607D8B,color:white
     
     class A start
-    class B,C,D,E,F process
-    class G,J decision
-    class H,I,K end
-    class L,M,N approval
+    class B,C,D,E,F,G,H process
+    class I decision
+    class J endclass
 ```
 
 ## Product Bulk Management

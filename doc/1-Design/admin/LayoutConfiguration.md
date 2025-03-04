@@ -164,14 +164,14 @@ flowchart TD
     classDef decision fill:#9C27B0,color:white
     classDef content fill:#FF9800,color:black
     classDef display fill:#F44336,color:white
-    classDef end fill:#607D8B,color:white
+    classDef endclass fill:#607D8B,color:white
     
     class A start
     class B,C,I process
     class D decision
     class E,F,G content
     class H display
-    class J end
+    class J endclass
 ```
 
 ## Display Mode Configuration

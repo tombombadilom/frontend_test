@@ -175,13 +175,13 @@ flowchart TD
     classDef decision fill:#9C27B0,color:white
     classDef type fill:#FF9800,color:black
     classDef display fill:#F44336,color:white
-    classDef end fill:#607D8B,color:white
+    classDef endclass fill:#607D8B,color:white
     
     class A start
     class B,C,H,I,J process
     class D,K decision
     class E,F,G type
-    class L,M end
+    class L,M endclass
 ```
 
 ## Promotion Types
@@ -332,13 +332,13 @@ flowchart TD
     classDef conflict fill:#F44336,color:white
     classDef resolve fill:#9C27B0,color:white
     classDef action fill:#2196F3,color:white
-    classDef end fill:#607D8B,color:white
+    classDef endclass fill:#607D8B,color:white
     
     class A start
     class B,D check
     class E resolve
     class F,G,H action
-    class C,I,J end
+    class C,I,J endclass
 ```
 
 ## Implementation Considerations

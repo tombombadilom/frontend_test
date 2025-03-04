@@ -1,10 +1,38 @@
 # Game Store Administration Interface
 
-[← Back to Design](../README.md) | [← Back to Documentation](../../README.md) | [View Documentation Map](../../DocNavigation.md)
+[← Back to Design Documentation](../README.md) | [View Documentation Map](../../DocNavigation.md)
 
 ## Overview
 
-This directory contains the conceptual design for the store administration interface that allows game editors to manage products, schedule updates, and configure in-game store content efficiently. While this interface will not be implemented as part of the 3-day prototype, this design serves as a blueprint for future development.
+The Game Store Administration Interface provides a comprehensive set of tools for managing all aspects of the game store, including product management, store layout configuration, scheduled updates, and analytics.
+
+## Key Documentation
+
+- [**User Roles & Permissions**](./UserRoles.md) - Detailed breakdown of admin user roles and their permissions
+- [**Product Management**](./ProductManagement.md) - Documentation for product creation, editing, and bulk management
+- [**Layout Configuration**](./LayoutConfiguration.md) - Documentation for store layout and section configuration
+- [**Scheduled Updates**](./ScheduledUpdates.md) - Documentation for scheduling content updates and promotions
+- [**Interface Documentation**](./interfaces/README.md) - Detailed documentation for each administration interface
+
+## Design Philosophy
+
+The administration interface is designed with the following principles in mind:
+
+1. **Intuitive Workflows** - Clear, step-by-step processes that guide users through complex tasks
+2. **Powerful Visualization** - Visual representations of store layouts, schedules, and data
+3. **Flexible Scheduling** - Advanced scheduling capabilities for content and promotion management
+4. **Comprehensive Analytics** - Detailed insights into store performance and user behavior
+
+## Target Users
+
+The administration interface is designed for the following user roles:
+
+- **Store Administrators** - Responsible for overall store management and configuration
+- **Content Managers** - Responsible for product management and store layout
+- **Marketing Managers** - Responsible for promotions and scheduled updates
+- **Analysts** - Responsible for monitoring store performance and user behavior
+
+For detailed information about each interface, please refer to the [Interface Documentation](./interfaces/README.md).
 
 ## Navigation
 
@@ -53,16 +81,6 @@ The administration interface is designed to provide a comprehensive set of tools
    - Monitor store performance metrics
    - Track sales and user engagement
    - Generate reports and insights
-
-## Design Philosophy
-
-The administration interface is designed with the following principles in mind:
-
-1. **Efficiency** - Streamlined workflows for common tasks
-2. **Clarity** - Clear and intuitive interface for all user roles
-3. **Flexibility** - Adaptable to different game contexts and requirements
-4. **Power** - Comprehensive tools for store management
-5. **Collaboration** - Support for team-based workflows
 
 ## Implementation Note
 
