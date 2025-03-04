@@ -1,4 +1,15 @@
-# World of Warcraft Shop Interface Analysis
+# World of Warcraft Shop Analysis
+
+[← Back to Analysis](../README.md) | [View Documentation Map](../../DocNavigation.md)
+
+## Navigation
+
+- [📋 Main README](../../README.md) - Overview of the entire documentation
+- [📝 Project Analysis](../../Analysis.md) - Analysis of the project requirements
+- [📋 Analysis Overview](../README.md) - Overview of the analysis process
+- [📊 Comparative Analysis](../ComparativeAnalysis.md) - Comparison of different game stores
+- [🎮 Fortnite Analysis](../Fortnite/FortniteShopAnalysis.md) - Analysis of Fortnite's item shop
+- [⚔️ Genshin Impact Analysis](../GenshinImpact/GenshinImpactShopAnalysis.md) - Analysis of Genshin Impact's shop
 
 ## Overview
 

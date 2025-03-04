@@ -1,3 +1,18 @@
+# Animation and Navigation Analysis: Game Store Interfaces
+
+[← Back to Analysis](README.md) | [View Documentation Map](../DocNavigation.md)
+
+## Navigation
+
+- [📋 Main README](../README.md) - Overview of the entire documentation
+- [📝 Project Analysis](../Analysis.md) - Analysis of the project requirements
+- [📋 Analysis Overview](README.md) - Overview of the analysis process
+- [📊 Comparative Analysis](ComparativeAnalysis.md) - Comparison of different game stores
+- [🎯 Design Recommendations](DesignRecommendations.md) - Recommendations based on analysis
+- [🎮 Fortnite Analysis](Fortnite/FortniteShopAnalysis.md) - Analysis of Fortnite's item shop
+- [⚔️ Genshin Impact Analysis](GenshinImpact/GenshinImpactShopAnalysis.md) - Analysis of Genshin Impact's shop
+- [🌍 World of Warcraft Analysis](WorldOfWarcraft/WoWShopAnalysis.md) - Analysis of WoW's shop
+
 # Animation Effects and Navigation Structure Analysis
 
 ## Introduction
@@ -26,6 +41,24 @@ This document provides a detailed analysis of the animation effects and navigati
 #### Main Journey
 ```
 Main Menu → Shop Tab → Categories (Featured/Daily/Special) → Item Detail → Purchase Confirmation
+```
+
+```mermaid
+flowchart LR
+    A[Main Menu] -->|Enter Shop| B[Shop Tab]
+    B -->|Browse| C[Categories]
+    C -->|Select Item| D[Item Detail]
+    D -->|Buy| E[Purchase Confirmation]
+    E -->|Continue Shopping| B
+    
+    classDef primary fill:#FF5252,stroke:#FF8A80,color:white
+    classDef secondary fill:#536DFE,stroke:#8C9EFF,color:white
+    classDef tertiary fill:#00BFA5,stroke:#64FFDA,color:white
+    classDef action fill:#FFC107,stroke:#FFECB3,color:black
+    
+    class A,C primary
+    class B,D secondary
+    class E tertiary
 ```
 
 #### Navigation Hierarchy
@@ -64,6 +97,27 @@ Main Menu → Shop Tab → Categories (Featured/Daily/Special) → Item Detail �
 #### Main Journey
 ```
 Main Menu → Paimon Menu → Shop Selection → Category → Item/Banner → Purchase Process → Confirmation
+```
+
+```mermaid
+flowchart LR
+    A[Main Menu] -->|Open Menu| B[Paimon Menu]
+    B -->|Select Shop| C[Shop Selection]
+    C -->|Choose Category| D[Category]
+    D -->|Select Item| E[Item/Banner]
+    E -->|Initiate Purchase| F[Purchase Process]
+    F -->|Complete| G[Confirmation]
+    G -->|Return| C
+    
+    classDef fantasy fill:#9C27B0,stroke:#E1BEE7,color:white
+    classDef gold fill:#FFD700,stroke:#FFF59D,color:black
+    classDef crystal fill:#00BCD4,stroke:#B2EBF2,color:white
+    classDef wish fill:#F06292,stroke:#F8BBD0,color:white
+    
+    class A,B fantasy
+    class C,D crystal
+    class E gold
+    class F,G wish
 ```
 
 #### Navigation Hierarchy
@@ -105,6 +159,27 @@ Main Menu → Paimon Menu → Shop Selection → Category → Item/Banner → Pu
 Game Interface → Shop (or Website) → Categories → Sub-categories → Item Detail → Cart → Payment → Confirmation
 ```
 
+```mermaid
+flowchart LR
+    A[Game Interface] -->|Open Shop| B[Shop/Website]
+    B -->|Browse| C[Categories]
+    C -->|Refine| D[Sub-categories]
+    D -->|Select| E[Item Detail]
+    E -->|Add| F[Cart]
+    F -->|Checkout| G[Payment]
+    G -->|Complete| H[Confirmation]
+    
+    classDef blizzard fill:#003E74,stroke:#4D8AC0,color:white
+    classDef alliance fill:#0078FF,stroke:#99C2FF,color:white
+    classDef horde fill:#8C1616,stroke:#D46A6A,color:white
+    classDef gold fill:#FFB100,stroke:#FFE082,color:black
+    
+    class A,B blizzard
+    class C,D alliance
+    class E,F horde
+    class G,H gold
+```
+
 #### Navigation Hierarchy
 1. **Level 1**: Choice between in-game shop or web
 2. **Level 2**: Selection among main categories (Services, Mounts, Pets, etc.)
@@ -127,6 +202,37 @@ Game Interface → Shop (or Website) → Categories → Sub-categories → Item 
 1. **Fortnite**: Most direct journey (3-4 steps from shop to purchase)
 2. **Genshin Impact**: Medium complexity journey (4-5 steps, more if currency conversion)
 3. **World of Warcraft**: Most elaborate journey (5-7 steps, with cart system)
+
+```mermaid
+graph TD
+    subgraph "Journey Complexity Comparison"
+    A[Purchase Journey] --> B[Fortnite]
+    A --> C[Genshin Impact]
+    A --> D[World of Warcraft]
+    
+    B --> B1[3-4 Steps]
+    B --> B2[Direct Purchase]
+    B --> B3[Quick Return]
+    
+    C --> C1[4-5 Steps]
+    C --> C2[Currency Conversion]
+    C --> C3[Celebration Sequence]
+    
+    D --> D1[5-7 Steps]
+    D --> D2[Cart System]
+    D --> D3[Multiple Confirmations]
+    end
+    
+    classDef fortnite fill:#FF5252,stroke:#FF8A80,color:white
+    classDef genshin fill:#9C27B0,stroke:#E1BEE7,color:white
+    classDef wow fill:#003E74,stroke:#4D8AC0,color:white
+    classDef comparison fill:#607D8B,stroke:#CFD8DC,color:white
+    
+    class A comparison
+    class B,B1,B2,B3 fortnite
+    class C,C1,C2,C3 genshin
+    class D,D1,D2,D3 wow
+```
 
 ### Animation Techniques by Stage
 
@@ -177,6 +283,29 @@ Game Interface → Shop (or Website) → Categories → Sub-categories → Item 
 1. **Recommended Main Journey**
 ```
 Shop Home → Categories → Sub-categories/Filters → Item Detail → Purchase Confirmation (with Cart option)
+```
+
+```mermaid
+flowchart LR
+    A[Shop Home] -->|Browse| B[Categories]
+    B -->|Refine| C[Sub-categories/Filters]
+    C -->|Select| D[Item Detail]
+    D -->|Direct Purchase| F[Purchase Confirmation]
+    D -->|Add to Cart| E[Cart]
+    E -->|Checkout| F
+    F -->|Continue Shopping| A
+    
+    classDef primary fill:#6200EA,stroke:#B388FF,color:white
+    classDef secondary fill:#00BFA5,stroke:#64FFDA,color:white
+    classDef detail fill:#F50057,stroke:#FF80AB,color:white
+    classDef cart fill:#FF6D00,stroke:#FFAB40,color:white
+    classDef confirm fill:#2962FF,stroke:#82B1FF,color:white
+    
+    class A primary
+    class B,C secondary
+    class D detail
+    class E cart
+    class F confirm
 ```
 
 2. **Navigation Optimizations**

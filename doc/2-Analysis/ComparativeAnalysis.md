@@ -1,4 +1,17 @@
-# Comparative Analysis of Game Shop Interfaces
+# Comparative Analysis: Game Store Interfaces
+
+[← Back to Analysis](README.md) | [View Documentation Map](../DocNavigation.md)
+
+## Navigation
+
+- [📋 Main README](../README.md) - Overview of the entire documentation
+- [📝 Project Analysis](../Analysis.md) - Analysis of the project requirements
+- [📋 Analysis Overview](README.md) - Overview of the analysis process
+- [💫 Animation & Navigation](AnimationAndNavigationAnalysis.md) - Analysis of animation and navigation patterns
+- [🎯 Design Recommendations](DesignRecommendations.md) - Recommendations based on analysis
+- [🎮 Fortnite Analysis](Fortnite/FortniteShopAnalysis.md) - Analysis of Fortnite's item shop
+- [⚔️ Genshin Impact Analysis](GenshinImpact/GenshinImpactShopAnalysis.md) - Analysis of Genshin Impact's shop
+- [🌍 World of Warcraft Analysis](WorldOfWarcraft/WoWShopAnalysis.md) - Analysis of WoW's shop
 
 ## Introduction
 

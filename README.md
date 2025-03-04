@@ -61,4 +61,13 @@ src/
 
 ## Documentation
 
-For detailed documentation about the project, please refer to the [Documentation](doc/README.md).
+For detailed documentation about the project, please refer to the following resources:
+
+- [📋 Documentation Overview](doc/README.md) - Complete project documentation
+- [📝 Project Analysis](doc/Analysis.md) - Analysis of the project requirements
+- [🎨 Design Brief](doc/DesignBrief.md) - Design and ergonomics guidelines
+- [🖼️ Wireframes](doc/1-Design/Wireframes.md) - Wireframes for the three display modes
+- [📱 Functional Specifications](doc/3-Specifications/FunctionalSpecifications.md) - Detailed functional requirements
+- [💻 Technical Specifications](doc/3-Specifications/TechnicalSpecifications.md) - Technical implementation details
+- [✅ Implementation Plan](doc/4-Todo/README.md) - Tasks and timeline for implementation
+- [🧭 Documentation Navigation](doc/DocNavigation.md) - Complete documentation map

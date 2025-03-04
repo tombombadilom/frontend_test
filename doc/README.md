@@ -4,12 +4,18 @@
 
 ## Navigation
 
-- [📋 Original Instructions](0-Instructions/INSTRUCTIONS_Frontend.md)
-- [🖼️ Wireframes](1-Design/Wireframes.md)
-- [⚙️ Admin Interface Design](1-Design/AdminInterface.md)
-- [📱 Functional Specifications](3-Specifications/FunctionalSpecifications.md)
-- [💻 Technical Specifications](3-Specifications/TechnicalSpecifications.md)
-- [🧭 Documentation Navigation](DocNavigation.md)
+- [📋 Main README](README.md) - Overview of the entire documentation
+- [📝 Project Analysis](Analysis.md) - Analysis of the project requirements
+- [🎨 Design Brief](DesignBrief.md) - Design and ergonomics guidelines
+- [📋 Analysis Overview](2-Analysis/README.md) - Overview of the analysis process
+- [🔍 Methodology](1-Methodology/README.md) - Research and development methodology
+- [🖼️ Wireframes](1-Design/Wireframes.md) - Wireframes for the three display modes
+- [⚙️ Admin Interface](1-Design/AdminInterface.md) - Conceptual design for the administration interface
+- [📱 Functional Specifications](3-Specifications/FunctionalSpecifications.md) - Detailed functional requirements
+- [💻 Technical Specifications](3-Specifications/TechnicalSpecifications.md) - Technical implementation details
+- [📋 Original Instructions](0-Instructions/INSTRUCTIONS_Frontend.md) - Original test instructions
+- [✅ Implementation Plan](4-Todo/README.md) - Tasks and timeline for implementation
+- [🧭 Documentation Navigation](DocNavigation.md) - Complete documentation map
 
 ## Overview
 

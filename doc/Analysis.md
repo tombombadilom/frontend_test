@@ -1,5 +1,16 @@
 # Frontend Project Analysis: Store Configuration Interface
 
+[← Back to Documentation](README.md) | [View Documentation Map](DocNavigation.md)
+
+## Navigation
+
+- [📋 Main README](README.md) - Overview of the entire documentation
+- [🎨 Design Brief](DesignBrief.md) - Design and ergonomics guidelines
+- [📋 Analysis Overview](2-Analysis/README.md) - Overview of the analysis process
+- [🖼️ Wireframes](1-Design/Wireframes.md) - Wireframes for the three display modes
+- [📱 Functional Specifications](3-Specifications/FunctionalSpecifications.md) - Detailed functional requirements
+- [💻 Technical Specifications](3-Specifications/TechnicalSpecifications.md) - Technical implementation details
+
 ## Project Overview
 
 This project involves designing and implementing a store configuration interface for free-to-play games. The interface will allow game developers and editors to manage in-game stores, which are crucial for monetization through new content, promotions, and seasonal events. The project is divided into three main parts: designing an in-game store interface, implementing it technically, and conceptualizing an administration interface.

@@ -1,6 +1,15 @@
-# Store Interface Wireframes
+# Game Store Interface: Wireframes
 
-[← Back to Documentation](../README.md) | [📋 Instructions](../0-Instructions/INSTRUCTIONS_Frontend.md) | [⚙️ Admin Interface](AdminInterface.md) | [📱 Functional Specs](../3-Specifications/FunctionalSpecifications.md) | [💻 Technical Specs](../3-Specifications/TechnicalSpecifications.md)
+[← Back to Documentation](../README.md) | [View Documentation Map](../DocNavigation.md)
+
+## Navigation
+
+- [📋 Main README](../README.md) - Overview of the entire documentation
+- [📝 Project Analysis](../Analysis.md) - Analysis of the project requirements
+- [🎨 Design Brief](../DesignBrief.md) - Design and ergonomics guidelines
+- [⚙️ Admin Interface](AdminInterface.md) - Conceptual design for the administration interface
+- [📱 Functional Specifications](../3-Specifications/FunctionalSpecifications.md) - Detailed functional requirements
+- [💻 Technical Specifications](../3-Specifications/TechnicalSpecifications.md) - Technical implementation details
 
 ## Overview
 

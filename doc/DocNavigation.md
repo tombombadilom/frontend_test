@@ -5,10 +5,22 @@ This navigation guide provides quick access to all documentation files with colo
 ## 📚 Main Documentation
 
 - [📋 Main README](README.md) - Overview of the entire documentation
+- [📝 Project Analysis](Analysis.md) - Analysis of the project requirements
+- [🎨 Design Brief](DesignBrief.md) - Design and ergonomics guidelines
 
-## 📊 Analysis
+## 📊 Analysis & Research
 
-- [🔍 Methodology](0-Instructions/INSTRUCTIONS_Frontend.md) - Original test instructions
+- [📋 Analysis Overview](2-Analysis/README.md) - Overview of the analysis process
+- [🔍 Methodology](1-Methodology/README.md) - Research and development methodology
+- [📊 Comparative Analysis](2-Analysis/ComparativeAnalysis.md) - Comparison of different game stores
+- [💫 Animation & Navigation](2-Analysis/AnimationAndNavigationAnalysis.md) - Analysis of animation and navigation patterns
+- [🎯 Design Recommendations](2-Analysis/DesignRecommendations.md) - Recommendations based on analysis
+
+### Game Store Analysis
+
+- [🎮 Fortnite Analysis](2-Analysis/Fortnite/FortniteShopAnalysis.md) - Analysis of Fortnite's item shop
+- [⚔️ Genshin Impact Analysis](2-Analysis/GenshinImpact/GenshinImpactShopAnalysis.md) - Analysis of Genshin Impact's shop
+- [🌍 World of Warcraft Analysis](2-Analysis/WorldOfWarcraft/WoWShopAnalysis.md) - Analysis of WoW's shop
 
 ## 🎨 Design
 
@@ -20,23 +32,32 @@ This navigation guide provides quick access to all documentation files with colo
 - [📱 Functional Specifications](3-Specifications/FunctionalSpecifications.md) - Detailed functional requirements
 - [💻 Technical Specifications](3-Specifications/TechnicalSpecifications.md) - Technical implementation details
 
+## 📋 Project Management
+
+- [📋 Original Instructions](0-Instructions/INSTRUCTIONS_Frontend.md) - Original test instructions
+- [✅ Implementation Plan](4-Todo/README.md) - Tasks and timeline for implementation
+
 ## 🧭 How to Use This Navigation
 
 1. Click on any link above to navigate directly to the corresponding document
 2. Each icon represents the type of document:
-   - 📋 Overview documents
-   - 🔍 Analysis documents
+   - 📋 Overview and instruction documents
+   - 🔍 Analysis and methodology documents
    - 🖼️ Design documents
    - ⚙️ Administration documents
    - 📱 Functional specifications
    - 💻 Technical specifications
+   - ✅ Project management documents
 
 ## 🎯 Quick Reference
 
 | Document | Purpose | Key Content |
 |----------|---------|-------------|
 | Main README | Project overview | Documentation structure, key points, constraints |
+| Analysis | Project analysis | Requirements, challenges, implementation strategy |
+| Design Brief | Design guidelines | Design principles, ergonomics, recommendations |
 | Wireframes | Display mode designs | Carousel, Grid, Infinite Scroll wireframes |
 | Admin Interface | Administration design | User roles, product management, store configuration |
 | Functional Specs | User experience | Core functionality, user flows, interface states |
 | Technical Specs | Implementation details | Technology stack, architecture, implementation plan |
+| Implementation Plan | Project management | Tasks, timeline, priorities |

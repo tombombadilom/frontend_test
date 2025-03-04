@@ -1,6 +1,16 @@
-# Technical Specifications for Game Store Configuration Interface
+# Technical Specifications: Game Store Configuration Interface
 
-[← Back to Documentation](../README.md) | [📋 Instructions](../0-Instructions/INSTRUCTIONS_Frontend.md) | [🖼️ Wireframes](../1-Design/Wireframes.md) | [⚙️ Admin Interface](../1-Design/AdminInterface.md) | [📱 Functional Specs](FunctionalSpecifications.md)
+[← Back to Documentation](../README.md) | [View Documentation Map](../DocNavigation.md)
+
+## Navigation
+
+- [📋 Main README](../README.md) - Overview of the entire documentation
+- [📝 Project Analysis](../Analysis.md) - Analysis of the project requirements
+- [🎨 Design Brief](../DesignBrief.md) - Design and ergonomics guidelines
+- [📋 Analysis Overview](../2-Analysis/README.md) - Overview of the analysis process
+- [🖼️ Wireframes](../1-Design/Wireframes.md) - Wireframes for the three display modes
+- [📱 Functional Specifications](FunctionalSpecifications.md) - Detailed functional requirements
+- [✅ Implementation Plan](../4-Todo/README.md) - Tasks and timeline for implementation
 
 ## Overview
 

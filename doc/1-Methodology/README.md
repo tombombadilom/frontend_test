@@ -1,5 +1,17 @@
 # Game Store Interface Configuration: Methodology
 
+[← Back to Documentation](../README.md) | [View Documentation Map](../DocNavigation.md)
+
+## Navigation
+
+- [📋 Main README](../README.md) - Overview of the entire documentation
+- [📝 Project Analysis](../Analysis.md) - Analysis of the project requirements
+- [🎨 Design Brief](../DesignBrief.md) - Design and ergonomics guidelines
+- [📋 Analysis Overview](../2-Analysis/README.md) - Overview of the analysis process
+- [🖼️ Wireframes](../1-Design/Wireframes.md) - Wireframes for the three display modes
+- [📱 Functional Specifications](../3-Specifications/FunctionalSpecifications.md) - Detailed functional requirements
+- [💻 Technical Specifications](../3-Specifications/TechnicalSpecifications.md) - Technical implementation details
+
 ## Introduction
 
 This document outlines the methodology used for designing and developing the game store configuration interface. Our approach combines analytical research, user-centered design principles, and iterative development to create an effective, engaging, and flexible store interface system.

@@ -1,3 +1,16 @@
+# Game Store Administration Interface: Conceptual Design
+
+[← Back to Documentation](../README.md) | [View Documentation Map](../DocNavigation.md)
+
+## Navigation
+
+- [📋 Main README](../README.md) - Overview of the entire documentation
+- [📝 Project Analysis](../Analysis.md) - Analysis of the project requirements
+- [🎨 Design Brief](../DesignBrief.md) - Design and ergonomics guidelines
+- [🖼️ Wireframes](Wireframes.md) - Wireframes for the three display modes
+- [📱 Functional Specifications](../3-Specifications/FunctionalSpecifications.md) - Detailed functional requirements
+- [💻 Technical Specifications](../3-Specifications/TechnicalSpecifications.md) - Technical implementation details
+
 # Store Administration Interface Design
 
 [← Back to Documentation](../README.md) | [📋 Instructions](../0-Instructions/INSTRUCTIONS_Frontend.md) | [🖼️ Wireframes](Wireframes.md) | [📱 Functional Specs](../3-Specifications/FunctionalSpecifications.md) | [💻 Technical Specs](../3-Specifications/TechnicalSpecifications.md)

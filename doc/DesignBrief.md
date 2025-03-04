@@ -1,5 +1,16 @@
 # Store Configuration Interface: Design & Ergonomics Brief
 
+[← Back to Documentation](README.md) | [View Documentation Map](DocNavigation.md)
+
+## Navigation
+
+- [📋 Main README](README.md) - Overview of the entire documentation
+- [📝 Project Analysis](Analysis.md) - Analysis of the project requirements
+- [📋 Analysis Overview](2-Analysis/README.md) - Overview of the analysis process
+- [🖼️ Wireframes](1-Design/Wireframes.md) - Wireframes for the three display modes
+- [📱 Functional Specifications](3-Specifications/FunctionalSpecifications.md) - Detailed functional requirements
+- [💻 Technical Specifications](3-Specifications/TechnicalSpecifications.md) - Technical implementation details
+
 ## Project Overview
 
 This document outlines the design and ergonomic requirements for developing a store configuration interface for free-to-play games. The interface consists of two main components:

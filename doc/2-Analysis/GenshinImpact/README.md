@@ -1,4 +1,15 @@
-# Genshin Impact Shop Analysis
+# Genshin Impact Shop Analysis Overview
+
+[← Back to Analysis](../README.md) | [View Documentation Map](../../DocNavigation.md)
+
+## Navigation
+
+- [📋 Main README](../../README.md) - Overview of the entire documentation
+- [📝 Project Analysis](../../Analysis.md) - Analysis of the project requirements
+- [📋 Analysis Overview](../README.md) - Overview of the analysis process
+- [⚔️ Detailed Genshin Impact Analysis](GenshinImpactShopAnalysis.md) - Detailed analysis of Genshin Impact's shop
+- [🎮 Fortnite Analysis](../Fortnite/FortniteShopAnalysis.md) - Analysis of Fortnite's item shop
+- [🌍 World of Warcraft Analysis](../WorldOfWarcraft/WoWShopAnalysis.md) - Analysis of WoW's shop
 
 ## Overview
 

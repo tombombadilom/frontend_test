@@ -1,5 +1,17 @@
 # Implementation Plan: Game Store Configuration Interface
 
+[← Back to Documentation](../README.md) | [View Documentation Map](../DocNavigation.md)
+
+## Navigation
+
+- [📋 Main README](../README.md) - Overview of the entire documentation
+- [📝 Project Analysis](../Analysis.md) - Analysis of the project requirements
+- [🎨 Design Brief](../DesignBrief.md) - Design and ergonomics guidelines
+- [📋 Analysis Overview](../2-Analysis/README.md) - Overview of the analysis process
+- [🖼️ Wireframes](../1-Design/Wireframes.md) - Wireframes for the three display modes
+- [📱 Functional Specifications](../3-Specifications/FunctionalSpecifications.md) - Detailed functional requirements
+- [💻 Technical Specifications](../3-Specifications/TechnicalSpecifications.md) - Technical implementation details
+
 ## Timeline Overview
 
 This implementation plan outlines the tasks required to complete the Game Store Configuration Interface project within a 2-day timeframe.

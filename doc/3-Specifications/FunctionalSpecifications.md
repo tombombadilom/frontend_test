@@ -1,6 +1,16 @@
-# Functional Specifications for Game Store Configuration Interface
+# Functional Specifications: Game Store Configuration Interface
 
-[← Back to Documentation](../README.md) | [📋 Instructions](../0-Instructions/INSTRUCTIONS_Frontend.md) | [🖼️ Wireframes](../1-Design/Wireframes.md) | [⚙️ Admin Interface](../1-Design/AdminInterface.md) | [💻 Technical Specs](TechnicalSpecifications.md)
+[← Back to Documentation](../README.md) | [View Documentation Map](../DocNavigation.md)
+
+## Navigation
+
+- [📋 Main README](../README.md) - Overview of the entire documentation
+- [📝 Project Analysis](../Analysis.md) - Analysis of the project requirements
+- [🎨 Design Brief](../DesignBrief.md) - Design and ergonomics guidelines
+- [📋 Analysis Overview](../2-Analysis/README.md) - Overview of the analysis process
+- [🖼️ Wireframes](../1-Design/Wireframes.md) - Wireframes for the three display modes
+- [💻 Technical Specifications](TechnicalSpecifications.md) - Technical implementation details
+- [✅ Implementation Plan](../4-Todo/README.md) - Tasks and timeline for implementation
 
 ## Introduction
 
@@ -12,7 +22,7 @@ Before detailing the functional specifications, it's important to acknowledge th
 
 1. **Timeline**: 3 days for implementation
 2. **Scope**: Frontend prototype only, focusing exclusively on what is requested in the instructions
-3. **Backend**: No actual backend development; API access will be simulated with JSON files
+3. **Backend**: No actual backend development; API access will be simulated with JSON file loading
 4. **Administrative Interface**: Conceptual design only, no implementation in the prototype
 
 ## User Roles
@@ -226,6 +236,32 @@ Simplified process for completing simulated purchases.
 5. User interacts with items in the new display mode
 6. User can switch to another display mode at any time
 
+```mermaid
+flowchart TD
+    A[Enter Store] -->|Default View| B[Grid View]
+    B -->|Select Mode| C{Choose Display Mode}
+    C -->|Select Carousel| D[Loading State]
+    C -->|Select Infinite Scroll| E[Loading State]
+    C -->|Stay in Grid| B
+    D -->|Transition Complete| F[Carousel View]
+    E -->|Transition Complete| G[Infinite Scroll View]
+    F -->|Select Mode| C
+    G -->|Select Mode| C
+    
+    classDef start fill:#4CAF50,stroke:#81C784,color:white
+    classDef grid fill:#2196F3,stroke:#64B5F6,color:white
+    classDef choice fill:#9C27B0,stroke:#CE93D8,color:white
+    classDef loading fill:#FFC107,stroke:#FFE082,color:black
+    classDef carousel fill:#F44336,stroke:#EF9A9A,color:white
+    classDef infinite fill:#FF9800,stroke:#FFCC80,color:black
+    
+    class A start
+    class B,C choice
+    class D,E loading
+    class F carousel
+    class G infinite
+```
+
 #### Browse and Purchase Flow
 
 1. User enters store interface
@@ -241,6 +277,42 @@ Simplified process for completing simulated purchases.
 11. User receives purchase confirmation
 12. User returns to store or exits
 
+```mermaid
+flowchart TD
+    A[Enter Store] -->|Initial Load| B[Loading State]
+    B -->|Data Loaded| C[Browse Store]
+    C -->|Navigate| D[Browse Categories]
+    C -->|Search| E[View Search Results]
+    D -->|Select Item| F[Loading Item Details]
+    E -->|Select Item| F
+    F -->|Details Loaded| G[View Item Details]
+    G -->|Add to Cart| H[Cart Updated]
+    H -->|Continue Shopping| C
+    H -->|Checkout| I[Review Order]
+    I -->|Confirm Purchase| J[Processing Order]
+    J -->|Order Complete| K[Purchase Confirmation]
+    K -->|Continue Shopping| C
+    K -->|Exit| L[Exit Store]
+    
+    classDef start fill:#4CAF50,stroke:#81C784,color:white
+    classDef loading fill:#FFC107,stroke:#FFE082,color:black
+    classDef browse fill:#2196F3,stroke:#64B5F6,color:white
+    classDef details fill:#9C27B0,stroke:#CE93D8,color:white
+    classDef cart fill:#F44336,stroke:#EF9A9A,color:white
+    classDef checkout fill:#FF9800,stroke:#FFCC80,color:black
+    classDef confirm fill:#607D8B,stroke:#B0BEC5,color:white
+    classDef exit fill:#795548,stroke:#A1887F,color:white
+    
+    class A start
+    class B,F,J loading
+    class C,D,E browse
+    class G details
+    class H cart
+    class I checkout
+    class K confirm
+    class L exit
+```
+
 #### Search and Discovery Flow
 
 1. User enters search query
@@ -252,6 +324,31 @@ Simplified process for completing simulated purchases.
 7. User selects item from results
 8. User views item details
 9. User makes purchase decision
+
+```mermaid
+flowchart TD
+    A[Enter Search Query] -->|Search| B[Loading Results]
+    B -->|Results Loaded| C[View Search Results]
+    C -->|Apply Filters| D[Loading Filtered Results]
+    D -->|Filters Applied| E[View Filtered Results]
+    E -->|Sort Results| F[View Sorted Results]
+    F -->|Select Item| G[Loading Item Details]
+    G -->|Details Loaded| H[View Item Details]
+    H -->|Add to Cart| I[Item Added to Cart]
+    H -->|Return to Results| F
+    
+    classDef search fill:#673AB7,stroke:#D1C4E9,color:white
+    classDef loading fill:#FFC107,stroke:#FFE082,color:black
+    classDef results fill:#2196F3,stroke:#64B5F6,color:white
+    classDef details fill:#9C27B0,stroke:#CE93D8,color:white
+    classDef cart fill:#F44336,stroke:#EF9A9A,color:white
+    
+    class A search
+    class B,D,G loading
+    class C,E,F results
+    class H details
+    class I cart
+```
 
 ## Interface States
 
@@ -275,6 +372,43 @@ Simplified process for completing simulated purchases.
    - Detail view: Skeleton layout matching the full detail view
    - Navigation: Skeleton blocks for category buttons
    - Cart: Skeleton lines for cart items
+
+```mermaid
+stateDiagram-v2
+    [*] --> InitialLoad
+    InitialLoad --> ContentLoaded: Data Received
+    
+    state InitialLoad {
+        [*] --> BrandedScreen
+        BrandedScreen --> SkeletonLayout: Framework Loaded
+        SkeletonLayout --> PulsingElements: Layout Ready
+    }
+    
+    state ContentLoaded {
+        [*] --> PartialInteractivity
+        PartialInteractivity --> FullyInteractive: All Resources Loaded
+    }
+    
+    ContentLoaded --> ComponentLoading: User Interaction
+    ComponentLoading --> ContentLoaded: Component Data Received
+    
+    state ComponentLoading {
+        [*] --> MaintainLayout
+        MaintainLayout --> ComponentSkeleton: Prepare Loading State
+        ComponentSkeleton --> ComponentPulsing: Show Loading Animation
+    }
+    
+    classDef initial fill:#E91E63,stroke:#F8BBD0,color:white
+    classDef loading fill:#FFC107,stroke:#FFE082,color:black
+    classDef loaded fill:#4CAF50,stroke:#A5D6A7,color:white
+    classDef component fill:#2196F3,stroke:#90CAF9,color:white
+    
+    class InitialLoad initial
+    class ContentLoaded loaded
+    class ComponentLoading component
+    class BrandedScreen,SkeletonLayout,PulsingElements loading
+    class MaintainLayout,ComponentSkeleton,ComponentPulsing loading
+```
 
 ### Empty States
 
@@ -326,6 +460,38 @@ Simplified process for completing simulated purchases.
    - Carousel with button navigation
    - Infinite scroll with side-by-side layout
    - Full-sized skeleton loading states
+
+```mermaid
+flowchart TD
+    A[Responsive Design] --> B[Mobile View]
+    A --> C[Tablet View]
+    A --> D[Desktop View]
+    
+    B --> B1[Single Column Grid]
+    B --> B2[Hamburger Navigation]
+    B --> B3[Stacked Layout]
+    B --> B4[Touch Optimized]
+    
+    C --> C1[Two Column Grid]
+    C --> C2[Expanded Navigation]
+    C --> C3[Hybrid Layout]
+    C --> C4[Touch + Mouse]
+    
+    D --> D1[Multi-Column Grid]
+    D --> D2[Full Navigation]
+    D --> D3[Side-by-Side Layout]
+    D --> D4[Mouse Optimized]
+    
+    classDef responsive fill:#009688,stroke:#80CBC4,color:white
+    classDef mobile fill:#E91E63,stroke:#F8BBD0,color:white
+    classDef tablet fill:#FF9800,stroke:#FFCC80,color:black
+    classDef desktop fill:#3F51B5,stroke:#9FA8DA,color:white
+    
+    class A responsive
+    class B,B1,B2,B3,B4 mobile
+    class C,C1,C2,C3,C4 tablet
+    class D,D1,D2,D3,D4 desktop
+```
 
 ## Accessibility Requirements
 
@@ -475,6 +641,36 @@ Given the 3-day timeline, we will prioritize features in the following order:
 3. Visual polish and animations
 4. Responsive design refinements
 5. Finalize skeleton loading animations
+
+```mermaid
+gantt
+    title Implementation Timeline
+    dateFormat  YYYY-MM-DD
+    axisFormat %d
+    
+    section Day 1
+    Project Setup           :a1, 2023-04-01, 2h
+    Basic Layout            :a2, after a1, 2h
+    Grid View               :a3, after a2, 2h
+    Carousel View           :a4, after a3, 2h
+    Infinite Scroll         :a5, after a4, 2h
+    
+    section Day 2
+    Product Details         :b1, 2023-04-02, 2h
+    Cart Functionality      :b2, after b1, 2h
+    Mode Switching          :b3, after b2, 2h
+    Skeleton States         :b4, after b3, 2h
+    
+    section Day 3
+    Checkout Flow           :c1, 2023-04-03, 2h
+    Search Function         :c2, after c1, 2h
+    Visual Polish           :c3, after c2, 2h
+    Responsive Design       :c4, after c3, 2h
+    
+    classDef day1 fill:#E91E63,stroke:#F8BBD0,color:white
+    classDef day2 fill:#2196F3,stroke:#90CAF9,color:white
+    classDef day3 fill:#4CAF50,stroke:#A5D6A7,color:white
+```
 
 ## Conclusion
 
