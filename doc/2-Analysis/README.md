@@ -13,9 +13,10 @@
 
 ### Game Store Analysis
 
-- [🎮 Fortnite Analysis](Fortnite/FortniteShopAnalysis.md) - Analysis of Fortnite's item shop
-- [⚔️ Genshin Impact Analysis](GenshinImpact/GenshinImpactShopAnalysis.md) - Analysis of Genshin Impact's shop
-- [🌍 World of Warcraft Analysis](WorldOfWarcraft/WoWShopAnalysis.md) - Analysis of WoW's shop
+- [🎮 Game Stores Analysis](../analysis/game-stores-analysis.md) - Overview of game store patterns
+- [🎮 Fortnite Analysis](../analysis/fortnite-analysis.md) - Analysis of Fortnite's item shop
+- [⚔️ Genshin Impact Analysis](../analysis/genshin-analysis.md) - Analysis of Genshin Impact's shop
+- [🌍 World of Warcraft Analysis](../analysis/wow-analysis.md) - Analysis of WoW's shop
 
 ## Overview
 
@@ -158,10 +159,10 @@ Based on this comparative analysis, we recommend a hybrid approach that combines
 
 ## Detailed Documentation
 
-For comprehensive analysis of each game store interface, see the following directories:
-- [Fortnite Item Shop Analysis](./Fortnite/)
-- [Genshin Impact Shop Analysis](./GenshinImpact/)
-- [World of Warcraft Shop Analysis](./WorldOfWarcraft/)
+For comprehensive analysis of each game store interface, see the following files:
+- [Fortnite Item Shop Analysis](../analysis/fortnite-analysis.md)
+- [Genshin Impact Shop Analysis](../analysis/genshin-analysis.md)
+- [World of Warcraft Shop Analysis](../analysis/wow-analysis.md)
 
 Additional analysis documents:
 - [Animation and Navigation Analysis](./AnimationAndNavigationAnalysis.md)

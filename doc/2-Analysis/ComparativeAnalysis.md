@@ -9,9 +9,10 @@
 - [📋 Analysis Overview](README.md) - Overview of the analysis process
 - [💫 Animation & Navigation](AnimationAndNavigationAnalysis.md) - Analysis of animation and navigation patterns
 - [🎯 Design Recommendations](DesignRecommendations.md) - Recommendations based on analysis
-- [🎮 Fortnite Analysis](Fortnite/FortniteShopAnalysis.md) - Analysis of Fortnite's item shop
-- [⚔️ Genshin Impact Analysis](GenshinImpact/GenshinImpactShopAnalysis.md) - Analysis of Genshin Impact's shop
-- [🌍 World of Warcraft Analysis](WorldOfWarcraft/WoWShopAnalysis.md) - Analysis of WoW's shop
+- [🎮 Game Stores Analysis](../analysis/game-stores-analysis.md) - Overview of game store patterns
+- [🎮 Fortnite Analysis](../analysis/fortnite-analysis.md) - Analysis of Fortnite's item shop
+- [⚔️ Genshin Impact Analysis](../analysis/genshin-analysis.md) - Analysis of Genshin Impact's shop
+- [🌍 World of Warcraft Analysis](../analysis/wow-analysis.md) - Analysis of WoW's shop
 
 ## Introduction
 

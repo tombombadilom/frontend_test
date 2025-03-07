@@ -7,6 +7,7 @@ This navigation guide provides quick access to all documentation files with colo
 - [📋 Main README](README.md) - Overview of the entire documentation
 - [📝 Project Analysis](Analysis.md) - Analysis of the project requirements
 - [🎨 Design Brief](DesignBrief.md) - Design and ergonomics guidelines
+- [💻 Code Structure Analysis](CodeStructureAnalysis.md) - Analysis of code organization and recommendations
 
 ## 📊 Analysis & Research
 
@@ -18,9 +19,10 @@ This navigation guide provides quick access to all documentation files with colo
 
 ### Game Store Analysis
 
-- [🎮 Fortnite Analysis](2-Analysis/Fortnite/FortniteShopAnalysis.md) - Analysis of Fortnite's item shop
-- [⚔️ Genshin Impact Analysis](2-Analysis/GenshinImpact/GenshinImpactShopAnalysis.md) - Analysis of Genshin Impact's shop
-- [🌍 World of Warcraft Analysis](2-Analysis/WorldOfWarcraft/WoWShopAnalysis.md) - Analysis of WoW's shop
+- [🎮 Game Stores Analysis](analysis/game-stores-analysis.md) - Overview of game store patterns
+- [🎮 Fortnite Analysis](analysis/fortnite-analysis.md) - Analysis of Fortnite's item shop
+- [⚔️ Genshin Impact Analysis](analysis/genshin-analysis.md) - Analysis of Genshin Impact's shop
+- [🌍 World of Warcraft Analysis](analysis/wow-analysis.md) - Analysis of WoW's shop
 
 ## 🎨 Design
 
@@ -56,6 +58,8 @@ This navigation guide provides quick access to all documentation files with colo
 | Main README | Project overview | Documentation structure, key points, constraints |
 | Analysis | Project analysis | Requirements, challenges, implementation strategy |
 | Design Brief | Design guidelines | Design principles, ergonomics, recommendations |
+| Code Structure Analysis | Code organization | File structure, naming conventions, recommendations |
+| Game Stores Analysis | Store patterns | Common patterns across different game stores |
 | Wireframes | Display mode designs | Carousel, Grid, Infinite Scroll wireframes |
 | Admin Interface | Administration design | User roles, product management, store configuration |
 | Functional Specs | User experience | Core functionality, user flows, interface states |

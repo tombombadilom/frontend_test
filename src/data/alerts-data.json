@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "title": "Erreur critique de serveur",
+    "description": "Le serveur de base de données principal a rencontré une erreur de connexion.",
+    "severity": "critical",
+    "timestamp": "2023-11-15T08:23:15Z"
+  },
+  {
+    "id": 2,
+    "title": "Pic d'utilisation CPU",
+    "description": "Le serveur d'application a atteint 95% d'utilisation CPU pendant plus de 10 minutes.",
+    "severity": "high",
+    "timestamp": "2023-11-15T10:45:30Z"
+  },
+  {
+    "id": 3,
+    "title": "Tentatives de connexion échouées",
+    "description": "Plusieurs tentatives de connexion échouées détectées depuis l'adresse IP 192.168.1.45.",
+    "severity": "medium",
+    "timestamp": "2023-11-15T12:12:45Z"
+  },
+  {
+    "id": 4,
+    "title": "Mise à jour disponible",
+    "description": "Une nouvelle mise à jour de sécurité est disponible pour le système d'exploitation.",
+    "severity": "low",
+    "timestamp": "2023-11-15T14:30:00Z"
+  },
+  {
+    "id": 5,
+    "title": "Espace disque faible",
+    "description": "Le serveur de stockage n'a plus que 15% d'espace disque disponible.",
+    "severity": "medium",
+    "timestamp": "2023-11-15T15:45:20Z"
+  }
+]

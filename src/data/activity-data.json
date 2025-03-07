@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "user": {
+      "name": "Thomas Durand",
+      "avatar": "https://i.pravatar.cc/150?u=thomas"
+    },
+    "action": "a créé",
+    "target": "un nouveau projet",
+    "timestamp": "2023-11-15T16:45:30Z",
+    "status": "success"
+  },
+  {
+    "id": 2,
+    "user": {
+      "name": "Sophie Martin",
+      "avatar": "https://i.pravatar.cc/150?u=sophie"
+    },
+    "action": "a modifié",
+    "target": "les paramètres système",
+    "timestamp": "2023-11-15T15:32:20Z",
+    "status": "default"
+  },
+  {
+    "id": 3,
+    "user": {
+      "name": "Jean Dupont",
+      "avatar": "https://i.pravatar.cc/150?u=jean"
+    },
+    "action": "a supprimé",
+    "target": "le rapport mensuel",
+    "timestamp": "2023-11-15T14:15:45Z",
+    "status": "destructive"
+  },
+  {
+    "id": 4,
+    "user": {
+      "name": "Marie Leroy",
+      "avatar": "https://i.pravatar.cc/150?u=marie"
+    },
+    "action": "a commenté",
+    "target": "la tâche #452",
+    "timestamp": "2023-11-15T12:05:10Z",
+    "status": "default"
+  },
+  {
+    "id": 5,
+    "user": {
+      "name": "Pierre Dubois",
+      "avatar": "https://i.pravatar.cc/150?u=pierre"
+    },
+    "action": "a terminé",
+    "target": "la mise à jour du système",
+    "timestamp": "2023-11-15T10:45:30Z",
+    "status": "success"
+  },
+  {
+    "id": 6,
+    "user": {
+      "name": "Lucie Bernard",
+      "avatar": "https://i.pravatar.cc/150?u=lucie"
+    },
+    "action": "a assigné",
+    "target": "3 nouvelles tâches à l'équipe",
+    "timestamp": "2023-11-15T09:30:15Z",
+    "status": "default"
+  }
+]

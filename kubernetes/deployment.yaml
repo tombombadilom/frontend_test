@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: game-store-frontend
+  labels:
+    app: game-store-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: game-store-frontend
+  template:
+    metadata:
+      labels:
+        app: game-store-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: ghcr.io/game-store-frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 101
+            runAsGroup: 101
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          envFrom:
+            - configMapRef:
+                name: game-store-config
+            - secretRef:
+                name: game-store-secrets
+      securityContext:
+        fsGroup: 101
+      imagePullSecrets:
+        - name: github-registry 

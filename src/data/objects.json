@@ -1,0 +1,156 @@
+{
+  "items": [
+    {
+      "id": 1001,
+      "name": "Midas Rex",
+      "description": "Legendary character skin with golden effects",
+      "category": 101,
+      "rarity": "legendary",
+      "price": {
+        "amount": 2000,
+        "currency": "V-Bucks"
+      },
+      "availability": {
+        "startDate": "2024-03-01T00:00:00Z",
+        "endDate": "2024-03-31T23:59:59Z",
+        "isLimited": true
+      },
+      "preview": {
+        "imageUrl": "/images/items/midas-rex.jpg",
+        "videoUrl": "/videos/items/midas-rex.mp4"
+      },
+      "gameId": 9,
+      "tags": ["seasonal", "legendary", "character"],
+      "metadata": {
+        "battlePassTier": 100,
+        "season": "Chapter 5"
+      }
+    },
+    {
+      "id": 1002,
+      "name": "Dragon Dance Emote",
+      "description": "Epic dance animation with dragon effects",
+      "category": 102,
+      "rarity": "epic",
+      "price": {
+        "amount": 800,
+        "currency": "V-Bucks"
+      },
+      "availability": {
+        "startDate": "2024-03-01T00:00:00Z",
+        "endDate": "2024-03-07T23:59:59Z",
+        "isLimited": true
+      },
+      "preview": {
+        "imageUrl": "/images/items/dragon-dance.jpg",
+        "videoUrl": "/videos/items/dragon-dance.mp4"
+      },
+      "gameId": 9,
+      "tags": ["emote", "epic", "seasonal"],
+      "metadata": {
+        "animationDuration": 8
+      }
+    },
+    {
+      "id": 2001,
+      "name": "Primordial Jade Winged-Spear",
+      "description": "5-star polearm with high base attack",
+      "category": 201,
+      "rarity": "legendary",
+      "price": {
+        "amount": 0,
+        "currency": "Primogems"
+      },
+      "availability": {
+        "startDate": "2024-03-01T00:00:00Z",
+        "endDate": "2024-03-21T23:59:59Z",
+        "isLimited": true
+      },
+      "preview": {
+        "imageUrl": "/images/items/jade-winged-spear.jpg",
+        "modelUrl": "/models/items/jade-winged-spear.glb"
+      },
+      "gameId": 10,
+      "tags": ["weapon", "5-star", "polearm"],
+      "metadata": {
+        "baseAttack": 674,
+        "subStat": "Crit Rate",
+        "subStatValue": "22.1%"
+      }
+    },
+    {
+      "id": 2002,
+      "name": "Blessing of the Welkin Moon",
+      "description": "30-day subscription with daily rewards",
+      "category": 402,
+      "rarity": "epic",
+      "price": {
+        "amount": 4.99,
+        "currency": "USD"
+      },
+      "availability": {
+        "isLimited": false
+      },
+      "preview": {
+        "imageUrl": "/images/items/welkin-moon.jpg"
+      },
+      "gameId": 10,
+      "tags": ["subscription", "premium"],
+      "metadata": {
+        "duration": "30 days",
+        "dailyPrimogems": 90,
+        "totalPrimogems": 3000
+      }
+    },
+    {
+      "id": 3001,
+      "name": "Celestial Steed",
+      "description": "Epic flying mount with celestial effects",
+      "category": 103,
+      "rarity": "epic",
+      "price": {
+        "amount": 25,
+        "currency": "USD"
+      },
+      "availability": {
+        "startDate": "2024-03-01T00:00:00Z",
+        "endDate": "2024-03-31T23:59:59Z",
+        "isLimited": true
+      },
+      "preview": {
+        "imageUrl": "/images/items/celestial-steed.jpg",
+        "modelUrl": "/models/items/celestial-steed.m2"
+      },
+      "gameId": 11,
+      "tags": ["mount", "epic", "flying"],
+      "metadata": {
+        "mountType": "flying",
+        "groundSpeed": 310,
+        "flyingSpeed": 310
+      }
+    },
+    {
+      "id": 3002,
+      "name": "Character Transfer",
+      "description": "Transfer a character to another realm",
+      "category": 302,
+      "rarity": "common",
+      "price": {
+        "amount": 25,
+        "currency": "USD"
+      },
+      "availability": {
+        "isLimited": false
+      },
+      "preview": {
+        "imageUrl": "/images/items/character-transfer.jpg"
+      },
+      "gameId": 11,
+      "tags": ["service", "character"],
+      "metadata": {
+        "cooldown": "30 days",
+        "restrictions": ["Cannot transfer to PvE from PvP"]
+      }
+    }
+  ]
+} 

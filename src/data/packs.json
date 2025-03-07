@@ -1,0 +1,195 @@
+{
+  "packs": [
+    {
+      "id": 1,
+      "name": "Starter Pack",
+      "description": "Pack de démarrage pour Fortnite",
+      "price": 4.99,
+      "gameId": 9,
+      "items": [1, 2],
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "name": "Genshin Impact Bundle",
+      "description": "Pack de bienvenue pour Genshin Impact",
+      "price": 9.99,
+      "gameId": 10,
+      "items": [3, 4],
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "name": "Genshin Impact Premium Bundle",
+      "description": "Pack premium pour Genshin Impact",
+      "price": 19.99,
+      "gameId": 10,
+      "items": [3, 4, 5],
+      "isActive": true
+    },
+    {
+      "id": 4,
+      "name": "WoW Starter Pack",
+      "description": "Pack de démarrage pour World of Warcraft",
+      "price": 29.99,
+      "gameId": 11,
+      "items": [5, 6],
+      "isActive": true
+    },
+    {
+      "id": 5,
+      "name": "WoW Premium Pack",
+      "description": "Pack premium pour World of Warcraft",
+      "price": 49.99,
+      "gameId": 11,
+      "items": [5, 6, 7],
+      "isActive": true
+    },
+    {
+      "id": 6,
+      "name": "WoW Ultimate Pack",
+      "description": "Pack ultime pour World of Warcraft",
+      "price": 99.99,
+      "gameId": 11,
+      "items": [5, 6, 7, 8],
+      "isActive": true
+    },
+    {
+      "id": 1001,
+      "name": "Midas Bundle",
+      "description": "Complete Midas character set with matching items",
+      "items": [1001, 1002],
+      "price": {
+        "amount": 2800,
+        "currency": "V-Bucks",
+        "discount": 20
+      },
+      "availability": {
+        "startDate": "2024-03-01T00:00:00Z",
+        "endDate": "2024-03-31T23:59:59Z",
+        "isLimited": true
+      },
+      "type": "character",
+      "gameId": 9,
+      "tags": ["bundle", "character", "seasonal"],
+      "metadata": {
+        "originalPrice": 3500,
+        "savings": 700
+      }
+    },
+    {
+      "id": 2001,
+      "name": "Genesis Crystal Bundle",
+      "description": "Purchase Genesis Crystals with bonus",
+      "items": [
+        {
+          "id": 2003,
+          "name": "Genesis Crystals",
+          "description": "6480 Genesis Crystals + 1600 bonus",
+          "category": 401,
+          "rarity": "epic",
+          "price": {
+            "amount": 99.99,
+            "currency": "USD"
+          },
+          "availability": {
+            "isLimited": false
+          },
+          "preview": {
+            "imageUrl": "/images/items/genesis-crystals.jpg"
+          },
+          "gameId": 10,
+          "tags": ["currency", "premium"],
+          "metadata": {
+            "amount": 8080,
+            "bonus": 1600
+          }
+        }
+      ],
+      "price": {
+        "amount": 99.99,
+        "currency": "USD",
+        "discount": 0
+      },
+      "availability": {
+        "isLimited": false
+      },
+      "type": "currency",
+      "gameId": 10,
+      "tags": ["currency", "premium"],
+      "metadata": {
+        "bestValue": true
+      }
+    },
+    {
+      "id": 3001,
+      "name": "Dragonflight Epic Edition",
+      "description": "Complete Dragonflight expansion with exclusive items",
+      "items": [
+        {
+          "id": 3003,
+          "name": "Dragonflight Mount",
+          "description": "Exclusive dragon mount",
+          "category": 103,
+          "rarity": "epic",
+          "price": {
+            "amount": 0,
+            "currency": "USD"
+          },
+          "availability": {
+            "isLimited": false
+          },
+          "preview": {
+            "imageUrl": "/images/items/dragonflight-mount.jpg",
+            "modelUrl": "/models/items/dragonflight-mount.m2"
+          },
+          "gameId": 11,
+          "tags": ["mount", "epic", "expansion"],
+          "metadata": {
+            "mountType": "flying",
+            "groundSpeed": 310,
+            "flyingSpeed": 310
+          }
+        },
+        {
+          "id": 3004,
+          "name": "Level 60 Boost",
+          "description": "Instant level 60 character boost",
+          "category": 201,
+          "rarity": "epic",
+          "price": {
+            "amount": 0,
+            "currency": "USD"
+          },
+          "availability": {
+            "isLimited": false
+          },
+          "preview": {
+            "imageUrl": "/images/items/level-boost.jpg"
+          },
+          "gameId": 11,
+          "tags": ["boost", "level", "expansion"],
+          "metadata": {
+            "level": 60,
+            "includesGear": true
+          }
+        }
+      ],
+      "price": {
+        "amount": 79.99,
+        "currency": "USD",
+        "discount": 0
+      },
+      "availability": {
+        "isLimited": false
+      },
+      "type": "expansion",
+      "gameId": 11,
+      "tags": ["expansion", "premium"],
+      "metadata": {
+        "includesGameTime": true,
+        "gameTimeMonths": 1
+      }
+    }
+  ]
+} 

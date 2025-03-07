@@ -36,17 +36,19 @@ For detailed information about each interface, please refer to the [Interface Do
 
 ## Navigation
 
+### Core Documentation
 - [👥 User Roles and Permissions](UserRoles.md) - Different user types and their access levels
 - [📦 Product Management](ProductManagement.md) - Creating and managing store products
 - [🎨 Store Layout Configuration](LayoutConfiguration.md) - Configuring the visual layout of the store
 - [📅 Scheduled Updates & Promotions](ScheduledUpdates.md) - Managing time-based promotions and content
-- [👁️ Store Preview Mode](PreviewMode.md) - Previewing the store before publishing
-- [🚀 Testing & Publishing](TestingPublishing.md) - Version control and deployment
-- [📊 Analytics Dashboard](AnalyticsDashboard.md) - Store performance metrics
-- [🔄 User Flows](UserFlows.md) - Common administrative workflows
-- [📱 Responsive Design](ResponsiveDesign.md) - Adaptations for different devices
-- [♿ Accessibility Considerations](Accessibility.md) - Making the admin interface accessible
-- [🔌 Technical Integration](TechnicalIntegration.md) - Integration points with other systems
+
+### Interface Documentation
+- [👁️ Store Preview Mode](interfaces/PreviewMode.md) - Previewing the store before publishing
+- [🚀 Testing & Publishing](interfaces/TestingPublishing.md) - Version control and deployment
+- [📊 Analytics Dashboard](interfaces/AnalyticsDashboard.md) - Store performance metrics
+- [📦 Product Management Interface](interfaces/ProductManagement.md) - Product management interface details
+- [🎨 Layout Configuration Interface](interfaces/LayoutConfiguration.md) - Layout configuration interface details
+- [📅 Scheduled Updates Interface](interfaces/ScheduledUpdates.md) - Scheduled updates interface details
 
 ## Key Features
 
@@ -67,17 +69,12 @@ The administration interface is designed to provide a comprehensive set of tools
    - Create time-based promotions and sales
    - Manage seasonal and event-based content
 
-4. **Store Preview Mode**
+4. **Store Preview & Testing**
    - Preview the store as players would see it
    - Test different device and user contexts
-   - Add notes and feedback for team collaboration
+   - Manage version control and deployment
 
-5. **Testing & Publishing**
-   - Manage version control for store configurations
-   - Test changes in sandbox environments
-   - Deploy updates to production
-
-6. **Analytics Dashboard**
+5. **Analytics & Monitoring**
    - Monitor store performance metrics
    - Track sales and user engagement
    - Generate reports and insights

@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "title": "Utilisateurs Actifs",
+    "value": 24567,
+    "change": 12.5,
+    "trend": "up",
+    "period": "vs mois dernier",
+    "icon": "activity"
+  },
+  {
+    "id": 2,
+    "title": "Revenus",
+    "value": 45678,
+    "unit": "€",
+    "change": 8.2,
+    "trend": "up",
+    "period": "vs mois dernier",
+    "icon": "database"
+  },
+  {
+    "id": 3,
+    "title": "Temps de Réponse",
+    "value": 245,
+    "unit": "ms",
+    "change": 3.1,
+    "trend": "down",
+    "period": "vs mois dernier",
+    "icon": "server"
+  },
+  {
+    "id": 4,
+    "title": "Sécurité",
+    "value": 99.9,
+    "unit": "%",
+    "change": 0.1,
+    "trend": "up",
+    "period": "vs mois dernier",
+    "icon": "shield"
+  }
+]

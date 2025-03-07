@@ -1,0 +1,96 @@
+version: "1"
+kind: pipeline
+identifier: frontend_pipeline
+options:
+  clone:
+    depth: 1
+    submodules: true
+
+spec:
+  stages:
+    - name: test
+      type: ci
+      spec:
+        steps:
+          - name: setup
+            type: run
+            spec:
+              image: node:23-alpine
+              script: |
+                corepack enable
+                corepack prepare pnpm@latest --activate
+                pnpm install --frozen-lockfile
+
+          - name: lint
+            type: run
+            spec:
+              image: node:23-alpine
+              script: pnpm lint
+
+          - name: test
+            type: run
+            spec:
+              image: node:23-alpine
+              script: |
+                pnpm test:coverage
+                mkdir -p /harness/artifacts/coverage
+                cp -r coverage/* /harness/artifacts/coverage/
+
+    - name: build
+      type: ci
+      spec:
+        steps:
+          - name: build-app
+            type: run
+            spec:
+              image: node:23-alpine
+              script: |
+                pnpm install --frozen-lockfile
+                pnpm build
+
+          - name: build-docker
+            type: plugin
+            spec:
+              name: docker
+              inputs:
+                compress: true
+                registry: ${DOCKER_REGISTRY}
+                username: ${{ secrets.get("DOCKER_REGISTRY_USER") }}
+                password: ${{ secrets.get("DOCKER_REGISTRY_PASSWORD") }}
+                repo: ${DOCKER_REGISTRY}/game-store-frontend
+                context: .
+                dockerfile: Dockerfile
+                tags:
+                  - latest
+                  - $${GITNESS_GIT_COMMIT_SHA}
+
+    - name: deploy
+      type: ci
+      spec:
+        steps:
+          - name: deploy-k8s
+            type: plugin
+            spec:
+              name: kubectl
+              inputs:
+                kubeconfig: ${{ secrets.get("KUBE_CONFIG") }}
+                namespace: production
+                command: |
+                  kubectl create namespace production --dry-run=client -o yaml | kubectl apply -f -
+                  kubectl create secret generic game-store-config \
+                    --from-literal=DOMAIN=${{ secrets.get("DOMAIN") }} \
+                    --from-literal=ACME_EMAIL=${{ secrets.get("ACME_EMAIL") }} \
+                    -n production \
+                    --dry-run=client -o yaml | kubectl apply -f -
+                  kubectl apply -k kubernetes/
+                  kubectl rollout status deployment/game-store-frontend -n production
+
+  triggers:
+    - name: push_main
+      type: git
+      spec:
+        type: branch
+        spec:
+          branch: main
+          events:
+            - push 

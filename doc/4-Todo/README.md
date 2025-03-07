@@ -16,6 +16,35 @@
 
 This implementation plan outlines the tasks required to complete the Game Store Configuration Interface project within a 2-day timeframe.
 
+## Pages to Create / Complete
+
+The following pages need to be created or completed for the application to function properly:
+
+### User Pages
+- ✅ `src/pages/user/wishlist.tsx` - User wishlist
+- ✅ `src/pages/user/profile.tsx` - User profile
+- ✅ `src/pages/user/orders.tsx` - Order history
+- ✅ `src/pages/user/settings.tsx` - Account settings
+
+### Admin Pages
+- ✅ `src/pages/admin/dashboard.tsx` - Admin dashboard
+- ✅ `src/pages/admin/products.tsx` - Product management
+- ✅ `src/pages/admin/products-form.tsx` - Product add/edit form
+- ⬜ `src/pages/admin/categories.tsx` - Category management
+- ✅ `src/pages/admin/orders.tsx` - Order management
+
+### Catalog Pages
+- ✅ `src/pages/catalog/catalog.tsx` - Main catalog page
+- ✅ `src/pages/catalog/game-details.tsx` - Game details
+
+### Cart Pages
+- ⬜ `src/pages/cart/cart.tsx` - Cart page
+
+### Authentication Pages
+- ⬜ `src/pages/auth/login.tsx` - Login page
+- ⬜ `src/pages/auth/register.tsx` - Registration page
+- ⬜ `src/pages/auth/forgot-password.tsx` - Password recovery
+
 ## Day 1: Core Implementation
 
 ### Phase 1: Project Setup (2 hours)
@@ -59,6 +88,12 @@ This implementation plan outlines the tasks required to complete the Game Store 
 - Perform cross-browser testing
 - Optimize performance
 - Fix any identified bugs
+
+## Localization Tasks
+- Translate all French UI text in components to English
+- Ensure consistent English terminology throughout the codebase
+- Update comments and documentation to use English only
+- Review variable names for language consistency
 
 ## Deliverables
 

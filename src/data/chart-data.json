@@ -1,0 +1,64 @@
+{
+  "barChart": {
+    "title": "Revenus mensuels",
+    "data": [
+      { "name": "Jan", "total": 18500 },
+      { "name": "Fév", "total": 22350 },
+      { "name": "Mar", "total": 19800 },
+      { "name": "Avr", "total": 24500 },
+      { "name": "Mai", "total": 28700 },
+      { "name": "Juin", "total": 32100 },
+      { "name": "Juil", "total": 29800 },
+      { "name": "Août", "total": 27500 },
+      { "name": "Sep", "total": 31200 },
+      { "name": "Oct", "total": 34800 },
+      { "name": "Nov", "total": 38500 },
+      { "name": "Déc", "total": 42100 }
+    ]
+  },
+  "lineChart": {
+    "title": "Utilisateurs actifs",
+    "data": [
+      { "name": "Jan", "total": 1250 },
+      { "name": "Fév", "total": 1380 },
+      { "name": "Mar", "total": 1520 },
+      { "name": "Avr", "total": 1650 },
+      { "name": "Mai", "total": 1810 },
+      { "name": "Juin", "total": 2050 },
+      { "name": "Juil", "total": 2280 },
+      { "name": "Août", "total": 2420 },
+      { "name": "Sep", "total": 2580 },
+      { "name": "Oct", "total": 2750 },
+      { "name": "Nov", "total": 2950 },
+      { "name": "Déc", "total": 3150 }
+    ]
+  },
+  "areaChart": {
+    "title": "Taux de conversion",
+    "data": [
+      { "name": "Jan", "total": 12.5 },
+      { "name": "Fév", "total": 13.2 },
+      { "name": "Mar", "total": 14.8 },
+      { "name": "Avr", "total": 16.3 },
+      { "name": "Mai", "total": 18.5 },
+      { "name": "Juin", "total": 21.2 },
+      { "name": "Juil", "total": 23.8 },
+      { "name": "Août", "total": 22.5 },
+      { "name": "Sep", "total": 24.1 },
+      { "name": "Oct", "total": 25.7 },
+      { "name": "Nov", "total": 27.3 },
+      { "name": "Déc", "total": 28.9 }
+    ]
+  },
+  "pieChart": {
+    "title": "Sources de trafic",
+    "data": [
+      { "name": "Recherche organique", "value": 35 },
+      { "name": "Réseaux sociaux", "value": 25 },
+      { "name": "Email", "value": 15 },
+      { "name": "Référencement", "value": 12 },
+      { "name": "Direct", "value": 8 },
+      { "name": "Autres", "value": 5 }
+    ]
+  }
+}

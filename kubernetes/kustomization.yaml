@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: production
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+
+configMapGenerator:
+  - name: game-store-config
+    envs:
+      - ../.env
+
+secretGenerator:
+  - name: game-store-secrets
+    envs:
+      - .env.production.local
+    type: Opaque 

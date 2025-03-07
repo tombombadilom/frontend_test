@@ -1,0 +1,232 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  KUBE_NAMESPACE: production
+
+jobs:
+  lint-workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check workflow syntax
+        uses: reviewdog/action-actionlint@v1
+        with:
+          reporter: github-pr-review
+          fail_on_error: true
+
+  test:
+    needs: lint-workflow
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '23'
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: latest
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Run Tests with Coverage
+        run: pnpm test:coverage
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: coverage/
+
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info
+          fail_ci_if_error: true
+
+  build-and-push:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image_tag: ${{ steps.meta.outputs.tags }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '23'
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: latest
+          run_install: false
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Kubernetes Tools
+        uses: yokawasa/action-setup-kube-tools@v0.9.3
+        with:
+          kubectl: 'latest'
+          kustomize: 'latest'
+
+      - name: Configure Kubernetes
+        run: |
+          echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
+          chmod 600 kubeconfig.yaml
+          export KUBECONFIG=kubeconfig.yaml
+
+      - name: Save Current Deployment State
+        run: |
+          # Sauvegarder l'état actuel pour le rollback
+          kubectl -n ${KUBE_NAMESPACE} get deployment game-store-frontend -o yaml > previous-deployment.yaml || true
+          # Sauvegarder le numéro de révision actuel
+          CURRENT_REVISION=$(kubectl -n ${KUBE_NAMESPACE} rollout history deployment game-store-frontend --revision=0 -o jsonpath='{.metadata.annotations.deployment\.kubernetes\.io/revision}' || echo "0")
+          echo "CURRENT_REVISION=${CURRENT_REVISION}" >> $GITHUB_ENV
+
+      - name: Deploy to Kubernetes
+        id: deploy
+        env:
+          DOMAIN: ${{ secrets.DOMAIN }}
+          ACME_EMAIL: ${{ secrets.ACME_EMAIL }}
+        run: |
+          # Créer ou mettre à jour le namespace
+          kubectl create namespace ${KUBE_NAMESPACE} --dry-run=client -o yaml | kubectl apply -f -
+          
+          # Mettre à jour la configuration
+          kubectl create secret generic app-config \
+            --namespace=${KUBE_NAMESPACE} \
+            --from-literal=DOMAIN=${DOMAIN} \
+            --from-literal=ACME_EMAIL=${ACME_EMAIL} \
+            --dry-run=client -o yaml | kubectl apply -f -
+          
+          # Déployer avec kustomize
+          kustomize build kubernetes | kubectl apply -f -
+
+      - name: Wait for Deployment
+        id: wait-deploy
+        run: |
+          # Attendre le déploiement avec timeout
+          if ! kubectl -n ${KUBE_NAMESPACE} rollout status deployment/game-store-frontend --timeout=300s; then
+            echo "::error::Le déploiement a échoué"
+            exit 1
+          fi
+
+      - name: Verify Services
+        id: verify
+        run: |
+          # Vérifier le déploiement et les services
+          if ! kubectl -n ${KUBE_NAMESPACE} wait --for=condition=available --timeout=300s deployment/game-store-frontend; then
+            echo "::error::Le déploiement n'est pas disponible"
+            exit 1
+          fi
+          if ! kubectl -n ${KUBE_NAMESPACE} wait --for=condition=ready --timeout=300s ingress/game-store-frontend; then
+            echo "::error::L'ingress n'est pas prêt"
+            exit 1
+          fi
+
+      - name: Rollback on Failure
+        if: failure() && (steps.deploy.outcome == 'failure' || steps.wait-deploy.outcome == 'failure' || steps.verify.outcome == 'failure')
+        run: |
+          echo "Le déploiement a échoué, début du rollback..."
+          
+          if [ -f "previous-deployment.yaml" ]; then
+            echo "Restauration de la version précédente..."
+            kubectl apply -f previous-deployment.yaml
+            
+            # Attendre le rollback
+            kubectl -n ${KUBE_NAMESPACE} rollout status deployment/game-store-frontend --timeout=300s
+            
+            echo "Rollback terminé avec succès"
+          else
+            echo "Exécution du rollback vers la révision précédente..."
+            kubectl -n ${KUBE_NAMESPACE} rollout undo deployment/game-store-frontend
+            
+            # Attendre le rollback
+            kubectl -n ${KUBE_NAMESPACE} rollout status deployment/game-store-frontend --timeout=300s
+            
+            echo "Rollback terminé"
+          fi
+
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -f kubeconfig.yaml
+          rm -f previous-deployment.yaml 
