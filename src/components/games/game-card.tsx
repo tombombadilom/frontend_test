@@ -25,12 +25,7 @@ export function GameCard({ game }: GameCardProps) {
   const { addToRecentlyViewed } = useHistoryStore();
 
   const handleAddToCart = () => {
-    addItem({
-      id: game.id,
-      name: game.title,
-      price: game.price,
-      image: game.coverImage,
-    });
+    addItem(game);
     showToast.success('Added to cart');
   };
 
@@ -59,13 +54,13 @@ export function GameCard({ game }: GameCardProps) {
     >
       <Link to={`/game/${game.id}`} className="block" onClick={handleGameClick}>
         <div className="game-card game-card-hover overflow-hidden">
-          {game.discount > 0 && (
+          {(game.price.discount ?? 0) > 0 && (
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               className="absolute right-2 top-2 z-10 rounded-md bg-game-accent px-2 py-1 text-xs font-bold text-black"
             >
-              -{game.discount}%
+              -{game.price.discount}%
             </motion.div>
           )}
 
@@ -100,17 +95,17 @@ export function GameCard({ game }: GameCardProps) {
 
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
-                {game.discount > 0 ? (
+                {(game.price.discount ?? 0) > 0 ? (
                   <>
                     <motion.span
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       className="text-sm font-bold"
                     >
-                      {formatPrice(game.price * (1 - game.discount / 100))}
+                      {formatPrice(game.price)}
                     </motion.span>
                     <span className="text-xs text-muted-foreground line-through">
-                      {formatPrice(game.price)}
+                      {formatPrice({...game.price, discount: 0})}
                     </span>
                   </>
                 ) : (

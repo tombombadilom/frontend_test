@@ -28,7 +28,7 @@ interface SortableListProps<T extends { id: ID }, ID extends string | number = s
   renderItem: (item: T) => React.ReactNode;
   className?: string;
   itemClassName?: string;
-  _dragHandleClassName?: string;
+  dragHandleClassName?: string;
   droppableId?: string;
   animationDuration?: number;
   dragScale?: number;
@@ -57,14 +57,14 @@ export function SortableList<T extends { id: ID }, ID extends string | number = 
   renderItem,
   className,
   itemClassName,
-  _dragHandleClassName,
+  dragHandleClassName,
   droppableId = 'droppable-list',
   animationDuration = 0.2,
   dragScale = 1.02,
   dragShadow = true,
 }: SortableListProps<T, ID>) {
   const [enabled, setEnabled] = useState(false);
-  const [_draggingId, setDraggingId] = useState<ID | null>(null);
+  const [draggingId, setDraggingId] = useState<ID | null>(null);
 
   // Activer le drag and drop uniquement côté client
   useEffect(() => {
@@ -84,7 +84,7 @@ export function SortableList<T extends { id: ID }, ID extends string | number = 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: animationDuration }}
-            className="rounded-md border border-border bg-card p-3"
+            className={cn('rounded-md border border-border bg-card p-3', itemClassName)}
           >
             {renderItem(item.data as T)}
           </motion.div>
@@ -95,25 +95,10 @@ export function SortableList<T extends { id: ID }, ID extends string | number = 
 
   const handleDragStart = (result: DragResult) => {
     setDraggingId(result.draggableId as ID);
-    const item = items.find((i) => i.id === result.draggableId);
-    if (item && onReorder) {
-      onReorder([item]);
-    }
-  };
-
-  const handleDragUpdate = (result: DragResult) => {
-    const item = items.find((i) => i.id === result.draggableId);
-    if (item && onReorder) {
-      onReorder([item]);
-    }
   };
 
   const handleDragEnd = (result: DragResult) => {
     setDraggingId(null);
-    const item = items.find((i) => i.id === result.draggableId);
-    if (item && onReorder) {
-      onReorder([item]);
-    }
 
     if (!result.destination) return;
 
@@ -127,7 +112,6 @@ export function SortableList<T extends { id: ID }, ID extends string | number = 
   return (
     <DragDropContext
       onDragStart={handleDragStart}
-      onDragUpdate={handleDragUpdate}
       onDragEnd={handleDragEnd}
     >
       <Droppable droppableId={droppableId}>
@@ -144,7 +128,6 @@ export function SortableList<T extends { id: ID }, ID extends string | number = 
                     <motion.div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      {...provided.dragHandleProps}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{
                         opacity: 1,
@@ -169,7 +152,35 @@ export function SortableList<T extends { id: ID }, ID extends string | number = 
                           : 'none',
                       }}
                     >
-                      {renderItem(item.data as T)}
+                      <div
+                        {...provided.dragHandleProps}
+                        className={cn(
+                          'cursor-grab active:cursor-grabbing p-1 rounded hover:bg-accent',
+                          dragHandleClassName
+                        )}
+                        aria-label="Drag to reorder"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="h-4 w-4 text-muted-foreground"
+                        >
+                          <circle cx="9" cy="5" r="1" />
+                          <circle cx="9" cy="12" r="1" />
+                          <circle cx="9" cy="19" r="1" />
+                          <circle cx="15" cy="5" r="1" />
+                          <circle cx="15" cy="12" r="1" />
+                          <circle cx="15" cy="19" r="1" />
+                        </svg>
+                      </div>
+                      <div className="flex-1">{renderItem(item.data as T)}</div>
                     </motion.div>
                   )}
                 </Draggable>

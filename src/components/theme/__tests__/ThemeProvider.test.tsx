@@ -65,6 +65,7 @@ describe('ThemeProvider', () => {
     vi.clearAllMocks();
     localStorageMock.store = {};
     mockMediaQuery.matches = false;
+    document.documentElement.classList.remove('dark', 'light');
   });
 
   it('renders children with default theme', () => {
@@ -96,11 +97,13 @@ describe('ThemeProvider', () => {
     );
 
     // Simulate theme change
-    const theme = 'dark';
-    localStorageMock.setItem('ui-theme', theme);
+    act(() => {
+      fireEvent.click(screen.getByText('Set Dark'));
+    });
 
-    expect(localStorageMock.setItem).toHaveBeenCalledWith('ui-theme', theme);
-    expect(localStorageMock.store['ui-theme']).toBe(theme);
+    expect(localStorageMock.setItem).toHaveBeenCalledWith('ui-theme', 'dark');
+    expect(localStorageMock.store['ui-theme']).toBe('dark');
+    expect(document.documentElement).toHaveClass('dark');
   });
 
   it('uses the saved theme from localStorage if available', () => {
@@ -124,15 +127,24 @@ describe('ThemeProvider', () => {
       </ThemeProvider>
     );
 
+    // Set theme to system
+    act(() => {
+      fireEvent.click(screen.getByText('Set System'));
+    });
+
     // Simulate system theme change to dark
-    mockMediaQuery.matches = true;
-    mediaQuery.dispatchEvent(new Event('change'));
+    act(() => {
+      mockMediaQuery.matches = true;
+      mediaQuery.dispatchEvent(new Event('change'));
+    });
 
     expect(document.documentElement).toHaveClass('dark');
 
     // Simulate system theme change to light
-    mockMediaQuery.matches = false;
-    mediaQuery.dispatchEvent(new Event('change'));
+    act(() => {
+      mockMediaQuery.matches = false;
+      mediaQuery.dispatchEvent(new Event('change'));
+    });
 
     expect(document.documentElement).toHaveClass('light');
   });

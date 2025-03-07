@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWishlist } from '../use-wishlist';
 import { TestWrapper } from '@/test/test-utils';
-import { mockWishlistItems } from '@/test/mocks/wishlist';
+import type { Game } from '@/types/game';
 
 // Mock de Sonner toast
 vi.mock('sonner', () => ({
@@ -14,12 +14,17 @@ vi.mock('sonner', () => ({
   },
 }));
 
-const mockGame = {
+// Mock game avec le type correct
+const mockGame: Game = {
   id: 1,
+  gameId: 1,
   title: 'Test Game',
   description: 'Description',
-  price: 59.99,
-  discount: 0,
+  price: {
+    amount: 59.99,
+    currency: 'USD',
+    discount: 0
+  },
   releaseDate: '2023-01-01',
   developer: 'Dev',
   publisher: 'Pub',
@@ -29,9 +34,24 @@ const mockGame = {
   screenshots: [],
   rating: 4.5,
   isFeatured: true,
-  isNewRelease: true,
-  gameId: 1
+  isNewRelease: true
 };
+
+// Mock wishlist items
+const mockWishlistItems = [
+  {
+    id: 1,
+    name: 'Test Game',
+    price: 59.99,
+    image: '/img.jpg'
+  },
+  {
+    id: 2,
+    name: 'Another Game',
+    price: 49.99,
+    image: '/img2.jpg'
+  }
+];
 
 describe('useWishlist hook', () => {
   beforeEach(() => {
@@ -51,10 +71,7 @@ describe('useWishlist hook', () => {
       result.current.addGameToWishlist(mockGame);
     });
     expect(result.current.items).toHaveLength(1);
-    expect(result.current.items[0]).toMatchObject({
-      id: 1,
-      name: 'Test Game'
-    });
+    expect(result.current.items[0]).toEqual(mockGame);
     expect(toast.success).toHaveBeenCalledWith('Test Game ajouté aux favoris');
 
     // Test removing the game
@@ -72,8 +89,8 @@ describe('useWishlist hook', () => {
 
     // Test adding duplicate items
     act(() => {
-      result.current.addItem(mockWishlistItems[0]);
-      result.current.addItem(mockWishlistItems[0]);
+      result.current.addGameToWishlist(mockGame);
+      result.current.addGameToWishlist(mockGame);
     });
     expect(result.current.items).toHaveLength(1);
     expect(toast.error).toHaveBeenCalledWith('Ce produit est déjà dans vos favoris');
@@ -89,8 +106,14 @@ describe('useWishlist hook', () => {
     });
 
     act(() => {
-      result.current.addItem(mockWishlistItems[0]);
-      result.current.addItem(mockWishlistItems[1]);
+      result.current.addGameToWishlist(mockGame);
+      const secondGame: Game = {
+        ...mockGame,
+        id: 2,
+        gameId: 2,
+        title: 'Another Game'
+      };
+      result.current.addGameToWishlist(secondGame);
       result.current.clearWishlist();
     });
 

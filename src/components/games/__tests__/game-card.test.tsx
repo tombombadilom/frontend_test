@@ -32,8 +32,11 @@ const mockGame: Game = {
   gameId: 1,
   title: 'Test Game',
   description: 'Test Description',
-  price: 29.99,
-  discount: 0,
+  price: {
+    amount: 29.99,
+    currency: 'EUR',
+    discount: 0
+  },
   coverImage: 'test-image.jpg',
   screenshots: ['screenshot1.jpg', 'screenshot2.jpg'],
   releaseDate: '2024-01-01',
@@ -91,15 +94,12 @@ describe('GameCard', () => {
       </MemoryRouter>
     );
 
-    const addToCartButton = screen.getByRole('button', { name: /ajouter au panier/i });
+    const addToCartButton = screen.getByRole('button', {
+      name: /ajouter au panier/i,
+    });
     fireEvent.click(addToCartButton);
 
-    expect(mockAddItem).toHaveBeenCalledWith({
-      id: mockGame.id,
-      name: mockGame.title,
-      price: mockGame.price,
-      image: mockGame.coverImage,
-    });
+    expect(mockAddItem).toHaveBeenCalledWith(mockGame);
     expect(showToast.success).toHaveBeenCalledWith('Added to cart');
   });
 
@@ -147,7 +147,13 @@ describe('GameCard', () => {
   });
 
   it('renders game without discount correctly', () => {
-    const gameWithoutDiscount = { ...mockGame, discount: 0 };
+    const gameWithoutDiscount = { 
+      ...mockGame, 
+      price: {
+        ...mockGame.price,
+        discount: 0
+      }
+    };
 
     render(
       <MemoryRouter>

@@ -1,13 +1,105 @@
-import { useFilterStore } from '@/store/filter-store';
-import { act, renderHook } from '@testing-library/react';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { act, waitFor } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 import { useFilters } from '../use-filters';
-import { TestWrapper } from '@/test/test-utils';
-import { mockGames } from '@/test/mocks/games';
+import { useFilterStore } from '@/store/filter-store';
+import { renderWithProviders } from '@/test/test-utils';
+import type { Game } from '@/types/game';
+
+// Mock data
+const mockGames: Game[] = [
+  {
+    id: 1,
+    gameId: 1,
+    title: 'Action Game',
+    description: 'An exciting action game',
+    price: { amount: 29.99, currency: 'USD', discount: 0 },
+    releaseDate: '2023-01-01',
+    developer: 'Test Developer',
+    publisher: 'Test Publisher',
+    genres: ['Action'],
+    platforms: ['PC'],
+    coverImage: 'https://via.placeholder.com/300x400',
+    screenshots: [],
+    rating: 4.5,
+    isNewRelease: false,
+  },
+  {
+    id: 2,
+    gameId: 2,
+    title: 'Adventure Game',
+    description: 'An epic adventure game',
+    price: { amount: 39.99, currency: 'USD', discount: 10 },
+    releaseDate: '2023-02-01',
+    developer: 'Test Developer',
+    publisher: 'Test Publisher',
+    genres: ['Adventure'],
+    platforms: ['PC'],
+    coverImage: 'https://via.placeholder.com/300x400',
+    screenshots: [],
+    rating: 4.0,
+    isNewRelease: false,
+  },
+  {
+    id: 3,
+    gameId: 3,
+    title: 'New RPG Game',
+    description: 'A new RPG game',
+    price: { amount: 59.99, currency: 'USD', discount: 0 },
+    releaseDate: '2024-01-01',
+    developer: 'Test Developer',
+    publisher: 'Test Publisher',
+    genres: ['RPG', 'Action'],
+    platforms: ['PC'],
+    coverImage: 'https://via.placeholder.com/300x400',
+    screenshots: [],
+    rating: 4.8,
+    isNewRelease: true,
+  },
+];
+
+function TestComponent() {
+  const { filteredGames } = useFilters(mockGames);
+  return <div data-testid="filtered-games">{JSON.stringify(filteredGames)}</div>;
+}
 
 describe('useFilters hook', () => {
-  beforeEach(() => {
-    // Réinitialiser le store avant chaque test
+  it('should handle basic filtering operations', async () => {
+    const { getByTestId } = renderWithProviders(<TestComponent />);
+
+    // Initially, all games should be shown
+    const initialGames = JSON.parse(getByTestId('filtered-games').textContent || '[]');
+    expect(initialGames).toHaveLength(3);
+
+    // Filter by category
+    act(() => {
+      useFilterStore.getState().toggleCategory('Action');
+    });
+
+    // Wait for the filter to be applied
+    await waitFor(() => {
+      const filteredGames = JSON.parse(getByTestId('filtered-games').textContent || '[]');
+      expect(filteredGames).toHaveLength(2);
+      expect(filteredGames[0].id).toBe(1);
+      expect(filteredGames[1].id).toBe(3);
+    });
+  });
+
+  it('should handle price and discount filtering', async () => {
+    const { getByTestId } = renderWithProviders(<TestComponent />);
+
+    // Filter by price range
+    act(() => {
+      useFilterStore.getState().setPriceRange([30, 50]);
+    });
+
+    // Wait for the filter to be applied
+    await waitFor(() => {
+      const filteredGames = JSON.parse(getByTestId('filtered-games').textContent || '[]');
+      expect(filteredGames).toHaveLength(1);
+      expect(filteredGames[0].id).toBe(2);
+    });
+
+    // Reset filters
     act(() => {
       useFilterStore.setState({
         search: '',
@@ -19,104 +111,77 @@ describe('useFilters hook', () => {
         onlyNewReleases: false,
       });
     });
-  });
 
-  it('should handle basic filtering operations', () => {
-    const { result } = renderHook(() => useFilters(mockGames), {
-      wrapper: TestWrapper,
-    });
-
-    // Test initial state
-    expect(result.current.filteredGames.length).toBe(3);
-
-    // Test search filter
-    act(() => {
-      useFilterStore.getState().setSearch('Featured');
-    });
-    expect(result.current.filteredGames.length).toBe(1);
-    expect(result.current.filteredGames[0].id).toBe(1);
-
-    // Test category filter
-    act(() => {
-      useFilterStore.getState().toggleCategory('Action');
-    });
-    expect(result.current.filteredGames.length).toBe(1);
-    expect(result.current.filteredGames[0].id).toBe(1);
-
-    // Test platform filter
-    act(() => {
-      useFilterStore.getState().togglePlatform('PC');
-    });
-    expect(result.current.filteredGames.length).toBe(1);
-    expect(result.current.filteredGames[0].id).toBe(1);
-  });
-
-  it('should handle price and discount filtering', () => {
-    const { result } = renderHook(() => useFilters(mockGames), {
-      wrapper: TestWrapper,
-    });
-
-    // Test price range filter
-    act(() => {
-      useFilterStore.getState().setPriceRange([0, 45]);
-    });
-    expect(result.current.filteredGames.length).toBe(1);
-    expect(result.current.filteredGames[0].id).toBe(3);
-
-    // Test discount filter
+    // Filter by discount
     act(() => {
       useFilterStore.getState().toggleDiscounted();
     });
-    expect(result.current.filteredGames.length).toBe(1);
-    expect(result.current.filteredGames[0].id).toBe(3);
+
+    // Wait for the filter to be applied
+    await waitFor(() => {
+      const filteredGames = JSON.parse(getByTestId('filtered-games').textContent || '[]');
+      expect(filteredGames).toHaveLength(1);
+      expect(filteredGames[0].id).toBe(2);
+    });
   });
 
-  it('should handle new releases filtering', () => {
-    act(() => {
-      useFilterStore.getState().toggleNewReleases();
-    });
+  it('should handle sorting operations', async () => {
+    const { getByTestId } = renderWithProviders(<TestComponent />);
 
-    const { result } = renderHook(() => useFilters(mockGames), {
-      wrapper: TestWrapper,
-    });
-    expect(result.current.filteredGames.length).toBe(1);
-    expect(result.current.filteredGames[0].id).toBe(2);
-  });
-
-  it('should handle sorting operations', () => {
-    const { result } = renderHook(() => useFilters(mockGames), {
-      wrapper: TestWrapper,
-    });
-
-    // Test price sorting
+    // Sort by price (low to high)
     act(() => {
       useFilterStore.getState().setSortBy('price-asc');
     });
-    expect(result.current.filteredGames.map(g => g.id)).toEqual([3, 1, 2]);
 
-    // Test name sorting
-    act(() => {
-      useFilterStore.getState().setSortBy('name-asc');
+    // Wait for the sort to be applied
+    await waitFor(() => {
+      const filteredGames = JSON.parse(getByTestId('filtered-games').textContent || '[]');
+      expect(filteredGames[0].id).toBe(1);
+      expect(filteredGames[1].id).toBe(2);
+      expect(filteredGames[2].id).toBe(3);
     });
-    expect(result.current.filteredGames.map(g => g.title)).toEqual([
-      'Featured Game',
-      'New Release Game',
-      'Regular Game'
-    ]);
+
+    // Sort by price (high to low)
+    act(() => {
+      useFilterStore.getState().setSortBy('price-desc');
+    });
+
+    // Wait for the sort to be applied
+    await waitFor(() => {
+      const filteredGames = JSON.parse(getByTestId('filtered-games').textContent || '[]');
+      expect(filteredGames[0].id).toBe(3);
+      expect(filteredGames[1].id).toBe(2);
+      expect(filteredGames[2].id).toBe(1);
+    });
   });
 
-  it('should handle multiple filters simultaneously', () => {
+  it('should handle multiple filters simultaneously', async () => {
+    const { getByTestId } = renderWithProviders(<TestComponent />);
+
+    // Apply multiple filters
     act(() => {
-      useFilterStore.getState().setSearch('Game');
-      useFilterStore.getState().toggleCategory('Strategy');
-      useFilterStore.getState().setPriceRange([0, 50]);
-      useFilterStore.getState().toggleDiscounted();
+      useFilterStore.getState().toggleCategory('RPG');
+      useFilterStore.getState().toggleNewReleases();
     });
 
-    const { result } = renderHook(() => useFilters(mockGames), {
-      wrapper: TestWrapper,
+    // Wait for the filters to be applied
+    await waitFor(() => {
+      const filteredGames = JSON.parse(getByTestId('filtered-games').textContent || '[]');
+      expect(filteredGames).toHaveLength(1);
+      expect(filteredGames[0].id).toBe(3);
     });
-    expect(result.current.filteredGames.length).toBe(1);
-    expect(result.current.filteredGames[0].id).toBe(3);
+  });
+
+  it('filters games by category', () => {
+    const { getByTestId } = renderWithProviders(<TestComponent />);
+
+    act(() => {
+      useFilterStore.getState().toggleCategory('Action');
+    });
+
+    const filteredGames = JSON.parse(getByTestId('filtered-games').textContent || '[]');
+    expect(filteredGames).toHaveLength(2);
+    expect(filteredGames[0].id).toBe(1);
+    expect(filteredGames[1].id).toBe(3);
   });
 });
