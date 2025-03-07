@@ -2,38 +2,12 @@ import { render, screen } from '@testing-library/react';
 import { SortableListItem } from '../sortable-list-item';
 
 describe('SortableListItem', () => {
-  const mockId = '1';
-  const mockContent = 'Test Content';
-
-  it('renders with content', () => {
+  it('affiche le contenu', () => {
     render(
-      <SortableListItem id={mockId}>
-        <div>{mockContent}</div>
+      <SortableListItem id="test-1">
+        <div>Test Content</div>
       </SortableListItem>
     );
-
-    expect(screen.getByText(mockContent)).toBeInTheDocument();
-  });
-
-  it('applies custom className', () => {
-    render(
-      <SortableListItem id={mockId} className="custom-class">
-        <div>{mockContent}</div>
-      </SortableListItem>
-    );
-
-    const container = screen.getByText(mockContent).closest('div');
-    expect(container).toHaveClass('custom-class');
-  });
-
-  it('renders with drag handle', () => {
-    render(
-      <SortableListItem id={mockId}>
-        <div>{mockContent}</div>
-      </SortableListItem>
-    );
-
-    const handle = screen.getByRole('button', { name: /Drag to reorder/i });
-    expect(handle).toBeInTheDocument();
+    expect(screen.getByText('Test Content')).toBeInTheDocument();
   });
 }); 

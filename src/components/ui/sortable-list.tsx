@@ -21,9 +21,7 @@ interface SortableListProps<T> {
   onReorder: (items: T[]) => void;
   renderItem: (item: T) => React.ReactNode;
   className?: string;
-  'aria-label'?: string;
   disabled?: boolean;
-  dragHandleLabel?: string;
 }
 
 export function SortableList<T extends { id: string }>({
@@ -31,16 +29,10 @@ export function SortableList<T extends { id: string }>({
   onReorder,
   renderItem,
   className,
-  'aria-label': ariaLabel = 'Sortable list',
   disabled = false,
-  dragHandleLabel = 'Drag to reorder',
 }: SortableListProps<T>) {
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8,
-      },
-    }),
+    useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -48,7 +40,6 @@ export function SortableList<T extends { id: string }>({
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
-
     if (over && active.id !== over.id) {
       const oldIndex = items.findIndex((item) => item.id === active.id);
       const newIndex = items.findIndex((item) => item.id === over.id);
@@ -67,10 +58,8 @@ export function SortableList<T extends { id: string }>({
         strategy={verticalListSortingStrategy}
       >
         <div
-          className={cn('sortable-list', className)}
-          role="listbox"
-          aria-label={ariaLabel}
-          aria-multiselectable="false"
+          className={cn('space-y-2', className)}
+          role="list"
           aria-disabled={disabled}
         >
           {items.map((item) => (
@@ -78,7 +67,6 @@ export function SortableList<T extends { id: string }>({
               key={item.id}
               id={item.id}
               disabled={disabled}
-              dragHandleLabel={dragHandleLabel}
             >
               {renderItem(item)}
             </SortableListItem>

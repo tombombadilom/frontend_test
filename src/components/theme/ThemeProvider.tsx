@@ -23,11 +23,10 @@ export function ThemeProvider({
   storageKey = 'ui-theme',
   ...props
 }: ThemeProviderProps) {
-  // Initialiser avec defaultTheme, puis mettre à jour avec localStorage dans useEffect
   const [theme, setTheme] = useState<Theme>(defaultTheme);
   const [mounted, setMounted] = useState(false);
 
-  // Effet pour charger le thème depuis localStorage uniquement côté client
+  // Load theme from localStorage on mount
   useEffect(() => {
     const storedTheme = localStorage.getItem(storageKey) as Theme;
     if (storedTheme) {
@@ -36,17 +35,15 @@ export function ThemeProvider({
     setMounted(true);
   }, [storageKey]);
 
+  // Apply theme to document
   useEffect(() => {
     if (!mounted) return;
 
     const root = window.document.documentElement;
-
-    // Remove all theme classes
     root.classList.remove('light', 'dark');
 
     if (theme === 'system') {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
-        .matches
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
         ? 'dark'
         : 'light';
       root.classList.add(systemTheme);
@@ -67,6 +64,10 @@ export function ThemeProvider({
       root.classList.add(mediaQuery.matches ? 'dark' : 'light');
     };
 
+    // Initial check
+    handleChange();
+
+    // Listen for changes
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, [theme, mounted]);

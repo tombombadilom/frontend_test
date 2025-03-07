@@ -7,7 +7,6 @@ interface SortableListItemProps {
   children: React.ReactNode;
   className?: string;
   disabled?: boolean;
-  dragHandleLabel?: string;
 }
 
 export function SortableListItem({
@@ -15,7 +14,6 @@ export function SortableListItem({
   children,
   className,
   disabled = false,
-  dragHandleLabel = 'Drag to reorder',
 }: SortableListItemProps) {
   const {
     attributes,
@@ -36,17 +34,19 @@ export function SortableListItem({
       ref={setNodeRef}
       style={style}
       className={cn(
-        'sortable-list-item',
-        isDragging && 'sortable-list-item-dragging',
-        disabled && 'sortable-list-item-disabled',
+        'rounded-md border border-border bg-card p-3',
+        isDragging && 'opacity-50',
+        disabled && 'opacity-50 cursor-not-allowed',
         className
       )}
+      role="listitem"
+      aria-disabled={disabled}
       {...attributes}
     >
       <div
         className="sortable-list-item-handle"
         {...listeners}
-        aria-label={dragHandleLabel}
+        tabIndex={disabled ? -1 : 0}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
