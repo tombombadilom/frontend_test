@@ -69,8 +69,8 @@ const AdminSettingsPage: React.FC = () => {
         <TabsContent value="system">
           {/* Admin specific system settings would go here */}
           <div className="space-y-4">
-            <button onClick={manageUsers}>Manage Users</button>
-            <button onClick={manageSystem}>System Settings</button>
+            <button type="button" onClick={manageUsers}>Manage Users</button>
+            <button type="button" onClick={manageSystem}>System Settings</button>
           </div>
         </TabsContent>
       </Tabs>

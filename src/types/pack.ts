@@ -1,29 +1,27 @@
 import type { Price } from './game';
 
+export interface PackPreview {
+  imageUrl: string;
+  videoUrl?: string | null;
+}
+
+export interface PackAvailability {
+  startDate?: string;
+  endDate?: string;
+  isLimited?: boolean;
+}
+
 export interface Pack {
   id: number;
   name: string;
   description: string;
-  price: {
-    amount: number;
-    currency: string;
-    discount?: number;
-  };
-  availability: {
-    startDate: string;
-    endDate?: string;
-    isLimited?: boolean;
-  };
-  tags: string[];
-  metadata: Record<string, unknown>;
-  isActive: boolean;
-  isFeatured: boolean;
-  isNewRelease: boolean;
-  type?: string;
+  price: Price;
   gameId: number;
   items: number[];
-  preview?: {
-    imageUrl: string;
-    videoUrl?: string;
-  };
+  isActive?: boolean;
+  type?: string;
+  tags?: string[];
+  availability?: PackAvailability;
+  preview: PackPreview;
+  metadata?: Record<string, unknown>;
 } 

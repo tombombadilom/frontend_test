@@ -2,14 +2,13 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSettings } from '@/hooks/use-settings';
-import { useAuth } from '@/hooks/use-auth';
 import { cn } from '@/lib/utils';
 import { navigation } from '@/config/navigation';
 
 export default function DesktopMenu() {
   const { language } = useSettings();
   const location = useLocation();
-  const { user } = useAuth();
+  // const { user } = useAuth(); // Commenté car inutilisé pour l'instant
 
   // Détermine les items du menu en fonction du rôle de l'utilisateur
   const menuItems = [

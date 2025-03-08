@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type * as React from 'react';
 import { Input } from './input';
 
 interface FormInputProps extends React.ComponentProps<'input'> {

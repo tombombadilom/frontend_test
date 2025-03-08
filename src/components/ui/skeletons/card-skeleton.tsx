@@ -23,7 +23,7 @@ export function CardListSkeleton() {
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {Array.from({ length: 8 }).map((_, i) => (
-        <CardSkeleton key={i} />
+        <CardSkeleton key={`card-skeleton-${i}-${Math.random().toString(36).substring(7)}`} />
       ))}
     </div>
   )

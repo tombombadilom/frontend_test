@@ -14,7 +14,7 @@ export function FilterSkeleton() {
         <Skeleton className="h-5 w-24" />
         <div className="space-y-2">
           {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="flex items-center gap-2">
+            <div key={`category-skeleton-${i}-${Math.random().toString(36).substring(7)}`} className="flex items-center gap-2">
               <Skeleton className="h-4 w-4" />
               <Skeleton className="h-4 w-32" />
             </div>
@@ -27,7 +27,7 @@ export function FilterSkeleton() {
         <Skeleton className="h-5 w-28" />
         <div className="space-y-2">
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="flex items-center gap-2">
+            <div key={`platform-skeleton-${i}-${Math.random().toString(36).substring(7)}`} className="flex items-center gap-2">
               <Skeleton className="h-4 w-4" />
               <Skeleton className="h-4 w-24" />
             </div>

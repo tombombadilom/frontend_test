@@ -76,7 +76,7 @@ export default function APIKeyForm({ apiKeys, onAdd, onDelete }: APIKeyFormProps
           <CardFooter>
             <Button 
               type="button"
-              onClick={() => onAdd("test-key-" + Date.now())}
+              onClick={() => onAdd(`test-key-${Date.now()}`)}
             >
               Generate New Key
             </Button>

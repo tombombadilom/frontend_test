@@ -5,7 +5,7 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-  DragEndEvent,
+  type DragEndEvent,
 } from '@dnd-kit/core';
 import {
   arrayMove,
@@ -57,9 +57,8 @@ export function SortableList<T extends { id: string }>({
         items={items.map((item) => item.id)}
         strategy={verticalListSortingStrategy}
       >
-        <div
+        <ul
           className={cn('space-y-2', className)}
-          role="list"
           aria-disabled={disabled}
         >
           {items.map((item) => (
@@ -71,7 +70,7 @@ export function SortableList<T extends { id: string }>({
               {renderItem(item)}
             </SortableListItem>
           ))}
-        </div>
+        </ul>
       </SortableContext>
     </DndContext>
   );

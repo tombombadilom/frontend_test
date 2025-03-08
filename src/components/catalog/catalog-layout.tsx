@@ -1,6 +1,7 @@
 'use client';
 
-import React, { Suspense } from 'react';
+import type React from 'react';
+import { Suspense } from 'react';
 import { SlidersHorizontal } from 'lucide-react';
 import { DisplayModeSwitcher } from '@/components/catalog/display-mode-switcher';
 import { SortSelector } from '@/components/catalog/sort-selector';
@@ -70,28 +71,36 @@ export function CatalogLayout({ title, filterSidebar, content }: CatalogLayoutPr
   );
 }
 
-export function prepareFilterOptions(items: any[], field: string): FilterOption[] {
+export interface Item {
+  id: number;
+  name: string;
+  description: string;
+  price: Price;
+  tags?: string[];
+  [key: string]: unknown;
+}
+
+export function prepareFilterOptions(items: Item[], field: string): FilterOption[] {
   const counts = items.reduce((acc, item) => {
     const value = item[field];
-    if (typeof value === 'number') {
-      const key = value.toString();
-      acc[key] = (acc[key] || 0) + 1;
-    }
+    acc[value] = (acc[value] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
-  return Object.entries(counts).map(([id, count]) => ({
-    id,
-    name: id,
-    count: count as number,
+  return Object.entries(counts).map(([value, count]) => ({
+    id: value,
+    name: value,
+    count,
   }));
 }
 
-export function prepareTagOptions(items: any[]): FilterOption[] {
+export function prepareTagOptions(items: Item[]): FilterOption[] {
   const counts = items.reduce((acc, item) => {
-    (item.tags || []).forEach((tag: string) => {
-      acc[tag] = (acc[tag] || 0) + 1;
-    });
+    if (item.tags) {
+      for (const tag of item.tags) {
+        acc[tag] = (acc[tag] || 0) + 1;
+      }
+    }
     return acc;
   }, {} as Record<string, number>);
 

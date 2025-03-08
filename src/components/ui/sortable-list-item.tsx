@@ -1,20 +1,14 @@
+import type * as React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { cn } from '@/lib/utils';
 
-interface SortableListItemProps {
+interface SortableListItemProps extends React.HTMLAttributes<HTMLLIElement> {
   id: string;
-  children: React.ReactNode;
-  className?: string;
   disabled?: boolean;
 }
 
-export function SortableListItem({
-  id,
-  children,
-  className,
-  disabled = false,
-}: SortableListItemProps) {
+export function SortableListItem({ id, disabled, className, children, ...props }: SortableListItemProps) {
   const {
     attributes,
     listeners,
@@ -24,51 +18,24 @@ export function SortableListItem({
     isDragging,
   } = useSortable({ id, disabled });
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
   return (
-    <div
+    <li
       ref={setNodeRef}
-      style={style}
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition,
+      }}
       className={cn(
-        'rounded-md border border-border bg-card p-3',
+        'flex items-center gap-2 rounded-lg border bg-card p-4 text-card-foreground shadow-sm',
         isDragging && 'opacity-50',
         disabled && 'opacity-50 cursor-not-allowed',
         className
       )}
-      role="listitem"
-      aria-disabled={disabled}
       {...attributes}
+      {...listeners}
+      {...props}
     >
-      <div
-        className="sortable-list-item-handle"
-        {...listeners}
-        tabIndex={disabled ? -1 : 0}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <circle cx="9" cy="5" r="1" />
-          <circle cx="9" cy="12" r="1" />
-          <circle cx="9" cy="19" r="1" />
-          <circle cx="15" cy="5" r="1" />
-          <circle cx="15" cy="12" r="1" />
-          <circle cx="15" cy="19" r="1" />
-        </svg>
-      </div>
       {children}
-    </div>
+    </li>
   );
 } 

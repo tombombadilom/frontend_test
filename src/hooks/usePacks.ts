@@ -1,33 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { Pack } from '@/types/pack';
+import packsData from '@/data/packs.json';
 
-interface RawPack {
-  id?: number;
-  name?: string;
-  description?: string;
-  price?: {
-    amount?: number;
-    currency?: string;
-    discount?: number;
-  };
-  availability?: {
-    startDate?: string;
-    endDate?: string;
-    isLimited?: boolean;
-  };
-  tags?: string[];
-  metadata?: Record<string, unknown>;
-  isActive?: boolean;
-  isFeatured?: boolean;
-  isNewRelease?: boolean;
-  type?: string;
-  gameId?: number;
-  items?: number[];
-  preview?: {
-    imageUrl?: string;
-    videoUrl?: string;
-  };
-}
+type RawPack = Pack;
 
 interface UsePacksReturn {
   packs: Pack[];
@@ -43,47 +18,43 @@ export function usePacks(): UsePacksReturn {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  const fetchPacks = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const response = await import('@/data/packs.json');
-      const rawPacks = response.default.packs || [];
-      const fetchedPacks = rawPacks.map((rawPack: RawPack) => ({
-        id: rawPack.id || 0,
-        name: rawPack.name || '',
-        description: rawPack.description || '',
-        price: {
-          amount: rawPack.price?.amount || 0,
-          currency: rawPack.price?.currency || 'USD',
-          discount: rawPack.price?.discount,
-        },
-        availability: {
-          startDate: rawPack.availability?.startDate || new Date().toISOString(),
-          endDate: rawPack.availability?.endDate,
-          isLimited: rawPack.availability?.isLimited || false,
-        },
-        tags: rawPack.tags || [],
-        metadata: rawPack.metadata || {},
-        isActive: rawPack.isActive || false,
-        isFeatured: rawPack.isFeatured || false,
-        isNewRelease: rawPack.isNewRelease || false,
-        type: rawPack.type || 'standard',
-        gameId: rawPack.gameId || 0,
-        items: rawPack.items || [],
-        preview: rawPack.preview || { imageUrl: '' }
-      })) as Pack[];
-      setPacks(fetchedPacks);
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error('Failed to fetch packs'));
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
-    fetchPacks();
-  }, [fetchPacks]);
+    const loadPacks = async () => {
+      try {
+        setIsLoading(true);
+        // Simuler un délai de chargement
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        if (!packsData.packs) {
+          throw new Error('Format de données invalide');
+        }
+        
+        const loadedPacks = packsData.packs.map((pack: RawPack) => ({
+          ...pack,
+          price: {
+            amount: pack.price.amount,
+            currency: pack.price.currency,
+            discount: pack.price.discount ?? 0,
+          },
+          availability: pack.availability ?? {
+            startDate: new Date().toISOString(),
+            isLimited: false,
+          },
+          tags: pack.tags ?? [],
+          metadata: pack.metadata ?? {},
+          type: pack.type ?? 'standard',
+        }));
+        
+        setPacks(loadedPacks);
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error('Failed to load packs'));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadPacks();
+  }, []);
 
   const addPack = useCallback(async (pack: Omit<Pack, 'id'>) => {
     try {
@@ -93,18 +64,15 @@ export function usePacks(): UsePacksReturn {
         price: {
           amount: pack.price.amount,
           currency: pack.price.currency,
-          discount: pack.price.discount,
+          discount: pack.price.discount ?? 0,
         },
-        availability: {
-          startDate: pack.availability?.startDate || new Date().toISOString(),
-          endDate: pack.availability?.endDate,
-          isLimited: pack.availability?.isLimited || false,
+        availability: pack.availability ?? {
+          startDate: new Date().toISOString(),
+          isLimited: false,
         },
-        tags: pack.tags || [],
-        metadata: pack.metadata || {},
-        isActive: pack.isActive ?? true,
-        isFeatured: pack.isFeatured ?? false,
-        isNewRelease: pack.isNewRelease ?? false,
+        tags: pack.tags ?? [],
+        metadata: pack.metadata ?? {},
+        type: pack.type ?? 'standard',
       };
       setPacks(prev => [...prev, newPack]);
     } catch (err) {
@@ -122,19 +90,11 @@ export function usePacks(): UsePacksReturn {
             return {
               ...p,
               ...pack,
-              price: pack.price
-                ? {
-                    amount: pack.price.amount,
-                    currency: pack.price.currency,
-                    discount: pack.price.discount,
-                  }
-                : p.price,
-              availability: pack.availability || p.availability,
-              tags: pack.tags || p.tags,
-              metadata: pack.metadata || p.metadata,
-              isActive: pack.isActive ?? p.isActive,
-              isFeatured: pack.isFeatured ?? p.isFeatured,
-              isNewRelease: pack.isNewRelease ?? p.isNewRelease,
+              price: pack.price ?? p.price,
+              availability: pack.availability ?? p.availability,
+              tags: pack.tags ?? p.tags,
+              metadata: pack.metadata ?? p.metadata,
+              type: pack.type ?? p.type,
             };
           }
           return p;
