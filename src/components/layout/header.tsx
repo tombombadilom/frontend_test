@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useTheme } from '@/context/theme-context';
+import { useTheme } from '@/components/theme/ThemeProvider';
 import { useSettings } from '@/hooks/use-settings';
 import { cn } from '@/lib/utils';
 import { useCartStore } from '@/store/cart-store';
@@ -15,35 +15,86 @@ import {
   Tag,
   Sun,
   Moon,
-  User,
   Heart,
   ShoppingCart,
+  Package,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import SearchToolbar from '@/components/header/search-toolbar';
+import CustomSearch from '../shared/custom-search';
 import DesktopMenu from '@/components/header/desktop-menu';
 import ActionButtons from '@/components/header/action-buttons';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useAuth } from '@/hooks/use-auth';
+import type { User as AuthUser } from '@/hooks/use-auth';
+import { navigation } from '@/config/navigation';
+
+function UserAvatar({ user }: { user: AuthUser }) {
+  const initials = user.name
+    .split(' ')
+    .map((n: string) => n[0])
+    .join('')
+    .toUpperCase();
+
+  return (
+    <Avatar className="h-8 w-8">
+      <AvatarImage 
+        src={user.avatar} 
+        alt={user.name}
+        className="object-cover"
+      />
+      <AvatarFallback delayMs={600}>
+        {initials}
+      </AvatarFallback>
+    </Avatar>
+  );
+}
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { theme, setTheme } = useTheme();
   const { language } = useSettings();
   const location = useLocation();
-  const totalItems = useCartStore((state) => state.totalItems);
-  const wishlistItems = useWishlistStore((state) => state.items);
+  const _totalItems = useCartStore((state) => state.totalItems);
+  const _wishlistItems = useWishlistStore((state) => state.items);
+  const lastScrollY = useRef(0);
+  const { user, logout } = useAuth();
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleMenu = useCallback(() => setIsMenuOpen(!isMenuOpen), [isMenuOpen]);
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
 
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          if (Math.abs(currentScrollY - lastScrollY.current) > 5) {
+            setIsScrolled(currentScrollY > 10);
+            lastScrollY.current = currentScrollY;
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -51,11 +102,11 @@ export function Header() {
     closeMenu();
   }, [closeMenu]);
 
-  const navItems = [
-    { path: '/', label: language === 'fr' ? 'Accueil' : 'Home', icon: Home },
-    { path: '/catalog', label: language === 'fr' ? 'Catalogue' : 'Catalog', icon: BookOpen },
-    { path: '/new-releases', label: language === 'fr' ? 'Nouveautés' : 'New Releases', icon: Sparkles },
-    { path: '/promotions', label: language === 'fr' ? 'Promotions' : 'Deals', icon: Tag },
+  // Détermine les items du menu en fonction du rôle de l'utilisateur
+  const menuItems = [
+    ...navigation.public,
+    ...(user ? navigation.user : []),
+    ...(user?.role === 'admin' ? navigation.admin : []),
   ];
 
   return (
@@ -102,111 +153,102 @@ export function Header() {
 
         <div className="flex items-center space-x-1 sm:space-x-4">
           <div className="hidden md:block">
-            <SearchToolbar />
+            <CustomSearch />
           </div>
           <div className="md:hidden">
-            <SearchToolbar />
+            <CustomSearch />
           </div>
-          <div className="hidden md:block">
-            <ActionButtons />
-          </div>
+          {!user ? (
+            <div className="hidden md:block">
+              <ActionButtons />
+            </div>
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <UserAvatar user={user} />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{user.name}</p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      {user.email}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  {navigation.user.map((item) => (
+                    <DropdownMenuItem key={item.path} asChild>
+                      <Link to={item.path} className="flex items-center">
+                        <item.icon className="mr-2 h-4 w-4" />
+                        <span>{language === 'fr' ? item.labelFr : item.labelEn}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuGroup>
+                {user.role === 'admin' && (
+                  <>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      {navigation.admin.map((item) => (
+                        <DropdownMenuItem key={item.path} asChild>
+                          <Link to={item.path} className="flex items-center">
+                            <item.icon className="mr-2 h-4 w-4" />
+                            <span>{language === 'fr' ? item.labelFr : item.labelEn}</span>
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuGroup>
+                  </>
+                )}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="text-red-600 focus:text-red-600"
+                  onClick={logout}
+                >
+                  {language === 'fr' ? 'Se déconnecter' : 'Logout'}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
       </div>
 
       {/* Mobile menu */}
       <AnimatePresence>
         {isMenuOpen && (
-          <>
-            {/* Overlay avec blur */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-[100] bg-black/20 backdrop-blur-sm md:hidden"
-              onClick={closeMenu}
-            />
-            
-            {/* Menu */}
-            <motion.div
-              initial={{ opacity: 0, x: -100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-y-0 left-0 top-16 z-[101] w-72 border-r bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl shadow-lg md:hidden"
-            >
-              <div className="h-full bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl px-4 py-4">
-                <nav className="flex flex-col space-y-1">
-                  {navItems.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <Link
-                        key={item.path}
-                        to={item.path}
-                        className={cn(
-                          'flex items-center space-x-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-zinc-100',
-                          location.pathname === item.path && 'bg-zinc-100 text-primary'
-                        )}
-                        onClick={closeMenu}
-                      >
-                        <Icon className="h-5 w-5" />
-                        <span>{item.label}</span>
-                      </Link>
-                    );
-                  })}
-                </nav>
-
-                <div className="mt-4 space-y-1 border-t pt-4">
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start space-x-3 px-3 py-2 text-sm"
-                    onClick={() => {
-                      setTheme(theme === 'dark' ? 'light' : 'dark');
-                      closeMenu();
-                    }}
-                  >
-                    {theme === 'dark' ? (
-                      <Sun className="h-5 w-5" />
-                    ) : (
-                      <Moon className="h-5 w-5" />
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="border-t bg-background md:hidden"
+          >
+            <nav className="container mx-auto space-y-1 p-4">
+              {menuItems.map((item) => {
+                const Icon = item.icon;
+                const label = language === 'fr' ? item.labelFr : item.labelEn;
+                return (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={cn(
+                      'flex items-center space-x-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
+                      location.pathname === item.path
+                        ? 'bg-accent text-accent-foreground'
+                        : 'text-foreground/60'
                     )}
-                    <span>{theme === 'dark' ? 'Mode clair' : 'Mode sombre'}</span>
-                  </Button>
-
-                  <Link to="/wishlist" className="block" onClick={closeMenu}>
-                    <Button variant="ghost" className="w-full justify-start space-x-3 px-3 py-2 text-sm">
-                      <Heart className="h-5 w-5" />
-                      <span>{language === 'fr' ? 'Liste de souhaits' : 'Wishlist'}</span>
-                      {wishlistItems.length > 0 && (
-                        <span className="ml-auto rounded-full bg-game-accent px-2 py-0.5 text-xs font-medium text-black">
-                          {wishlistItems.length}
-                        </span>
-                      )}
-                    </Button>
+                    onClick={closeMenu}
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span>{label}</span>
                   </Link>
-
-                  <Link to="/cart" className="block" onClick={closeMenu}>
-                    <Button variant="ghost" className="w-full justify-start space-x-3 px-3 py-2 text-sm">
-                      <ShoppingCart className="h-5 w-5" />
-                      <span>{language === 'fr' ? 'Panier' : 'Cart'}</span>
-                      {totalItems > 0 && (
-                        <span className="ml-auto rounded-full bg-game-primary px-2 py-0.5 text-xs font-medium text-white">
-                          {totalItems}
-                        </span>
-                      )}
-                    </Button>
-                  </Link>
-
-                  <Link to="/login" className="block" onClick={closeMenu}>
-                    <Button variant="default" className="w-full justify-start space-x-3 px-3 py-2 text-sm">
-                      <User className="h-5 w-5" />
-                      <span>{language === 'fr' ? 'Connexion' : 'Login'}</span>
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          </>
+                );
+              })}
+            </nav>
+          </motion.div>
         )}
       </AnimatePresence>
     </header>

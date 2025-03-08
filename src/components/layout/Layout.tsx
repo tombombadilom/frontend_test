@@ -1,23 +1,17 @@
 import type React from 'react';
-import { CustomToaster } from '../shared/CustomToaster';
-import { Header } from './Header';
-import { Sidebar } from './Sidebar';
+import { Header } from './header';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children }) => {
+export function Layout({ children }: LayoutProps) {
   return (
-    <div className="flex h-screen w-screen bg-background">
-      <Sidebar />
-      <div className="flex flex-col flex-1 overflow-hidden">
-        <Header />
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
-          {children}
-        </main>
-      </div>
-      <CustomToaster />
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main className="container mx-auto px-4 py-8">
+        {children}
+      </main>
     </div>
   );
-};
+}

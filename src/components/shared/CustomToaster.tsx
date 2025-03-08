@@ -2,12 +2,13 @@
 
 import { useTheme } from '@/components/theme/ThemeProvider';
 import { Toaster as SonnerToaster, type ToasterProps } from 'sonner';
+import { memo } from 'react';
 
 /**
  * CustomToaster - Un composant wrapper qui utilise notre hook useTheme personnalisé
  * tout en préservant le composant Toaster original de sonner
  */
-export function CustomToaster(props: ToasterProps) {
+export const CustomToaster = memo(function CustomToaster(props: ToasterProps) {
   const { theme } = useTheme();
 
   return (
@@ -28,4 +29,4 @@ export function CustomToaster(props: ToasterProps) {
       {...props}
     />
   );
-}
+});

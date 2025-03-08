@@ -7,8 +7,8 @@
       "category": 101,
       "rarity": "legendary",
       "price": {
-        "amount": 2000,
-        "currency": "V-Bucks"
+        "amount": 20,
+        "currency": "EUR"
       },
       "availability": {
         "startDate": "2024-03-01T00:00:00Z",
@@ -16,8 +16,8 @@
         "isLimited": true
       },
       "preview": {
-        "imageUrl": "/images/items/midas-rex.jpg",
-        "videoUrl": "/videos/items/midas-rex.mp4"
+        "imageUrl": "https://cdn2.unrealengine.com/fortnite-midas-outfit-1920x1080-579970755.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=JgPXMxW7zJk"
       },
       "gameId": 9,
       "tags": ["seasonal", "legendary", "character"],
@@ -33,8 +33,8 @@
       "category": 102,
       "rarity": "epic",
       "price": {
-        "amount": 800,
-        "currency": "V-Bucks"
+        "amount": 8,
+        "currency": "EUR"
       },
       "availability": {
         "startDate": "2024-03-01T00:00:00Z",
@@ -42,8 +42,8 @@
         "isLimited": true
       },
       "preview": {
-        "imageUrl": "/images/items/dragon-dance.jpg",
-        "videoUrl": "/videos/items/dragon-dance.mp4"
+        "imageUrl": "https://cdn2.unrealengine.com/fortnite-dragon-rune-lance-1920x1080-1920x1080-99c0a1e04767.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=example2"
       },
       "gameId": 9,
       "tags": ["emote", "epic", "seasonal"],
@@ -58,8 +58,8 @@
       "category": 201,
       "rarity": "legendary",
       "price": {
-        "amount": 0,
-        "currency": "Primogems"
+        "amount": 30,
+        "currency": "EUR"
       },
       "availability": {
         "startDate": "2024-03-01T00:00:00Z",
@@ -67,8 +67,8 @@
         "isLimited": true
       },
       "preview": {
-        "imageUrl": "/images/items/jade-winged-spear.jpg",
-        "modelUrl": "/models/items/jade-winged-spear.glb"
+        "imageUrl": "https://static.wikia.nocookie.net/gensin-impact/images/6/6c/Weapon_Primordial_Jade_Winged-Spear.png",
+        "modelUrl": "https://static.wikia.nocookie.net/gensin-impact/images/6/6c/Weapon_Primordial_Jade_Winged-Spear.png"
       },
       "gameId": 10,
       "tags": ["weapon", "5-star", "polearm"],
@@ -86,13 +86,13 @@
       "rarity": "epic",
       "price": {
         "amount": 4.99,
-        "currency": "USD"
+        "currency": "EUR"
       },
       "availability": {
         "isLimited": false
       },
       "preview": {
-        "imageUrl": "/images/items/welkin-moon.jpg"
+        "imageUrl": "https://static.wikia.nocookie.net/gensin-impact/images/4/41/Item_Blessing_of_the_Welkin_Moon.png"
       },
       "gameId": 10,
       "tags": ["subscription", "premium"],
@@ -110,7 +110,7 @@
       "rarity": "epic",
       "price": {
         "amount": 25,
-        "currency": "USD"
+        "currency": "EUR"
       },
       "availability": {
         "startDate": "2024-03-01T00:00:00Z",
@@ -118,8 +118,8 @@
         "isLimited": true
       },
       "preview": {
-        "imageUrl": "/images/items/celestial-steed.jpg",
-        "modelUrl": "/models/items/celestial-steed.m2"
+        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/gallery/IYBHRHH3XZ531666638454869.jpg",
+        "modelUrl": "https://bnetcmsus-a.akamaihd.net/cms/gallery/IYBHRHH3XZ531666638454869.jpg"
       },
       "gameId": 11,
       "tags": ["mount", "epic", "flying"],
@@ -137,13 +137,13 @@
       "rarity": "common",
       "price": {
         "amount": 25,
-        "currency": "USD"
+        "currency": "EUR"
       },
       "availability": {
         "isLimited": false
       },
       "preview": {
-        "imageUrl": "/images/items/character-transfer.jpg"
+        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/blog_header/RTAFB517JPPJ1509557104730.jpg"
       },
       "gameId": 11,
       "tags": ["service", "character"],

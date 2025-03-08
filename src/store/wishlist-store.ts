@@ -3,50 +3,58 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Game } from '@/types/game';
 
-interface WishlistStore {
-  items: Game[];
-  addItem: (item: Game) => void;
-  removeItem: (id: number) => void;
-  isInWishlist: (id: number) => boolean;
+export interface WishlistItem {
+  id: string;
+  gameId: string;
+  addedAt: string;
+  game: Game;
+}
+
+export interface WishlistState {
+  items: WishlistItem[];
+  addItem: (game: Game) => void;
+  removeItem: (id: string) => void;
+  isInWishlist: (id: string) => boolean;
   clearWishlist: () => void;
 }
 
-export const useWishlistStore = create<WishlistStore>()(
+export const useWishlistStore = create<WishlistState>()(
   persist(
     (set, get) => ({
       items: [],
 
-      addItem: (item) => {
-        const { isInWishlist } = get();
+      addItem: (game) =>
+        set((state) => {
+          const existingItem = state.items.find((i) => i.gameId === game.gameId);
+          if (existingItem) return state;
 
-        if (isInWishlist(item.id)) {
-          toast.error('Ce produit est déjà dans vos favoris');
-          return;
-        }
+          const newItem: WishlistItem = {
+            id: Math.random().toString(36).substring(7),
+            gameId: game.gameId.toString(),
+            addedAt: new Date().toISOString(),
+            game,
+          };
 
+          return {
+            ...state,
+            items: [...state.items, newItem],
+          };
+        }),
+
+      removeItem: (id) =>
         set((state) => ({
-          items: [...state.items, item],
-        }));
-
-        toast.success(`${item.title} ajouté aux favoris`);
-      },
-
-      removeItem: (id) => {
-        set((state) => ({
+          ...state,
           items: state.items.filter((item) => item.id !== id),
-        }));
-
-        toast.success('Produit retiré des favoris');
-      },
+        })),
 
       isInWishlist: (id) => {
         return get().items.some((item) => item.id === id);
       },
 
-      clearWishlist: () => {
-        set({ items: [] });
-        toast.success('Liste de favoris vidée');
-      },
+      clearWishlist: () =>
+        set({
+          items: [],
+        }),
     }),
     {
       name: 'game-shop-wishlist',

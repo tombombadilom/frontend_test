@@ -6,6 +6,8 @@ import { useAuth } from '@/hooks/useAuth';
 // Mock du hook useAuth
 vi.mock('@/hooks/useAuth');
 
+type MockedFunction<T extends (...args: any[]) => any> = jest.MockedFunction<T>;
+
 describe('AdminPage', () => {
   const mockUser = {
     id: '1',
@@ -15,12 +17,17 @@ describe('AdminPage', () => {
 
   const mockUseAuth = {
     user: mockUser,
+    login: vi.fn(),
+    register: vi.fn(),
     logout: vi.fn(),
+    isLoading: false,
+    error: null,
+    isAuthenticated: true
   };
 
   beforeEach(() => {
     vi.clearAllMocks();
-    (useAuth as any).mockReturnValue(mockUseAuth);
+    (useAuth as MockedFunction<typeof useAuth>).mockReturnValue(mockUseAuth);
   });
 
   it('affiche le titre de la page', () => {

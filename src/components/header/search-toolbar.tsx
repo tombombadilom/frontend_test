@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, Search } from 'lucide-react';
 import useClickOutside from '@/hooks/useClickOutside';
+import type { Game } from '@/types/game';
 import games from '@/data/games.json';
 import ToolbarDynamic from '../motion-primitives/toolbar-dynamic';
 import { CommandItem } from '@/components/ui/command';
@@ -37,30 +38,29 @@ function IconButton({
 
 export default function SearchToolbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [suggestions, setSuggestions] = useState<typeof games>([]);
+  const [query, setQuery] = useState('');
+  const [suggestions, setSuggestions] = useState<Game[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
 
   useClickOutside(containerRef, () => {
     setIsOpen(false);
-    setSearchQuery('');
+    setQuery('');
     setSuggestions([]);
   });
 
   useEffect(() => {
-    if (searchQuery.trim()) {
-      const filteredGames = games
-        .filter(game => 
-          game.title.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-        .slice(0, 5);
-      setSuggestions(filteredGames);
+    if (query.trim()) {
+      const filtered = games.games
+        .filter((game) =>
+          game.title.toLowerCase().includes(query.toLowerCase())
+        );
+      setSuggestions(filtered);
     } else {
       setSuggestions([]);
     }
-  }, [searchQuery]);
+  }, [query]);
 
   useEffect(() => {
     if (isOpen) {
@@ -70,10 +70,10 @@ export default function SearchToolbar() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/search/${searchQuery.toLowerCase().replace(/\s+/g, '-')}`);
+    if (query.trim()) {
+      navigate(`/search/${query.toLowerCase().replace(/\s+/g, '-')}`);
       setIsOpen(false);
-      setSearchQuery('');
+      setQuery('');
       setSuggestions([]);
     }
   };
@@ -118,8 +118,8 @@ export default function SearchToolbar() {
                   ref={inputRef}
                   className='h-9 w-full rounded-lg border border-zinc-950/10 bg-transparent p-2 text-zinc-900 placeholder-zinc-500 focus:outline-hidden'
                   placeholder='Search games...'
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
                 />
                 <AnimatePresence>
                   {suggestions.length > 0 && (

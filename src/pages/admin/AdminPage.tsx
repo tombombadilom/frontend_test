@@ -6,7 +6,7 @@ export function AdminPage() {
   return (
     <div>
       <h1>Administration</h1>
-      <button onClick={logout}>Déconnexion</button>
+      <button type="button" onClick={logout}>Déconnexion</button>
     </div>
   );
 } 

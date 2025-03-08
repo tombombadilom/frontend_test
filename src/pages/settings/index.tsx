@@ -1,8 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2 } from 'lucide-react';
 import type React from 'react';
-import { useSettings } from '../../hooks/useSettings';
-import { APIKeyForm } from './components/APIKeyForm';
+import { useUserSettings } from '../../hooks/useUserSettings';
+import APIKeyForm from './components/APIKeyForm';
 import { ProfileForm } from './components/ProfileForm';
 import { SecurityForm } from './components/SecurityForm';
 
@@ -17,7 +17,7 @@ const SettingsPage: React.FC = () => {
     addAPIKey,
     deleteAPIKey,
     updateSecuritySettings,
-  } = useSettings();
+  } = useUserSettings();
 
   if (loading) {
     return (

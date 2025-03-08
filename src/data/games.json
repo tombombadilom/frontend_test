@@ -1,244 +1,79 @@
-[
-  {
-    "id": 1,
-    "title": "Cyberpunk 2077",
-    "description": "Cyberpunk 2077 est un jeu de rôle d'action en monde ouvert qui se déroule à Night City, une mégalopole obsédée par le pouvoir, la séduction et les modifications corporelles.",
-    "price": 59.99,
-    "discount": 25,
-    "releaseDate": "2020-12-10",
-    "developer": "CD Projekt Red",
-    "publisher": "CD Projekt",
-    "genres": ["RPG", "Action", "Open World"],
-    "platforms": ["PC", "PS5", "XSX"],
-    "coverImage": "https://placehold.co/300x400",
-    "screenshots": [
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400"
-    ],
-    "rating": 4.2,
-    "isFeatured": true,
-    "isNewRelease": false,
-    "gameId": 1
-  },
-  {
-    "id": 2,
-    "title": "The Legend of Zelda: Tears of the Kingdom",
-    "description": "Suite de The Legend of Zelda: Breath of the Wild, ce jeu vous emmène dans une nouvelle aventure à travers Hyrule et au-delà.",
-    "price": 69.99,
-    "discount": 0,
-    "releaseDate": "2023-05-12",
-    "developer": "Nintendo",
-    "publisher": "Nintendo",
-    "genres": ["Action", "Aventure", "Open World"],
-    "platforms": ["Switch"],
-    "coverImage": "https://placehold.co/300x400",
-    "screenshots": [
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400"
-    ],
-    "rating": 4.9,
-    "isFeatured": true,
-    "isNewRelease": true,
-    "gameId": 2
-  },
-  {
-    "id": 3,
-    "title": "Elden Ring",
-    "description": "Elden Ring est un jeu de rôle d'action développé par FromSoftware et publié par Bandai Namco Entertainment.",
-    "price": 59.99,
-    "discount": 15,
-    "releaseDate": "2022-02-25",
-    "developer": "FromSoftware",
-    "publisher": "Bandai Namco",
-    "genres": ["RPG", "Action", "Open World"],
-    "platforms": ["PC", "PS5", "XSX", "PS4", "XBO"],
-    "coverImage": "https://placehold.co/300x400",
-    "screenshots": [
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400"
-    ],
-    "rating": 4.8,
-    "isFeatured": true,
-    "isNewRelease": false,
-    "gameId": 3
-  },
-  {
-    "id": 4,
-    "title": "Starfield",
-    "description": "Starfield est le premier nouvel univers en 25 ans de Bethesda Game Studios, les créateurs acclamés de The Elder Scrolls V: Skyrim et Fallout 4.",
-    "price": 69.99,
-    "discount": 0,
-    "releaseDate": "2023-09-06",
-    "developer": "Bethesda Game Studios",
-    "publisher": "Bethesda Softworks",
-    "genres": ["RPG", "Action", "Open World", "Science-Fiction"],
-    "platforms": ["PC", "XSX"],
-    "coverImage": "https://placehold.co/300x400",
-    "screenshots": [
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400"
-    ],
-    "rating": 4.3,
-    "isFeatured": true,
-    "isNewRelease": true,
-    "gameId": 4
-  },
-  {
-    "id": 5,
-    "title": "Baldur's Gate 3",
-    "description": "Rassemblez votre groupe et retournez aux Royaumes Oubliés dans une histoire d'amitié, de trahison, de sacrifice et de survie.",
-    "price": 59.99,
-    "discount": 0,
-    "releaseDate": "2023-08-03",
-    "developer": "Larian Studios",
-    "publisher": "Larian Studios",
-    "genres": ["RPG", "Stratégie", "Fantasy"],
-    "platforms": ["PC", "PS5"],
-    "coverImage": "https://placehold.co/300x400",
-    "screenshots": [
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400"
-    ],
-    "rating": 4.9,
-    "isFeatured": false,
-    "isNewRelease": true,
-    "gameId": 5
-  },
-  {
-    "id": 6,
-    "title": "Final Fantasy XVI",
-    "description": "Le dernier opus de la série Final Fantasy, qui se déroule dans le monde de Valisthea.",
-    "price": 69.99,
-    "discount": 10,
-    "releaseDate": "2023-06-22",
-    "developer": "Square Enix",
-    "publisher": "Square Enix",
-    "genres": ["RPG", "Action", "Fantasy"],
-    "platforms": ["PS5"],
-    "coverImage": "https://placehold.co/300x400",
-    "screenshots": [
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400"
-    ],
-    "rating": 4.5,
-    "isFeatured": false,
-    "isNewRelease": true,
-    "gameId": 6
-  },
-  {
-    "id": 7,
-    "title": "Hogwarts Legacy",
-    "description": "Hogwarts Legacy est un jeu de rôle immersif en monde ouvert qui se déroule dans l'univers des livres Harry Potter.",
-    "price": 59.99,
-    "discount": 20,
-    "releaseDate": "2023-02-10",
-    "developer": "Avalanche Software",
-    "publisher": "Warner Bros. Games",
-    "genres": ["RPG", "Action", "Open World", "Fantasy"],
-    "platforms": ["PC", "PS5", "XSX", "PS4", "XBO"],
-    "coverImage": "https://placehold.co/300x400",
-    "screenshots": [
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400"
-    ],
-    "rating": 4.4,
-    "isFeatured": false,
-    "isNewRelease": false,
-    "gameId": 7
-  },
-  {
-    "id": 8,
-    "title": "Diablo IV",
-    "description": "Diablo IV est un jeu de rôle d'action développé et publié par Blizzard Entertainment, et est le quatrième titre de la série Diablo.",
-    "price": 69.99,
-    "discount": 0,
-    "releaseDate": "2023-06-06",
-    "developer": "Blizzard Entertainment",
-    "publisher": "Blizzard Entertainment",
-    "genres": ["RPG", "Action", "Hack and Slash"],
-    "platforms": ["PC", "PS5", "XSX", "PS4", "XBO"],
-    "coverImage": "https://placehold.co/300x400",
-    "screenshots": [
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400"
-    ],
-    "rating": 4.6,
-    "isFeatured": false,
-    "isNewRelease": true,
-    "gameId": 8
-  },
-  {
-    "id": 9,
-    "title": "Fortnite",
-    "description": "Fortnite est un jeu de survie et de construction en battle royale développé par Epic Games.",
-    "price": 0,
-    "discount": 0,
-    "releaseDate": "2017-07-25",
-    "developer": "Epic Games",
-    "publisher": "Epic Games",
-    "genres": ["Battle Royale", "Action", "Survival"],
-    "platforms": ["PC", "PS5", "XSX", "PS4", "XBO", "Switch", "Mobile"],
-    "coverImage": "https://placehold.co/300x400",
-    "screenshots": [
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400"
-    ],
-    "rating": 4.7,
-    "isFeatured": true,
-    "isNewRelease": false,
-    "gameId": 9
-  },
-  {
-    "id": 10,
-    "title": "Genshin Impact",
-    "description": "Genshin Impact est un jeu de rôle d'action en monde ouvert développé par miHoYo.",
-    "price": 0,
-    "discount": 0,
-    "releaseDate": "2020-09-28",
-    "developer": "miHoYo",
-    "publisher": "miHoYo",
-    "genres": ["RPG", "Action", "Open World", "Gacha"],
-    "platforms": ["PC", "PS5", "PS4", "Mobile"],
-    "coverImage": "https://placehold.co/300x400",
-    "screenshots": [
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400"
-    ],
-    "rating": 4.6,
-    "isFeatured": true,
-    "isNewRelease": false,
-    "gameId": 10
-  },
-  {
-    "id": 11,
-    "title": "World of Warcraft",
-    "description": "World of Warcraft est un jeu de rôle en ligne massivement multijoueur développé par Blizzard Entertainment.",
-    "price": 0,
-    "discount": 0,
-    "releaseDate": "2004-11-23",
-    "developer": "Blizzard Entertainment",
-    "publisher": "Blizzard Entertainment",
-    "genres": ["MMORPG", "RPG", "Fantasy"],
-    "platforms": ["PC"],
-    "coverImage": "https://placehold.co/300x400",
-    "screenshots": [
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400",
-      "https://placehold.co/300x400"
-    ],
-    "rating": 4.5,
-    "isFeatured": true,
-    "isNewRelease": false,
-    "gameId": 11
-  }
-]
+{
+  "games": [
+    {
+      "id": 1,
+      "gameId": 1,
+      "title": "The Legend of Zelda: Tears of the Kingdom",
+      "description": "Découvrez la suite tant attendue de The Legend of Zelda: Breath of the Wild",
+      "price": {
+        "amount": 59.99,
+        "currency": "EUR",
+        "discount": 20
+      },
+      "releaseDate": "2024-01-01T00:00:00Z",
+      "developer": "Nintendo",
+      "publisher": "Nintendo",
+      "genres": ["Action", "Aventure", "RPG"],
+      "platforms": ["Nintendo Switch"],
+      "coverImage": "https://www.zelda.com/tears-of-the-kingdom/assets/img/home/hero-bg.jpg",
+      "screenshots": [
+        "https://www.zelda.com/tears-of-the-kingdom/assets/img/home/totk_logo.png",
+        "https://www.zelda.com/tears-of-the-kingdom/assets/img/home/screenshot-1.jpg",
+        "https://www.zelda.com/tears-of-the-kingdom/assets/img/home/screenshot-2.jpg"
+      ],
+      "rating": 4.9,
+      "isFeatured": true,
+      "isNewRelease": true
+    },
+    {
+      "id": 2,
+      "gameId": 2,
+      "title": "Final Fantasy XVI",
+      "description": "Plongez dans une nouvelle aventure épique dans l'univers de Final Fantasy",
+      "price": {
+        "amount": 69.99,
+        "currency": "EUR",
+        "discount": 0
+      },
+      "releaseDate": "2024-02-01T00:00:00Z",
+      "developer": "Square Enix",
+      "publisher": "Square Enix",
+      "genres": ["RPG", "Action", "Fantasy"],
+      "platforms": ["PS5", "PC"],
+      "coverImage": "https://cdn.akamai.steamstatic.com/steam/apps/2324650/header.jpg",
+      "screenshots": [
+        "https://cdn.akamai.steamstatic.com/steam/apps/2324650/ss_a600a7d4dd6aaa20b6c3ee3b98e26a6d7c5c8be5.jpg",
+        "https://cdn.akamai.steamstatic.com/steam/apps/2324650/ss_8b48cad6ad1c46e626901b12c870e54329e01d22.jpg",
+        "https://cdn.akamai.steamstatic.com/steam/apps/2324650/ss_d1a8f5a69155c3186a8a2a4d615704a5d96f0d5b.jpg"
+      ],
+      "rating": 4.7,
+      "isFeatured": true,
+      "isNewRelease": true
+    },
+    {
+      "id": 3,
+      "gameId": 3,
+      "title": "Baldur's Gate 3",
+      "description": "Embarquez pour une aventure épique dans les Royaumes Oubliés",
+      "price": {
+        "amount": 59.99,
+        "currency": "EUR",
+        "discount": 0
+      },
+      "releaseDate": "2024-03-01T00:00:00Z",
+      "developer": "Larian Studios",
+      "publisher": "Larian Studios",
+      "genres": ["RPG", "Fantasy", "Stratégie"],
+      "platforms": ["PC", "PS5"],
+      "coverImage": "https://cdn.cloudflare.steamstatic.com/steam/apps/1086940/header.jpg",
+      "screenshots": [
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/1086940/ss_c73bc54c1c9d03231c3131ca3de3bed6c3c87731.jpg",
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/1086940/ss_e6f3e5697a10c66b70471989739b3c73e3381af5.jpg",
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/1086940/ss_c50d522f36cfe2c6d3d8c6c8f5dae9b4f3b5a772.jpg"
+      ],
+      "rating": 4.8,
+      "isFeatured": true,
+      "isNewRelease": true
+    }
+  ]
+}

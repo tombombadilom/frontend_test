@@ -38,7 +38,7 @@ const mockGame: Game = {
 };
 
 // Mock wishlist items
-const mockWishlistItems = [
+const _mockWishlistItems = [
   {
     id: 1,
     name: 'Test Game',

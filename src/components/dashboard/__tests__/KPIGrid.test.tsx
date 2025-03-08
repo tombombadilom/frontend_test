@@ -42,25 +42,25 @@ describe('KPIGrid', () => {
     
     const cards = screen.getAllByRole('gridcell');
     expect(cards).toHaveLength(4);
-    cards.forEach((card) => {
+    for (const card of cards) {
       expect(card).toHaveTextContent('Loading...');
-    });
+    }
   });
 
-  it('renders KPI cards with provided data', () => {
+  it('renders KPI data correctly', () => {
     render(<KPIGrid data={mockData} />);
-
     const grid = screen.getByRole('grid');
     expect(grid).toHaveClass('grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-4');
 
-    mockData.forEach((item) => {
-      const card = screen.getByRole('gridcell', { 
-        name: `${item.title} ${item.value} ${item.change > 0 ? '+' : ''}${item.change}%` 
+    for (const item of mockData) {
+      const card = screen.getByRole('gridcell', {
+        name: `${item.title} ${item.value} ${item.change > 0 ? '+' : ''}${item.change}%`
       });
+      expect(card).toBeInTheDocument();
       expect(card).toHaveTextContent(item.title);
       expect(card).toHaveTextContent(item.value);
       expect(card).toHaveTextContent(`${item.change > 0 ? '+' : ''}${item.change}%`);
-    });
+    }
   });
 
   it('applies custom class names correctly', () => {
@@ -70,25 +70,25 @@ describe('KPIGrid', () => {
     expect(grid).toHaveClass('custom-grid');
   });
 
-  it('shows correct trend icons and colors', () => {
+  it('shows correct trend indicators', () => {
     render(<KPIGrid data={mockData} />);
 
     // Vérifier les tendances positives
     const positiveCards = mockData.filter((item) => item.change > 0);
-    positiveCards.forEach((item) => {
-      const card = screen.getByRole('gridcell', { 
-        name: `${item.title} ${item.value} +${item.change}%` 
+    for (const item of positiveCards) {
+      const card = screen.getByRole('gridcell', {
+        name: `${item.title} ${item.value} +${item.change}%`
       });
       expect(card.querySelector('.text-green-500')).toBeInTheDocument();
-    });
+    }
 
     // Vérifier les tendances négatives
     const negativeCards = mockData.filter((item) => item.change < 0);
-    negativeCards.forEach((item) => {
-      const card = screen.getByRole('gridcell', { 
-        name: `${item.title} ${item.value} ${item.change}%` 
+    for (const item of negativeCards) {
+      const card = screen.getByRole('gridcell', {
+        name: `${item.title} ${item.value} ${item.change}%`
       });
       expect(card.querySelector('.text-red-500')).toBeInTheDocument();
-    });
+    }
   });
 }); 

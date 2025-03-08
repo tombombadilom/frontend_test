@@ -3,6 +3,29 @@
 import type { Game } from '@/types/game';
 import { useEffect, useState } from 'react';
 
+const SIMULATED_DELAY = 1000; // 1 seconde de délai
+
+interface RawGame {
+  id: number;
+  name: string;
+  description: string;
+  price?: {
+    amount: number;
+    currency: string;
+    discount?: number;
+  };
+  availability?: {
+    startDate: string;
+    endDate?: string;
+    isLimited?: boolean;
+  };
+  tags?: string[];
+  metadata?: Record<string, unknown>;
+  isActive?: boolean;
+  isFeatured?: boolean;
+  isNewRelease?: boolean;
+}
+
 export function useGames() {
   const [games, setGames] = useState<Game[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -10,19 +33,36 @@ export function useGames() {
 
   useEffect(() => {
     const fetchGames = async () => {
-      setIsLoading(true);
       try {
-        // Dans une application réelle, cela ferait une requête API
-        // Simuler un délai de chargement
-        // await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        // Charger les données mockées
+        setIsLoading(true);
         const response = await import('@/data/games.json');
-        setGames(response.default);
+        // Simuler un délai de chargement
+        await new Promise(resolve => setTimeout(resolve, SIMULATED_DELAY));
+        
+        if (!response.default.games) {
+          throw new Error('Format de données invalide');
+        }
+        
+        const games = response.default.games.map((game: RawGame) => ({
+          ...game,
+          price: game.price || {
+            amount: 0,
+            currency: 'USD',
+          },
+          availability: {
+            startDate: game.availability?.startDate || new Date().toISOString(),
+            endDate: game.availability?.endDate,
+            isLimited: game.availability?.isLimited || false,
+          },
+          tags: game.tags || [],
+          metadata: game.metadata || {},
+          isActive: game.isActive ?? true,
+          isFeatured: game.isFeatured ?? false,
+          isNewRelease: game.isNewRelease ?? false,
+        })) as Game[];
+        setGames(games);
       } catch (err) {
-        setError(
-          err instanceof Error ? err : new Error('Une erreur est survenue')
-        );
+        setError(err instanceof Error ? err : new Error('Failed to fetch games'));
       } finally {
         setIsLoading(false);
       }

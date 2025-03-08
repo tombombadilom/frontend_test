@@ -23,34 +23,33 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { showToast } from '@/lib/toast';
-import { z } from 'zod';
+import * as z from 'zod';
 
-// Validation schema with Zod
-const productSchema = z.object({
+const gameSchema = z.object({
   title: z
     .string()
     .min(3, 'Title must be at least 3 characters')
-    .max(100, 'Title cannot exceed 100 characters')
-    .regex(
-      /^[a-zA-Z0-9\s\-':,.!?]+$/,
-      'Title contains invalid characters'
-    ),
+    .max(100, 'Title cannot exceed 100 characters'),
   description: z
     .string()
     .min(10, 'Description must be at least 10 characters')
     .max(2000, 'Description cannot exceed 2000 characters'),
-  price: z.coerce
-    .number()
-    .min(0.01, 'Price must be greater than 0')
-    .max(999.99, 'Price cannot exceed 999.99'),
-  discount: z.coerce
-    .number()
-    .min(0, 'Discount cannot be negative')
-    .max(100, 'Discount cannot exceed 100%'),
-  releaseDate: z
-    .string()
-    .min(1, 'Release date is required')
-    .refine((date) => !Number.isNaN(Date.parse(date)), 'Invalid date format'),
+  price: z.object({
+    amount: z.coerce
+      .number()
+      .min(0.01, 'Price must be greater than 0')
+      .max(999.99, 'Price cannot exceed 999.99'),
+    currency: z
+      .string()
+      .min(1, 'Currency is required')
+      .max(10, 'Currency cannot exceed 10 characters'),
+    discount: z.coerce
+      .number()
+      .min(0, 'Discount cannot be negative')
+      .max(100, 'Discount cannot exceed 100%')
+      .optional(),
+  }),
+  releaseDate: z.string().min(1, 'Release date is required'),
   developer: z
     .string()
     .min(1, 'Developer is required')
@@ -59,20 +58,25 @@ const productSchema = z.object({
     .string()
     .min(1, 'Publisher is required')
     .max(100, 'Publisher cannot exceed 100 characters'),
+  genres: z.array(z.string()).min(1, 'At least one genre is required'),
+  platforms: z.array(z.string()).min(1, 'At least one platform is required'),
+  coverImage: z.string().min(1, 'Cover image is required'),
+  screenshots: z.array(z.string()).min(1, 'At least one screenshot is required'),
+  rating: z.coerce
+    .number()
+    .min(0, 'Rating cannot be negative')
+    .max(5, 'Rating cannot exceed 5'),
   isFeatured: z.boolean().optional(),
   isNewRelease: z.boolean().optional(),
-  coverImage: z.string().optional(),
 });
 
-type ProductFormValues = z.infer<typeof productSchema>;
+type GameFormValues = z.infer<typeof gameSchema>;
 
-interface ProductFormProps {
+interface GameFormProps {
   editMode?: boolean;
 }
 
-export default function ProductsFormPage({
-  editMode = false,
-}: ProductFormProps) {
+export default function GameFormPage({ editMode = false }: GameFormProps) {
   const navigate = useNavigate();
   const { id: urlId } = useParams<{ id: string }>();
   const [initialData, setInitialData] = useState<Game | null>(null);
@@ -82,69 +86,69 @@ export default function ProductsFormPage({
   const [newGenre, setNewGenre] = useState('');
   const [newPlatform, setNewPlatform] = useState('');
 
-  const form = useForm<ProductFormValues>({
-    resolver: zodResolver(productSchema),
+  const form = useForm<GameFormValues>({
+    resolver: zodResolver(gameSchema),
     defaultValues: {
       title: initialData?.title || '',
       description: initialData?.description || '',
-      price: initialData?.price || 0,
-      discount: initialData?.discount || 0,
-      releaseDate:
-        initialData?.releaseDate || new Date().toISOString().split('T')[0],
+      price: {
+        amount: initialData?.price.amount || 0,
+        currency: initialData?.price.currency || 'EUR',
+        discount: initialData?.price.discount || 0,
+      },
+      releaseDate: initialData?.releaseDate || '',
       developer: initialData?.developer || '',
       publisher: initialData?.publisher || '',
+      genres: initialData?.genres || [],
+      platforms: initialData?.platforms || [],
+      coverImage: initialData?.coverImage || '',
+      screenshots: initialData?.screenshots || [],
+      rating: initialData?.rating || 0,
       isFeatured: initialData?.isFeatured || false,
       isNewRelease: initialData?.isNewRelease || false,
-      coverImage: initialData?.coverImage || getImageUrl(''),
     },
   });
 
-  // Charger les données du jeu si en mode édition
   useEffect(() => {
-    if (editMode && urlId) {
-      const fetchGame = async () => {
-        try {
-          setIsLoading(true);
-          // Dans une application réelle, cela ferait une requête API
-          const response = await import('@/data/games.json');
-          const games = (response.default || []) as Game[];
-          const numericId = Number.parseInt(urlId, 10);
-          const game = games.find((g) => g.id === numericId);
+    const fetchGame = async () => {
+      if (!editMode || !urlId) return;
 
-          if (game) {
-            setInitialData(game);
-            setGenres(game.genres);
-            setPlatforms(game.platforms);
+      try {
+        setIsLoading(true);
+        const response = await import('@/data/games.json');
+        const game = response.default.find(
+          (g: Game) => g.id.toString() === urlId
+        );
 
-            // Remplir le formulaire avec les données du jeu
-            form.reset({
-              title: game.title,
-              description: game.description,
-              price: game.price,
-              discount: game.discount,
-              releaseDate: game.releaseDate,
-              developer: game.developer,
-              publisher: game.publisher,
-              isFeatured: game.isFeatured,
-              isNewRelease: game.isNewRelease,
-              coverImage: game.coverImage,
-            });
-          } else {
-            showToast.error('Jeu non trouvé');
-            navigate('/admin/products');
-          }
-        } catch (error) {
-          console.error('Erreur lors du chargement du jeu:', error);
-          showToast.error('Erreur lors du chargement du jeu');
-          navigate('/admin/products');
-        } finally {
-          setIsLoading(false);
+        if (game) {
+          setInitialData(game);
+          setGenres(game.genres);
+          setPlatforms(game.platforms);
+          form.reset({
+            title: game.title,
+            description: game.description,
+            price: game.price,
+            releaseDate: game.releaseDate,
+            developer: game.developer,
+            publisher: game.publisher,
+            genres: game.genres,
+            platforms: game.platforms,
+            coverImage: game.coverImage,
+            screenshots: game.screenshots,
+            rating: game.rating,
+            isFeatured: game.isFeatured,
+            isNewRelease: game.isNewRelease,
+          });
         }
-      };
+      } catch (err) {
+        console.error('Failed to fetch game:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-      fetchGame();
-    }
-  }, [editMode, urlId, navigate, form]);
+    fetchGame();
+  }, [editMode, urlId, form]);
 
   const addGenre = () => {
     // Validation du genre
@@ -194,7 +198,7 @@ export default function ProductsFormPage({
     setPlatforms(platforms.filter((p) => p !== platform));
   };
 
-  const onSubmit = async (data: ProductFormValues) => {
+  const onSubmit = async (data: GameFormValues) => {
     try {
       // Check that genres and platforms have been added
       if (genres.length === 0) {
@@ -208,11 +212,10 @@ export default function ProductsFormPage({
       }
 
       // Build the complete game object
-      // In a real application, this would make an API request
-      const gameData = {
+      const gameData: Game = {
+        id: initialData?.id || Math.floor(Date.now() / 1000),
+        gameId: initialData?.gameId || Math.floor(Date.now() / 1000),
         ...data,
-        id: initialData?.id || Math.floor(Date.now() / 1000), // Use Unix timestamp as numeric ID
-        gameId: initialData?.gameId || Math.floor(Date.now() / 1000), // Use Unix timestamp as numeric ID
         genres,
         platforms,
         coverImage: data.coverImage || getImageUrl(''),
@@ -221,14 +224,14 @@ export default function ProductsFormPage({
       };
 
       // In a real application, this would make an API request
-      console.log('Données du jeu à envoyer:', gameData);
+      console.log('Submitting game data:', gameData);
 
       showToast.success(
         editMode ? 'Produit mis à jour avec succès' : 'Produit créé avec succès'
       );
       navigate('/admin/products');
-    } catch (error) {
-      console.error('Erreur lors de la soumission:', error);
+    } catch (err) {
+      console.error('Failed to save game:', err);
       showToast.error('Une erreur est survenue');
     }
   };
@@ -302,10 +305,10 @@ export default function ProductsFormPage({
               )}
             />
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <FormField
                 control={form.control}
-                name="price"
+                name="price.amount"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Price</FormLabel>
@@ -318,7 +321,7 @@ export default function ProductsFormPage({
                       />
                     </FormControl>
                     <FormDescription>
-                      The base price of the game in USD.
+                      The base price of the game.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -327,7 +330,24 @@ export default function ProductsFormPage({
 
               <FormField
                 control={form.control}
-                name="discount"
+                name="price.currency"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Currency</FormLabel>
+                    <FormControl>
+                      <Input placeholder="EUR" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      The currency of the game price.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="price.discount"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Discount (%)</FormLabel>
@@ -376,7 +396,7 @@ export default function ProductsFormPage({
                       <Input placeholder="Enter developer name" {...field} />
                     </FormControl>
                     <FormDescription>
-                      The company that developed the game.
+                      The developer of the game.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -393,7 +413,7 @@ export default function ProductsFormPage({
                       <Input placeholder="Enter publisher name" {...field} />
                     </FormControl>
                     <FormDescription>
-                      The company that published the game.
+                      The publisher of the game.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

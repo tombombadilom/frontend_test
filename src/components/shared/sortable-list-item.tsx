@@ -1,6 +1,6 @@
 import { Draggable } from '@hello-pangea/dnd';
 import { cn } from '@/lib/utils';
-import React from 'react';
+import type React from 'react';
 
 export interface SortableItem<T> {
   id: string;
@@ -46,22 +46,16 @@ export function SortableListItem<T>({
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                viewBox="0 0 18 18"
+                fill="currentColor"
                 className="h-4 w-4 text-muted-foreground"
+                role="img"
+                aria-labelledby="dragHandleTitle"
               >
+                <title id="dragHandleTitle">Drag handle</title>
                 <circle cx="9" cy="5" r="1" />
                 <circle cx="9" cy="12" r="1" />
                 <circle cx="9" cy="19" r="1" />
-                <circle cx="15" cy="5" r="1" />
-                <circle cx="15" cy="12" r="1" />
-                <circle cx="15" cy="19" r="1" />
               </svg>
             </div>
           )}

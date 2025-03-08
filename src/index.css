@@ -8,121 +8,115 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    @apply h-full w-full;
-  }
-
-  body {
-    @apply h-full w-full bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-50;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
-
-  #root {
-    @apply min-h-screen w-full bg-white dark:bg-slate-950;
-  }
-
-  .page-content {
-    @apply flex-1 flex flex-col;
-  }
-
+  /* === Mode clair (Light) === */
   :root {
+    /* Fond plus chaleureux */
+    --background-light: 90% 0.07 80;  /* Beige-crème chaud */
+    --foreground-light: 25% 0.05 250;  /* Bleu profond */
+
+    --card: var(--background);
+    --card-foreground: var(--foreground);
+
+    --popover: var(--background);
+    --popover-foreground: var(--foreground);
+
     /* Couleurs principales */
-    --game-primary: oklch(70% 0.2 250);    /* Bleu néon */
-    --game-secondary: oklch(65% 0.25 300); /* Violet électrique */
-    --game-accent: oklch(80% 0.2 90);      /* Or doré */
-    
-    /* Couleurs de texte */
-    --game-text: oklch(20% 0.02 250);       /* Texte principal foncé */
-    --game-text-muted: oklch(45% 0.02 250); /* Texte secondaire gris */
-    
-    /* Couleurs d'état */
-    --game-success: oklch(70% 0.2 140);    /* Succès */
-    --game-warning: oklch(75% 0.2 90);     /* Avertissement */
-    --game-error: oklch(65% 0.25 30);      /* Erreur */
+    --primary: 70% 0.3 250;  /* Bleu néon intense */
+    --primary-foreground: 98% 0.02 250; /* Presque blanc */
 
-    /* Rayons de bordure */
-    --radius-sm: 0.375rem;
-    --radius-md: 0.5rem;
-    --radius-lg: 0.75rem;
-    --radius-xl: 1rem;
-    
-    /* Bordures */
-    --border-color: oklch(90% 0.02 250);    /* Bordure légère */
-    --border-width: 1px;
+    --secondary: 85% 0.1 290; /* Lavande douce */
+    --secondary-foreground: 30% 0.05 250; /* Gris-bleuté */
 
-    /* Polices */
-    --font-sans: "Inter", sans-serif;
-    --font-heading: "Orbitron", sans-serif;
-    --font-mono: "JetBrains Mono", monospace;
+    --muted: 88% 0.05 280; /* Bleu-gris pâle */
+    --muted-foreground: 50% 0.02 250; /* Gris moyen */
+
+    --accent: 90% 0.1 50; /* Jaune doux */
+    --accent-foreground: 30% 0.05 250; /* Bleu foncé */
+
+    --destructive: 70% 0.3 30; /* Rouge vif */
+    --destructive-foreground: 98% 0.02 250; /* Blanc légèrement teinté */
+
+    /* Bordures et inputs */
+    --border: 80% 0.05 250; /* Bleu-gris clair */
+    --input: var(--border);
+    --ring: var(--primary);
+
+    /* Couleurs Gaming */
+    --game-primary: var(--primary);
+    --game-secondary: 65% 0.35 300; /* Violet électrique */
+    --game-accent: 85% 0.2 90; /* Or vibrant */
+    --game-text: 25% 0.02 250; /* Texte bleu foncé */
+    --game-text-muted: 50% 0.02 250; /* Texte gris-bleuté */
+
+    /* Couleurs des graphiques */
+    --chart-1: 75% 0.3 30; /* Orange intense */
+    --chart-2: 70% 0.3 160; /* Vert vibrant */
+    --chart-3: 60% 0.3 200; /* Bleu profond */
+    --chart-4: 85% 0.3 50; /* Jaune éclatant */
+    --chart-5: 80% 0.3 340; /* Rouge rosé */
+
+    /* Valeurs initiales */
+    --background: var(--background-light);
+    --foreground: var(--foreground-light);
   }
 
-  .dark {
-    /* Couleurs de texte en mode sombre */
-    --game-text: oklch(95% 0.02 250);       /* Texte principal très clair */
-    --game-text-muted: oklch(70% 0.02 250); /* Texte secondaire gris clair */
-    
-    /* Bordures en mode sombre */
-    --border-color: oklch(25% 0.02 250);    /* Bordure plus sombre */
-  }
-}
+  /* === Mode sombre (Dark) === */
+  html.dark {
+    --background-dark: 15% 0.2 250; /* Bleu nuit profond */
+    --foreground-dark: 85% 0.3 90; /* Or vibrant */
 
-@layer base {
-  * {
-    @apply border-0;
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-heading);
-  }
-}
+    --card: var(--background);
+    --card-foreground: var(--foreground);
 
-@layer components {
-  .game-card {
-    @apply relative overflow-hidden rounded-lg p-4 transition-all duration-300 bg-white dark:bg-slate-900;
-    border: var(--border-width) solid var(--border-color);
-    border-radius: var(--radius-lg);
-  }
+    --popover: var(--background);
+    --popover-foreground: var(--foreground);
 
-  .game-card-hover {
-    @apply hover:shadow-lg hover:scale-[1.02] bg-slate-50 dark:bg-slate-800;
-  }
+    /* Couleurs principales */
+    --primary: 60% 0.35 260; /* Bleu-violet intense */
+    --primary-foreground: 98% 0.02 250; /* Presque blanc */
 
-  .game-button {
-    @apply rounded-md px-4 py-2 font-medium transition-all duration-300 bg-blue-600 hover:bg-blue-700 dark:bg-blue-800 dark:hover:bg-blue-900 text-white;
-    border-radius: var(--radius-md);
-  }
+    --secondary: 30% 0.1 250; /* Gris-bleu foncé */
+    --secondary-foreground: 85% 0.05 250; /* Bleu pâle */
 
-  .game-section {
-    @apply py-12;
-  }
-  @media (min-width: 768px) {
-    .game-section {
-      padding-left: 2rem;
-      padding-right: 2rem;
-    }
-  }
+    --muted: 25% 0.05 250; /* Bleu-gris foncé */
+    --muted-foreground: 70% 0.02 250; /* Gris clair */
 
-  .game-container {
-    @apply container mx-auto px-4;
+    --accent: 35% 0.2 320; /* Rose foncé */
+    --accent-foreground: 98% 0.02 250; /* Blanc légèrement teinté */
+
+    --destructive: 50% 0.3 30; /* Rouge intense */
+    --destructive-foreground: 98% 0.02 250; /* Blanc légèrement teinté */
+
+    /* Bordures et inputs */
+    --border: 40% 0.15 250; /* Bleu nuit moyen */
+    --input: var(--border);
+    --ring: var(--primary);
+
+    /* Couleurs Gaming */
+    --game-primary: var(--primary);
+    --game-secondary: 65% 0.35 300; /* Violet électrique */
+    --game-accent: 85% 0.2 90; /* Or vibrant */
+    --game-text: 98% 0.02 250; /* Texte très clair */
+    --game-text-muted: 70% 0.02 250; /* Texte gris clair */
+
+    /* Couleurs des graphiques */
+    --chart-1: 30% 0.3 30; /* Orange intense foncé */
+    --chart-2: 35% 0.3 160; /* Vert profond */
+    --chart-3: 40% 0.3 200; /* Bleu intense */
+    --chart-4: 50% 0.3 50; /* Jaune doré */
+    --chart-5: 45% 0.3 340; /* Rouge sombre */
+
+    /* Mise à jour */
+    --background: var(--background-dark);
+    --foreground: var(--foreground-dark);
   }
 
-  .sortable-list {
-    @apply space-y-2;
-  }
-
-  .sortable-list-item {
-    @apply relative flex items-center gap-2 rounded-lg border p-4 bg-background transition-all duration-200;
-  }
-
-  .sortable-list-item.dragging {
-    @apply shadow-lg opacity-50;
-  }
-
-  .sortable-list-item-handle {
-    @apply cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground transition-colors;
+  /* Application dynamique des couleurs */
+  body {
+    background: oklch(var(--background));
+    color: oklch(var(--foreground));
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply h-full w-full;
   }
 }

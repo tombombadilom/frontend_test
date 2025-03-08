@@ -40,7 +40,7 @@ export default function CategoriesPage() {
       });
       setNewCategory('');
       showToast.success('Category added successfully');
-    } catch (error) {
+    } catch (_error) {
       showToast.error('Failed to add category');
     }
   };
@@ -50,7 +50,7 @@ export default function CategoriesPage() {
       await updateCategory(category.id, category);
       setEditingCategory(null);
       showToast.success('Category updated successfully');
-    } catch (error) {
+    } catch (_error) {
       showToast.error('Failed to update category');
     }
   };
@@ -59,7 +59,7 @@ export default function CategoriesPage() {
     try {
       await deleteCategory(id);
       showToast.success('Category deleted successfully');
-    } catch (error) {
+    } catch (_error) {
       showToast.error('Failed to delete category');
     }
   };
@@ -68,7 +68,7 @@ export default function CategoriesPage() {
     try {
       await reorderCategories(items.map(item => item.id));
       showToast.success('Categories reordered successfully');
-    } catch (error) {
+    } catch (_error) {
       showToast.error('Failed to reorder categories');
     }
   };

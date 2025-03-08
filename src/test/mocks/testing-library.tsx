@@ -2,9 +2,11 @@ import { vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { render } from '@testing-library/react';
-import { ReactElement } from 'react';
+import type { ReactElement } from 'react';
+import { useFilterStore } from '@/store/filter-store';
 
-function renderWithProviders(ui: ReactElement) {
+// Fonction utilitaire pour les tests, gardée pour référence future
+function _renderWithProviders(ui: ReactElement) {
   return render(
     <BrowserRouter>
       <ThemeProvider>
@@ -14,11 +16,11 @@ function renderWithProviders(ui: ReactElement) {
   );
 }
 
-// Remplacer render par renderWithProviders
-vi.mock('@testing-library/react', async () => {
-  const actual = await vi.importActual('@testing-library/react');
-  return {
-    ...actual,
-    render: renderWithProviders,
-  };
-}); 
+// Mock de @testing-library/react
+vi.mock('@testing-library/react', () => ({
+  ...vi.importActual('@testing-library/react'),
+  render: async (ui: ReactElement) => {
+    const actual = await vi.importActual<typeof import('@testing-library/react')>('@testing-library/react');
+    return actual.render(ui);
+  },
+})); 

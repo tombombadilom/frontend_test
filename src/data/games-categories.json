@@ -1,0 +1,70 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Action",
+      "description": "Jeux d'action et d'aventure",
+      "subcategories": [
+        {
+          "id": 101,
+          "name": "Action-Aventure",
+          "description": "Jeux mêlant action et aventure"
+        },
+        {
+          "id": 102,
+          "name": "FPS",
+          "description": "Jeux de tir à la première personne"
+        },
+        {
+          "id": 103,
+          "name": "TPS",
+          "description": "Jeux de tir à la troisième personne"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "RPG",
+      "description": "Jeux de rôle",
+      "subcategories": [
+        {
+          "id": 201,
+          "name": "JRPG",
+          "description": "Jeux de rôle japonais"
+        },
+        {
+          "id": 202,
+          "name": "Action-RPG",
+          "description": "Jeux de rôle orientés action"
+        },
+        {
+          "id": 203,
+          "name": "MMORPG",
+          "description": "Jeux de rôle massivement multijoueur"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Stratégie",
+      "description": "Jeux de stratégie",
+      "subcategories": [
+        {
+          "id": 301,
+          "name": "RTS",
+          "description": "Stratégie en temps réel"
+        },
+        {
+          "id": 302,
+          "name": "4X",
+          "description": "Jeux de stratégie 4X"
+        },
+        {
+          "id": 303,
+          "name": "Tower Defense",
+          "description": "Jeux de défense de tour"
+        }
+      ]
+    }
+  ]
+} 

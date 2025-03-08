@@ -4,10 +4,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-interface User {
+export interface User {
   id: string;
   email: string;
   name: string;
+  avatar?: string;
   role: 'user' | 'admin';
   language: 'fr' | 'en';
   theme: 'light' | 'dark';
@@ -41,7 +42,7 @@ interface RegisterData extends LoginCredentials {
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 

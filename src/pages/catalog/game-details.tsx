@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { formatPrice } from '@/lib/utils';
 import type { Game } from '@/types/game';
 import { Heart, ShoppingCart, Star } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -31,7 +32,7 @@ const GameDetailsPage = ({ id: propId }: GameDetailsProps) => {
       try {
         // Dans une application réelle, cela ferait une requête API
         const response = await import('@/data/games.json');
-        const games = response.default as Game[];
+        const games = response.games;
         const foundGame = games.find((g) => g.id === gameId);
 
         if (!foundGame) {
@@ -199,21 +200,24 @@ const GameDetailsPage = ({ id: propId }: GameDetailsProps) => {
 
           <div className="mb-6">
             <div className="flex items-baseline mb-2">
-              {game.discount > 0 ? (
+              {(game.price.discount ?? 0) > 0 ? (
                 <>
                   <span className="line-through text-muted-foreground mr-2">
-                    {game.price.toFixed(2)} €
+                    {formatPrice(game.price)}
                   </span>
                   <span className="text-2xl font-bold text-green-600">
-                    {(game.price * (1 - game.discount / 100)).toFixed(2)} €
+                    {formatPrice({
+                      ...game.price,
+                      amount: game.price.amount * (1 - (game.price.discount ?? 0) / 100),
+                    })}
                   </span>
                   <Badge variant="destructive" className="ml-2">
-                    -{game.discount}%
+                    -{game.price.discount ?? 0}%
                   </Badge>
                 </>
               ) : (
                 <span className="text-2xl font-bold">
-                  {game.price.toFixed(2)} €
+                  {formatPrice(game.price)}
                 </span>
               )}
             </div>

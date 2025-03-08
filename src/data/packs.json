@@ -2,57 +2,146 @@
   "packs": [
     {
       "id": 1,
-      "name": "Starter Pack",
-      "description": "Pack de démarrage pour Fortnite",
-      "price": 4.99,
-      "gameId": 9,
-      "items": [1, 2],
-      "isActive": true
+      "name": "Pack Starter Zelda",
+      "description": "Pack de démarrage pour The Legend of Zelda avec des objets exclusifs",
+      "price": {
+        "amount": 19.99,
+        "currency": "EUR"
+      },
+      "gameId": 1,
+      "items": [1001, 1002],
+      "isActive": true,
+      "type": "Starter",
+      "tags": ["starter", "exclusive"],
+      "availability": {
+        "startDate": "2024-01-01T00:00:00Z"
+      },
+      "preview": {
+        "imageUrl": "https://www.zelda.com/tears-of-the-kingdom/assets/img/home/hero-bg.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=example"
+      }
     },
     {
       "id": 2,
-      "name": "Genshin Impact Bundle",
-      "description": "Pack de bienvenue pour Genshin Impact",
-      "price": 9.99,
-      "gameId": 10,
-      "items": [3, 4],
-      "isActive": true
+      "name": "Pack Deluxe FF XVI",
+      "description": "Pack deluxe pour Final Fantasy XVI avec des bonus exclusifs",
+      "price": {
+        "amount": 29.99,
+        "currency": "EUR"
+      },
+      "gameId": 2,
+      "items": [2001],
+      "isActive": true,
+      "type": "Deluxe",
+      "tags": ["deluxe", "exclusive"],
+      "availability": {
+        "startDate": "2024-02-01T00:00:00Z"
+      },
+      "preview": {
+        "imageUrl": "https://cdn.akamai.steamstatic.com/steam/apps/2324650/header.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=example2"
+      }
     },
     {
       "id": 3,
-      "name": "Genshin Impact Premium Bundle",
-      "description": "Pack premium pour Genshin Impact",
-      "price": 19.99,
-      "gameId": 10,
-      "items": [3, 4, 5],
-      "isActive": true
+      "name": "Pack Collector BG3",
+      "description": "Pack collector pour Baldur's Gate 3 avec des objets rares",
+      "price": {
+        "amount": 39.99,
+        "currency": "EUR"
+      },
+      "gameId": 3,
+      "items": [1001, 2001],
+      "isActive": true,
+      "type": "Collector",
+      "tags": ["collector", "rare"],
+      "availability": {
+        "startDate": "2024-03-01T00:00:00Z"
+      },
+      "preview": {
+        "imageUrl": "https://cdn.cloudflare.steamstatic.com/steam/apps/1086940/header.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=example3"
+      }
     },
     {
       "id": 4,
-      "name": "WoW Starter Pack",
-      "description": "Pack de démarrage pour World of Warcraft",
-      "price": 29.99,
-      "gameId": 11,
-      "items": [5, 6],
-      "isActive": true
+      "name": "Genshin Impact Bundle",
+      "description": "Pack de bienvenue pour Genshin Impact",
+      "price": {
+        "amount": 9.99,
+        "currency": "EUR"
+      },
+      "gameId": 10,
+      "items": [3, 4],
+      "isActive": true,
+      "preview": {
+        "imageUrl": "https://static.wikia.nocookie.net/gensin-impact/images/4/41/Item_Blessing_of_the_Welkin_Moon.png",
+        "videoUrl": null
+      }
     },
     {
       "id": 5,
-      "name": "WoW Premium Pack",
-      "description": "Pack premium pour World of Warcraft",
-      "price": 49.99,
-      "gameId": 11,
-      "items": [5, 6, 7],
-      "isActive": true
+      "name": "Genshin Impact Premium Bundle",
+      "description": "Pack premium pour Genshin Impact",
+      "price": {
+        "amount": 19.99,
+        "currency": "EUR"
+      },
+      "gameId": 10,
+      "items": [3, 4, 5],
+      "isActive": true,
+      "preview": {
+        "imageUrl": "https://static.wikia.nocookie.net/gensin-impact/images/6/6c/Weapon_Primordial_Jade_Winged-Spear.png",
+        "videoUrl": null
+      }
     },
     {
       "id": 6,
+      "name": "WoW Starter Pack",
+      "description": "Pack de démarrage pour World of Warcraft",
+      "price": {
+        "amount": 29.99,
+        "currency": "EUR"
+      },
+      "gameId": 11,
+      "items": [5, 6],
+      "isActive": true,
+      "preview": {
+        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/blog_header/IUQR1VHH3O4Y1666638454326.jpg",
+        "videoUrl": null
+      }
+    },
+    {
+      "id": 7,
+      "name": "WoW Premium Pack",
+      "description": "Pack premium pour World of Warcraft",
+      "price": {
+        "amount": 49.99,
+        "currency": "EUR"
+      },
+      "gameId": 11,
+      "items": [5, 6, 7],
+      "isActive": true,
+      "preview": {
+        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/blog_header/2G8KBJFEXN5F1666638454608.jpg",
+        "videoUrl": null
+      }
+    },
+    {
+      "id": 8,
       "name": "WoW Ultimate Pack",
       "description": "Pack ultime pour World of Warcraft",
-      "price": 99.99,
+      "price": {
+        "amount": 99.99,
+        "currency": "EUR"
+      },
       "gameId": 11,
       "items": [5, 6, 7, 8],
-      "isActive": true
+      "isActive": true,
+      "preview": {
+        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/blog_header/IYBHRHH3XZ531666638454869.jpg",
+        "videoUrl": null
+      }
     },
     {
       "id": 1001,
@@ -60,8 +149,8 @@
       "description": "Complete Midas character set with matching items",
       "items": [1001, 1002],
       "price": {
-        "amount": 2800,
-        "currency": "V-Bucks",
+        "amount": 28,
+        "currency": "EUR",
         "discount": 20
       },
       "availability": {
@@ -73,8 +162,12 @@
       "gameId": 9,
       "tags": ["bundle", "character", "seasonal"],
       "metadata": {
-        "originalPrice": 3500,
-        "savings": 700
+        "originalPrice": 35,
+        "savings": 7
+      },
+      "preview": {
+        "imageUrl": "https://cdn2.unrealengine.com/fortnite-midas-outfit-1920x1080-579970755.jpg",
+        "videoUrl": null
       }
     },
     {
@@ -90,13 +183,13 @@
           "rarity": "epic",
           "price": {
             "amount": 99.99,
-            "currency": "USD"
+            "currency": "EUR"
           },
           "availability": {
             "isLimited": false
           },
           "preview": {
-            "imageUrl": "/images/items/genesis-crystals.jpg"
+            "imageUrl": "https://static.wikia.nocookie.net/gensin-impact/images/1/1f/Item_Genesis_Crystal.png"
           },
           "gameId": 10,
           "tags": ["currency", "premium"],
@@ -108,7 +201,7 @@
       ],
       "price": {
         "amount": 99.99,
-        "currency": "USD",
+        "currency": "EUR",
         "discount": 0
       },
       "availability": {
@@ -119,6 +212,10 @@
       "tags": ["currency", "premium"],
       "metadata": {
         "bestValue": true
+      },
+      "preview": {
+        "imageUrl": "https://static.wikia.nocookie.net/gensin-impact/images/1/1f/Item_Genesis_Crystal.png",
+        "videoUrl": null
       }
     },
     {
@@ -134,14 +231,13 @@
           "rarity": "epic",
           "price": {
             "amount": 0,
-            "currency": "USD"
+            "currency": "EUR"
           },
           "availability": {
             "isLimited": false
           },
           "preview": {
-            "imageUrl": "/images/items/dragonflight-mount.jpg",
-            "modelUrl": "/models/items/dragonflight-mount.m2"
+            "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/blog_header/sy/SYUV8PHJNMK01666638455112.jpg"
           },
           "gameId": 11,
           "tags": ["mount", "epic", "expansion"],
@@ -159,13 +255,13 @@
           "rarity": "epic",
           "price": {
             "amount": 0,
-            "currency": "USD"
+            "currency": "EUR"
           },
           "availability": {
             "isLimited": false
           },
           "preview": {
-            "imageUrl": "/images/items/level-boost.jpg"
+            "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/blog_header/IYBHRHH3XZ531666638454869.jpg"
           },
           "gameId": 11,
           "tags": ["boost", "level", "expansion"],
@@ -177,7 +273,7 @@
       ],
       "price": {
         "amount": 79.99,
-        "currency": "USD",
+        "currency": "EUR",
         "discount": 0
       },
       "availability": {
@@ -189,6 +285,10 @@
       "metadata": {
         "includesGameTime": true,
         "gameTimeMonths": 1
+      },
+      "preview": {
+        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/blog_header/sy/SYUV8PHJNMK01666638455112.jpg",
+        "videoUrl": null
       }
     }
   ]

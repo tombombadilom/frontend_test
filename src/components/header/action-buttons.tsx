@@ -3,7 +3,7 @@ import type React from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { User, Heart, ShoppingCart, Sun, Moon } from 'lucide-react';
-import { useTheme } from '@/context/theme-context';
+import { useTheme } from '@/components/theme/ThemeProvider';
 import { useCartStore } from '@/store/cart-store';
 import { useWishlistStore } from '@/store/wishlist-store';
 

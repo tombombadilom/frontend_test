@@ -1,14 +1,9 @@
-export const mockWishlistItems = [
-  {
-    id: 1,
-    name: 'Test Game',
-    price: 59.99,
-    image: '/img.jpg',
-  },
-  {
-    id: 2,
-    name: 'Another Game',
-    price: 49.99,
-    image: '/img2.jpg',
-  }
-]; 
+import type { WishlistItem } from '@/store/wishlist-store';
+import { mockGames } from './games';
+
+export const mockWishlistItems: WishlistItem[] = mockGames.slice(0, 2).map((game) => ({
+  id: `wishlist-${game.id}`,
+  gameId: game.id.toString(),
+  addedAt: new Date().toISOString(),
+  game,
+})); 

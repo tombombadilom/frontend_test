@@ -2,15 +2,15 @@ import { Database, Home, Server, Settings, Shield } from 'lucide-react';
 import type React from 'react';
 import { NavLink } from 'react-router-dom';
 
-export const Sidebar: React.FC = () => {
-  const navItems = [
-    { to: '/', icon: Home, label: 'Dashboard' },
-    { to: '/services', icon: Server, label: 'Services' },
-    { to: '/certificates', icon: Shield, label: 'Certificates' },
-    { to: '/dns', icon: Database, label: 'DNS' },
-    { to: '/settings', icon: Settings, label: 'Settings' },
-  ];
+const navItems = [
+  { to: '/', icon: Home, label: 'Dashboard' },
+  { to: '/services', icon: Server, label: 'Services' },
+  { to: '/certificates', icon: Shield, label: 'Certificates' },
+  { to: '/dns', icon: Database, label: 'DNS' },
+  { to: '/settings', icon: Settings, label: 'Settings' },
+];
 
+export function Sidebar() {
   return (
     <aside className="w-64 bg-card text-card-foreground">
       <div className="p-4">
@@ -39,4 +39,4 @@ export const Sidebar: React.FC = () => {
       </nav>
     </aside>
   );
-};
+}

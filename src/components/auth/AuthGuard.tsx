@@ -6,11 +6,16 @@ import { useAuth } from '../../stores/auth';
 interface AuthGuardProps {
   children: React.ReactNode;
   requireAuth?: boolean;
+  requireAdmin?: boolean;
 }
 
-export function AuthGuard({ children, requireAuth = true }: AuthGuardProps) {
+export function AuthGuard({ 
+  children, 
+  requireAuth = true,
+  requireAdmin = false 
+}: AuthGuardProps) {
   const navigate = useNavigate();
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
 
   useEffect(() => {
     if (isLoading) return;
@@ -19,8 +24,10 @@ export function AuthGuard({ children, requireAuth = true }: AuthGuardProps) {
       navigate('/login');
     } else if (!requireAuth && isAuthenticated) {
       navigate('/dashboard');
+    } else if (requireAdmin && (!user || user.role !== 'admin')) {
+      navigate('/');
     }
-  }, [isAuthenticated, isLoading, navigate, requireAuth]);
+  }, [isAuthenticated, isLoading, navigate, requireAuth, requireAdmin, user]);
 
   if (isLoading) {
     return <div>Loading...</div>;

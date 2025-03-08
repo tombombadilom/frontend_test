@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useFilterStore } from '@/store/filter-store';
 
 // Reset stores before each test

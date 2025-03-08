@@ -21,3 +21,25 @@ export interface Game {
   isFeatured?: boolean;
   isNewRelease?: boolean;
 }
+
+export interface GameItem {
+  id: number;
+  name: string;
+  description: string;
+  category: number;
+  rarity: string;
+  price: Price;
+  availability: {
+    isLimited: boolean;
+    startDate?: string;
+    endDate?: string;
+  };
+  preview: {
+    imageUrl: string;
+    videoUrl?: string;
+    modelUrl?: string;
+  };
+  gameId: number;
+  tags: string[];
+  metadata?: Record<string, unknown>;
+}
