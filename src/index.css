@@ -111,16 +111,17 @@
     --foreground: var(--foreground-dark);
   }
 
-  /* Application dynamique des couleurs */
+  /* Application des couleurs sans transition par défaut */
   body {
     background: oklch(var(--background));
     color: oklch(var(--foreground));
     font-feature-settings: "rlig" 1, "calt" 1;
     @apply h-full w-full;
+    transition: none !important;
   }
 
-  /* Transition uniquement lors du changement de thème */
+  /* Transition UNIQUEMENT lors du changement de thème */
   html.changing-theme body {
-    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out !important;
   }
 }

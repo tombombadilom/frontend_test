@@ -6,8 +6,10 @@ export default {
   content: [
     './index.html',
     './src/**/*.{js,ts,jsx,tsx}',
-    '*.{js,ts,jsx,tsx,mdx}',
   ],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     container: {
       center: true,
@@ -56,7 +58,16 @@ export default {
           primary: 'var(--game-primary)',
           secondary: 'var(--game-secondary)',
           accent: 'var(--game-accent)',
-          highlight: 'var(--game-highlight)',
+          text: 'var(--game-text)',
+          'text-muted': 'var(--game-text-muted)',
+        },
+        // Couleurs des graphiques
+        chart: {
+          1: 'var(--chart-1)',
+          2: 'var(--chart-2)',
+          3: 'var(--chart-3)',
+          4: 'var(--chart-4)',
+          5: 'var(--chart-5)',
         },
       },
       borderRadius: {
@@ -90,6 +101,10 @@ export default {
           from: { transform: 'translateY(10px)', opacity: '0' },
           to: { transform: 'translateY(0)', opacity: '1' },
         },
+        'slide-out': {
+          from: { transform: 'translateY(0)', opacity: '1' },
+          to: { transform: 'translateY(10px)', opacity: '0' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -97,8 +112,12 @@ export default {
         'fade-in': 'fade-in 0.3s ease-in-out',
         'fade-out': 'fade-out 0.3s ease-in-out',
         'slide-in': 'slide-in 0.3s ease-out',
+        'slide-out': 'slide-out 0.3s ease-out',
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    require('@tailwindcss/typography'),
+  ],
 };

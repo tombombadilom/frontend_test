@@ -10,6 +10,15 @@ export interface WishlistItem {
   game: Game;
 }
 
+const generateId = () => Math.random().toString(36).substring(7);
+
+const createWishlistItem = (game: Game): WishlistItem => ({
+  id: generateId(),
+  gameId: game.gameId.toString(),
+  addedAt: new Date().toISOString(),
+  game,
+});
+
 export interface WishlistState {
   items: WishlistItem[];
   addItem: (game: Game) => void;
@@ -25,39 +34,31 @@ export const useWishlistStore = create<WishlistState>()(
 
       addItem: (game) =>
         set((state) => {
-          const existingItem = state.items.find((i) => i.gameId === game.gameId);
-          if (existingItem) return state;
-
-          const newItem: WishlistItem = {
-            id: Math.random().toString(36).substring(7),
-            gameId: game.gameId.toString(),
-            addedAt: new Date().toISOString(),
-            game,
-          };
+          const existingItem = state.items.find(
+            (i) => i.gameId === game.gameId.toString()
+          );
+          
+          if (existingItem) {
+            return state;
+          }
 
           return {
-            ...state,
-            items: [...state.items, newItem],
+            items: [...state.items, createWishlistItem(game)],
           };
         }),
 
       removeItem: (id) =>
         set((state) => ({
-          ...state,
           items: state.items.filter((item) => item.id !== id),
         })),
 
-      isInWishlist: (id) => {
-        return get().items.some((item) => item.id === id);
-      },
+      isInWishlist: (id) => get().items.some((item) => item.id === id),
 
-      clearWishlist: () =>
-        set({
-          items: [],
-        }),
+      clearWishlist: () => set({ items: [] }),
     }),
     {
       name: 'game-shop-wishlist',
+      version: 1,
     }
   )
 );

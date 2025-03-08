@@ -1,19 +1,16 @@
 'use client';
-import React from 'react';
+import { memo, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSettings } from '@/hooks/use-settings';
 import { cn } from '@/lib/utils';
 import { navigation } from '@/config/navigation';
 
-export default function DesktopMenu() {
+const DesktopMenu = memo(function DesktopMenu() {
   const { language } = useSettings();
   const location = useLocation();
   // const { user } = useAuth(); // Commenté car inutilisé pour l'instant
 
-  // Détermine les items du menu en fonction du rôle de l'utilisateur
-  const menuItems = [
-    ...navigation.public,
-  ];
+  const menuItems = useMemo(() => navigation.public, []);
 
   return (
     <nav className="flex items-center space-x-1">
@@ -39,4 +36,6 @@ export default function DesktopMenu() {
       })}
     </nav>
   );
-} 
+});
+
+export default DesktopMenu; 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useAuthContext } from '@/contexts/auth-context';
@@ -47,16 +47,12 @@ export function useAuth() {
 
   const login = useCallback(async (email: string, password: string) => {
     try {
-      // Validation des entrées
       if (!email || !email.includes('@') || !password || password.length < 6) {
         throw new Error('Identifiants invalides');
       }
 
-      // Dans une application réelle, cela ferait une requête API
-      // Simuler une vérification d'authentification
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Simuler un utilisateur
       const mockUser: User = {
         id: '1',
         email,
@@ -83,7 +79,6 @@ export function useAuth() {
         },
       };
 
-      // Stocker l'utilisateur dans localStorage et mettre à jour le contexte
       localStorage.setItem('user', JSON.stringify(mockUser));
       setUser(mockUser);
       navigate('/');
@@ -99,7 +94,6 @@ export function useAuth() {
 
   const register = useCallback(async (data: RegisterData) => {
     try {
-      // Validation des entrées
       if (
         !data.email ||
         !data.email.includes('@') ||
@@ -109,11 +103,8 @@ export function useAuth() {
         throw new Error("Données d'inscription invalides");
       }
 
-      // Dans une application réelle, cela ferait une requête API
-      // Simuler une inscription
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      // Simuler un utilisateur créé
       const mockUser: User = {
         id: Date.now().toString(),
         email: data.email,
@@ -140,7 +131,6 @@ export function useAuth() {
         },
       };
 
-      // Stocker l'utilisateur dans localStorage et mettre à jour le contexte
       localStorage.setItem('user', JSON.stringify(mockUser));
       setUser(mockUser);
       navigate('/');
@@ -168,7 +158,6 @@ export function useAuth() {
           return { success: false, error: 'User not found' };
         }
 
-        // In a real app, this would make an API request
         updateUser({
           name: data.name,
           email: data.email,
@@ -186,10 +175,7 @@ export function useAuth() {
   const updatePassword = useCallback(
     async (_data: { currentPassword: string; newPassword: string }) => {
       try {
-        // In a real app, this would make an API request
-        // For now, we'll just simulate a successful update
         await new Promise((resolve) => setTimeout(resolve, 1000));
-
         return { success: true };
       } catch (error) {
         console.error('Error updating password:', error);
@@ -199,12 +185,12 @@ export function useAuth() {
     []
   );
 
-  return {
+  return useMemo(() => ({
     user,
     login,
     register,
     logout,
     updateProfile,
     updatePassword,
-  };
+  }), [user, login, register, logout, updateProfile, updatePassword]);
 }

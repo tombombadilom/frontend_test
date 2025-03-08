@@ -1,15 +1,29 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo } from 'react';
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 type Theme = 'light' | 'dark' | 'system';
 
-interface ThemeContextType {
+interface ThemeState {
   theme: Theme;
   setTheme: (theme: Theme) => void;
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const useThemeStore = create<ThemeState>()(
+  persist(
+    (set) => ({
+      theme: 'system',
+      setTheme: (theme) => set({ theme }),
+    }),
+    {
+      name: 'theme-storage',
+    }
+  )
+);
+
+const ThemeContext = createContext<ThemeState | null>(null);
 
 interface ThemeProviderProps {
   children: React.ReactNode;
@@ -20,59 +34,29 @@ interface ThemeProviderProps {
 export function ThemeProvider({
   children,
   defaultTheme = 'system',
-  storageKey = 'ui-theme',
-  ...props
+  storageKey = 'theme',
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(defaultTheme);
-  const [mounted, setMounted] = useState(false);
+  const store = useMemo(() => useThemeStore.getState(), []);
 
-  // Load theme from localStorage on mount
   useEffect(() => {
-    const storedTheme = localStorage.getItem(storageKey) as Theme;
-    if (storedTheme) {
-      setTheme(storedTheme);
-    }
-    setMounted(true);
-  }, [storageKey]);
-
-  // Apply theme to document
-  useEffect(() => {
-    if (!mounted) return;
-
     const root = window.document.documentElement;
-    root.classList.remove('light', 'dark');
     
-    // Ajouter la classe de transition
-    root.classList.add('changing-theme');
-    
-    if (theme === 'system') {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light';
-      root.classList.add(systemTheme);
-    } else {
-      root.classList.add(theme);
-    }
-
-    // Retirer la classe de transition après l'animation
-    const timeoutId = setTimeout(() => {
-      root.classList.remove('changing-theme');
-    }, 300); // Correspond à la durée de la transition
-
-    return () => clearTimeout(timeoutId);
-  }, [theme, mounted]);
-
-  // Listen for system theme changes
-  useEffect(() => {
-    if (!mounted || theme !== 'system') return;
-
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
-    const handleChange = () => {
-      const root = window.document.documentElement;
-      root.classList.remove('light', 'dark');
+    const applyTheme = (theme: Theme) => {
+      const prevTheme = root.classList.contains('dark') ? 'dark' : 'light';
+      
+      // Ajouter la classe de transition avant le changement
       root.classList.add('changing-theme');
-      root.classList.add(mediaQuery.matches ? 'dark' : 'light');
+      
+      // Appliquer le nouveau thème
+      root.classList.remove('light', 'dark');
+      
+      const newTheme = theme === 'system'
+        ? window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light'
+        : theme;
+      
+      root.classList.add(newTheme);
       
       // Retirer la classe de transition après l'animation
       setTimeout(() => {
@@ -80,34 +64,44 @@ export function ThemeProvider({
       }, 300);
     };
 
-    // Initial check
-    handleChange();
+    // Appliquer le thème initial
+    applyTheme(store.theme);
 
-    // Listen for changes
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [theme, mounted]);
-
-  const value = {
-    theme,
-    setTheme: (newTheme: Theme) => {
-      if (mounted) {
-        localStorage.setItem(storageKey, newTheme);
+    // Écouter les changements de thème système
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = () => {
+      if (store.theme === 'system') {
+        applyTheme('system');
       }
-      setTheme(newTheme);
-    },
-  };
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    
+    // Écouter les changements de thème dans le store
+    const unsubscribe = useThemeStore.subscribe(
+      (state) => {
+        if (state.theme !== store.theme) {
+          applyTheme(state.theme);
+        }
+      }
+    );
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange);
+      unsubscribe();
+    };
+  }, [store.theme]);
 
   return (
-    <ThemeContext.Provider value={value} {...props}>
+    <ThemeContext.Provider value={store}>
       {children}
     </ThemeContext.Provider>
   );
 }
 
-export const useTheme = (): ThemeContextType => {
+export const useTheme = () => {
   const context = useContext(ThemeContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
   return context;

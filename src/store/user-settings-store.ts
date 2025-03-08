@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 export interface UserSettings {
   language: string;
@@ -18,36 +19,48 @@ export interface UserSettings {
   resetSettings: () => void;
 }
 
-export const useUserSettingsStore = create<UserSettings>()((set) => ({
+const initialState = {
   language: 'fr',
   currency: 'EUR',
   emailNotifications: true,
   pushNotifications: false,
   showRecentlyViewed: true,
   showRecommendations: true,
+};
 
-  setLanguage: (language) => set({ language }),
-  setCurrency: (currency) => set({ currency }),
+export const useUserSettingsStore = create<UserSettings>()(
+  persist(
+    (set) => ({
+      ...initialState,
 
-  toggleEmailNotifications: () =>
-    set((state) => ({ emailNotifications: !state.emailNotifications })),
+      setLanguage: (language) => set({ language }),
+      setCurrency: (currency) => set({ currency }),
 
-  togglePushNotifications: () =>
-    set((state) => ({ pushNotifications: !state.pushNotifications })),
+      toggleEmailNotifications: () =>
+        set((state) => ({ emailNotifications: !state.emailNotifications })),
 
-  toggleRecentlyViewed: () =>
-    set((state) => ({ showRecentlyViewed: !state.showRecentlyViewed })),
+      togglePushNotifications: () =>
+        set((state) => ({ pushNotifications: !state.pushNotifications })),
 
-  toggleRecommendations: () =>
-    set((state) => ({ showRecommendations: !state.showRecommendations })),
+      toggleRecentlyViewed: () =>
+        set((state) => ({ showRecentlyViewed: !state.showRecentlyViewed })),
 
-  resetSettings: () =>
-    set({
-      language: 'fr',
-      currency: 'EUR',
-      emailNotifications: true,
-      pushNotifications: false,
-      showRecentlyViewed: true,
-      showRecommendations: true,
+      toggleRecommendations: () =>
+        set((state) => ({ showRecommendations: !state.showRecommendations })),
+
+      resetSettings: () => set(initialState),
     }),
-}));
+    {
+      name: 'user-settings',
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        language: state.language,
+        currency: state.currency,
+        emailNotifications: state.emailNotifications,
+        pushNotifications: state.pushNotifications,
+        showRecentlyViewed: state.showRecentlyViewed,
+        showRecommendations: state.showRecommendations,
+      }),
+    }
+  )
+);

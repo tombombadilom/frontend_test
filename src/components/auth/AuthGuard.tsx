@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import type React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../stores/auth';
+import { useAuth } from '@/hooks/use-auth';
 
 interface AuthGuardProps {
   children: React.ReactNode;
@@ -15,23 +15,18 @@ export function AuthGuard({
   requireAdmin = false 
 }: AuthGuardProps) {
   const navigate = useNavigate();
-  const { isAuthenticated, isLoading, user } = useAuth();
+  const { user } = useAuth();
+  const isAuthenticated = !!user;
 
   useEffect(() => {
-    if (isLoading) return;
-
     if (requireAuth && !isAuthenticated) {
-      navigate('/login');
+      navigate('/login', { replace: true });
     } else if (!requireAuth && isAuthenticated) {
-      navigate('/dashboard');
+      navigate('/', { replace: true });
     } else if (requireAdmin && (!user || user.role !== 'admin')) {
-      navigate('/');
+      navigate('/', { replace: true });
     }
-  }, [isAuthenticated, isLoading, navigate, requireAuth, requireAdmin, user]);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  }, [isAuthenticated, navigate, requireAuth, requireAdmin, user]);
 
   return <>{children}</>;
 }

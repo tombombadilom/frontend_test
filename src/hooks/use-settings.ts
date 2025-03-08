@@ -1,7 +1,7 @@
 'use client';
 
 import { useUserSettingsStore } from '@/store/user-settings-store';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 export function useSettings() {
   const settings = useUserSettingsStore();
@@ -16,8 +16,16 @@ export function useSettings() {
     [settings.language, settings.currency]
   );
 
-  return {
+  return useMemo(() => ({
     ...settings,
     formatCurrency,
-  };
+  }), [
+    settings.language,
+    settings.currency,
+    settings.emailNotifications,
+    settings.pushNotifications,
+    settings.showRecentlyViewed,
+    settings.showRecommendations,
+    formatCurrency
+  ]);
 }

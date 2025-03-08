@@ -10,6 +10,28 @@ export interface CartItem {
   quantity: number;
 }
 
+const calculateDiscountedPrice = (price: Price, quantity: number = 1) => {
+  const discountMultiplier = 1 - (price.discount || 0) / 100;
+  return price.amount * discountMultiplier * quantity;
+};
+
+const calculateTotalPrice = (items: CartItem[]): Price => {
+  const totalAmount = items.reduce(
+    (total, item) => total + calculateDiscountedPrice(item.price, item.quantity),
+    0
+  );
+
+  return {
+    amount: totalAmount,
+    currency: items[0]?.price.currency || 'EUR',
+    discount: 0,
+  };
+};
+
+const calculateTotalItems = (items: CartItem[]): number => {
+  return items.reduce((total, item) => total + item.quantity, 0);
+};
+
 export interface CartState {
   items: CartItem[];
   totalItems: number;
@@ -22,7 +44,7 @@ export interface CartState {
 
 export const useCartStore = create<CartState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       items: [],
       totalItems: 0,
       totalPrice: {
@@ -34,92 +56,67 @@ export const useCartStore = create<CartState>()(
       addItem: (item) =>
         set((state) => {
           const existingItem = state.items.find((i) => i.id === item.id);
-          if (existingItem) {
-            return {
-              ...state,
-              items: state.items.map((i) =>
+          const newItems = existingItem
+            ? state.items.map((i) =>
                 i.id === item.id
                   ? { ...i, quantity: i.quantity + 1 }
                   : i
-              ),
-              totalPrice: {
-                ...state.totalPrice,
-                amount:
-                  state.totalPrice.amount +
-                  item.price.amount * (1 - (item.price.discount || 0) / 100),
-              },
-            };
-          }
+              )
+            : [...state.items, { ...item, quantity: 1 }];
+
           return {
-            ...state,
-            items: [...state.items, { ...item, quantity: 1 }],
-            totalPrice: {
-              ...state.totalPrice,
-              amount:
-                state.totalPrice.amount +
-                item.price.amount * (1 - (item.price.discount || 0) / 100),
-            },
+            items: newItems,
+            totalItems: calculateTotalItems(newItems),
+            totalPrice: calculateTotalPrice(newItems),
           };
         }),
 
       removeItem: (id) =>
         set((state) => {
-          const item = state.items.find((i) => i.id === id);
-          if (!item) return state;
-
+          const newItems = state.items.filter((i) => i.id !== id);
+          
           return {
-            ...state,
-            items: state.items.filter((i) => i.id !== id),
-            totalPrice: {
-              ...state.totalPrice,
-              amount:
-                state.totalPrice.amount -
-                item.price.amount *
-                  (1 - (item.price.discount || 0) / 100) *
-                  item.quantity,
-            },
+            items: newItems,
+            totalItems: calculateTotalItems(newItems),
+            totalPrice: calculateTotalPrice(newItems),
           };
         }),
 
       updateQuantity: (id, quantity) =>
         set((state) => {
-          const item = state.items.find((i) => i.id === id);
-          if (!item) return state;
+          if (quantity < 1) {
+            const newItems = state.items.filter((i) => i.id !== id);
+            return {
+              items: newItems,
+              totalItems: calculateTotalItems(newItems),
+              totalPrice: calculateTotalPrice(newItems),
+            };
+          }
 
-          const oldTotal =
-            item.price.amount *
-            (1 - (item.price.discount || 0) / 100) *
-            item.quantity;
-          const newTotal =
-            item.price.amount *
-            (1 - (item.price.discount || 0) / 100) *
-            quantity;
+          const newItems = state.items.map((i) =>
+            i.id === id ? { ...i, quantity } : i
+          );
 
           return {
-            ...state,
-            items: state.items.map((i) =>
-              i.id === id ? { ...i, quantity } : i
-            ),
-            totalPrice: {
-              ...state.totalPrice,
-              amount: state.totalPrice.amount - oldTotal + newTotal,
-            },
+            items: newItems,
+            totalItems: calculateTotalItems(newItems),
+            totalPrice: calculateTotalPrice(newItems),
           };
         }),
 
-      clearCart: () =>
-        set({
-          items: [],
-          totalItems: 0,
-          totalPrice: {
-            amount: 0,
-            currency: 'EUR',
-            discount: 0,
-          },
-        }),
+      clearCart: () => set({
+        items: [],
+        totalItems: 0,
+        totalPrice: {
+          amount: 0,
+          currency: 'EUR',
+          discount: 0,
+        },
+      }),
     }),
     {
       name: 'game-shop-cart',
+      version: 1,
     }
   )
 );

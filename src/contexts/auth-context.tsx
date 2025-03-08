@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { User } from '@/hooks/use-auth';
 
 interface AuthContextType {
@@ -42,15 +42,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     checkAuth();
   }, []);
 
-  const updateUser = (updates: Partial<User>) => {
+  const updateUser = useCallback((updates: Partial<User>) => {
     if (!user) return;
     const updatedUser = { ...user, ...updates };
     setUser(updatedUser);
     localStorage.setItem('user', JSON.stringify(updatedUser));
-  };
+  }, [user]);
+
+  const value = useMemo(() => ({
+    user,
+    isLoading,
+    error,
+    setUser,
+    updateUser,
+  }), [user, isLoading, error, updateUser]);
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, error, setUser, updateUser }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

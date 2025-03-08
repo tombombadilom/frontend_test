@@ -20,7 +20,7 @@ import {
   Package,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { memo, useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import CustomSearch from '../shared/custom-search';
 import DesktopMenu from '@/components/header/desktop-menu';
@@ -43,12 +43,14 @@ import { useAuth } from '@/hooks/use-auth';
 import type { User as AuthUser } from '@/hooks/use-auth';
 import { navigation } from '@/config/navigation';
 
-function UserAvatar({ user }: { user: AuthUser }) {
-  const initials = user.name
-    .split(' ')
-    .map((n: string) => n[0])
-    .join('')
-    .toUpperCase();
+const UserAvatar = memo(({ user }: { user: AuthUser }) => {
+  const initials = useMemo(() => 
+    user.name
+      .split(' ')
+      .map((n: string) => n[0])
+      .join('')
+      .toUpperCase()
+  , [user.name]);
 
   return (
     <Avatar className="h-8 w-8">
@@ -62,27 +64,28 @@ function UserAvatar({ user }: { user: AuthUser }) {
       </AvatarFallback>
     </Avatar>
   );
-}
+});
 
-export function Header() {
+UserAvatar.displayName = 'UserAvatar';
+
+export const Header = memo(function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { language } = useSettings();
   const location = useLocation();
-  const _totalItems = useCartStore((state) => state.totalItems);
-  const _wishlistItems = useWishlistStore((state) => state.items);
   const lastScrollY = useRef(0);
   const { user, logout } = useAuth();
 
-  const toggleMenu = useCallback(() => setIsMenuOpen(!isMenuOpen), [isMenuOpen]);
+  const toggleMenu = useCallback(() => setIsMenuOpen(prev => !prev), []);
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
 
   useEffect(() => {
     let ticking = false;
+    let rafId: number;
 
     const handleScroll = () => {
       if (!ticking) {
-        window.requestAnimationFrame(() => {
+        rafId = window.requestAnimationFrame(() => {
           const currentScrollY = window.scrollY;
           if (Math.abs(currentScrollY - lastScrollY.current) > 5) {
             setIsScrolled(currentScrollY > 10);
@@ -95,27 +98,33 @@ export function Header() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+      }
+    };
   }, []);
 
   useEffect(() => {
     closeMenu();
   }, [closeMenu]);
 
-  // Détermine les items du menu en fonction du rôle de l'utilisateur
-  const menuItems = [
+  const menuItems = useMemo(() => [
     ...navigation.public,
     ...(user ? navigation.user : []),
     ...(user?.role === 'admin' ? navigation.admin : []),
-  ];
+  ], [user]);
+
+  const headerClasses = useMemo(() => 
+    cn(
+      'sticky top-0 z-50 border-b backdrop-blur-md transition-all duration-300',
+      isScrolled ? 'bg-background/90 shadow-sm' : 'bg-background/80'
+    )
+  , [isScrolled]);
 
   return (
-    <header
-      className={cn(
-        'sticky top-0 z-50 border-b backdrop-blur-md transition-all duration-300',
-        isScrolled ? 'bg-background/90 shadow-sm' : 'bg-background/80'
-      )}
-    >
+    <header className={headerClasses}>
       <div className="container mx-auto flex h-16 items-center justify-between px-2 sm:px-4">
         <div className="flex items-center space-x-2">
           <Button
@@ -217,7 +226,6 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -253,4 +261,4 @@ export function Header() {
       </AnimatePresence>
     </header>
   );
-}
+});
