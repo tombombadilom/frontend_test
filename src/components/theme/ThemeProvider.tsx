@@ -43,7 +43,7 @@ export function ThemeProvider({
     root.classList.remove('light', 'dark');
     
     // Ajouter la classe de transition
-    root.classList.add('theme-transition');
+    root.classList.add('changing-theme');
     
     if (theme === 'system') {
       const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -56,7 +56,7 @@ export function ThemeProvider({
 
     // Retirer la classe de transition après l'animation
     const timeoutId = setTimeout(() => {
-      root.classList.remove('theme-transition');
+      root.classList.remove('changing-theme');
     }, 300); // Correspond à la durée de la transition
 
     return () => clearTimeout(timeoutId);
@@ -71,7 +71,13 @@ export function ThemeProvider({
     const handleChange = () => {
       const root = window.document.documentElement;
       root.classList.remove('light', 'dark');
+      root.classList.add('changing-theme');
       root.classList.add(mediaQuery.matches ? 'dark' : 'light');
+      
+      // Retirer la classe de transition après l'animation
+      setTimeout(() => {
+        root.classList.remove('changing-theme');
+      }, 300);
     };
 
     // Initial check

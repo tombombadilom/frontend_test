@@ -1,8 +1,9 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { useAuthContext } from '@/contexts/auth-context';
 
 export interface User {
   id: string;
@@ -41,46 +42,10 @@ interface RegisterData extends LoginCredentials {
 }
 
 export function useAuth() {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { user, setUser, updateUser } = useAuthContext();
   const navigate = useNavigate();
 
-  // Vérifier l'authentification au chargement
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-
-        // Dans une application réelle, cela ferait une requête API
-        const storedUser = localStorage.getItem('user');
-
-        if (storedUser) {
-          // Vérifier la validité du token (si applicable)
-          // Dans une application réelle, vous feriez une requête API pour valider le token
-          setUser(JSON.parse(storedUser));
-        }
-      } catch (error) {
-        console.error(
-          "Erreur lors de la vérification de l'authentification:",
-          error
-        );
-        setError("Erreur lors de la vérification de l'authentification");
-        // Supprimer les données utilisateur en cas d'erreur
-        localStorage.removeItem('user');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkAuth();
-  }, []);
-
   const login = useCallback(async (email: string, password: string) => {
-    setIsLoading(true);
-    setError(null);
-
     try {
       // Validation des entrées
       if (!email || !email.includes('@') || !password || password.length < 6) {
@@ -118,26 +83,21 @@ export function useAuth() {
         },
       };
 
-      // Stocker l'utilisateur dans localStorage
+      // Stocker l'utilisateur dans localStorage et mettre à jour le contexte
       localStorage.setItem('user', JSON.stringify(mockUser));
       setUser(mockUser);
+      navigate('/');
 
       return { success: true };
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Erreur lors de la connexion';
-      setError(errorMessage);
       toast.error(errorMessage);
       return { success: false, error: errorMessage };
-    } finally {
-      setIsLoading(false);
     }
-  }, []);
+  }, [setUser, navigate]);
 
   const register = useCallback(async (data: RegisterData) => {
-    setIsLoading(true);
-    setError(null);
-
     try {
       // Validation des entrées
       if (
@@ -180,66 +140,52 @@ export function useAuth() {
         },
       };
 
-      // Stocker l'utilisateur dans localStorage
+      // Stocker l'utilisateur dans localStorage et mettre à jour le contexte
       localStorage.setItem('user', JSON.stringify(mockUser));
       setUser(mockUser);
+      navigate('/');
 
       return { success: true };
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Erreur lors de l'inscription";
-      setError(errorMessage);
       toast.error(errorMessage);
       return { success: false, error: errorMessage };
-    } finally {
-      setIsLoading(false);
     }
-  }, []);
+  }, [setUser, navigate]);
 
   const logout = useCallback(() => {
     localStorage.removeItem('user');
     setUser(null);
     navigate('/login');
     toast.success('Vous avez été déconnecté avec succès');
-  }, [navigate]);
+  }, [setUser, navigate]);
 
   const updateProfile = useCallback(
     async (data: { name: string; email: string }) => {
       try {
-        setIsLoading(true);
-        setError(null);
-
         if (!user) {
           return { success: false, error: 'User not found' };
         }
 
         // In a real app, this would make an API request
-        const updatedUser: User = {
-          ...user,
+        updateUser({
           name: data.name,
           email: data.email,
-        };
-
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-        setUser(updatedUser);
+        });
 
         return { success: true };
       } catch (error) {
         console.error('Error updating profile:', error);
         return { success: false, error: 'Failed to update profile' };
-      } finally {
-        setIsLoading(false);
       }
     },
-    [user]
+    [user, updateUser]
   );
 
   const updatePassword = useCallback(
     async (_data: { currentPassword: string; newPassword: string }) => {
       try {
-        setIsLoading(true);
-        setError(null);
-
         // In a real app, this would make an API request
         // For now, we'll just simulate a successful update
         await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -248,8 +194,6 @@ export function useAuth() {
       } catch (error) {
         console.error('Error updating password:', error);
         return { success: false, error: 'Failed to update password' };
-      } finally {
-        setIsLoading(false);
       }
     },
     []
@@ -257,8 +201,6 @@ export function useAuth() {
 
   return {
     user,
-    isLoading,
-    error,
     login,
     register,
     logout,

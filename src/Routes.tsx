@@ -5,6 +5,7 @@ import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { AuthGuard } from './components/auth/AuthGuard';
 import { DefaultLayout } from './components/layout/DefaultLayout';
 import { AdminLayout } from './components/layout/AdminLayout';
+import { UserLayout } from './layouts/user-layout';
 
 // Pages publiques
 const HomePage = lazy(() => import('./pages/home'));
@@ -17,16 +18,15 @@ const PackPage = lazy(() => import('./pages/packs/pack'));
 const LoginPage = lazy(() => import('./pages/auth/login'));
 const RegisterPage = lazy(() => import('./pages/auth/register'));
 
-// Pages utilisateur (MyUser)
-const DashboardPage = lazy(() => import('./pages/dashboard/index'));
-const SettingsPage = lazy(() => import('./pages/settings/index'));
-const UserProfilePage = lazy(() => import('./pages/user/profile'));
-const UserOrdersPage = lazy(() => import('./pages/user/orders'));
-const UserWishlistPage = lazy(() => import('./pages/user/wishlist'));
+// Pages utilisateur
+const UserProfilePage = lazy(() => import('./pages/user/profile').then(module => ({ default: module.default })));
+const UserSettingsPage = lazy(() => import('./pages/user/settings').then(module => ({ default: module.default })));
+const UserOrdersPage = lazy(() => import('./pages/user/orders').then(module => ({ default: module.default })));
+const UserWishlistPage = lazy(() => import('./pages/user/wishlist').then(module => ({ default: module.default })));
 
 // Pages admin
 const AdminDashboardPage = lazy(() => import('./pages/admin/dashboard'));
-const AdminSettingsPage = lazy(() => import('./pages/admin/settings/index'));
+const AdminSettingsPage = lazy(() => import('./pages/admin/settings'));
 const AdminGamesPage = lazy(() => import('./pages/admin/games'));
 const AdminPacksPage = lazy(() => import('./pages/admin/packs'));
 const AdminObjectsPage = lazy(() => import('./pages/admin/objects'));
@@ -79,17 +79,16 @@ const userRoutes = {
   path: '/user',
   element: (
     <AuthGuard requireAuth>
-      <DefaultLayout>
+      <UserLayout>
         <Outlet />
-      </DefaultLayout>
+      </UserLayout>
     </AuthGuard>
   ),
   children: [
     { index: true, element: <UserProfilePage /> },
-    { path: 'dashboard', element: <DashboardPage /> },
+    { path: 'settings', element: <UserSettingsPage /> },
     { path: 'orders', element: <UserOrdersPage /> },
     { path: 'wishlist', element: <UserWishlistPage /> },
-    { path: 'settings', element: <SettingsPage /> },
   ],
 };
 

@@ -115,8 +115,12 @@
   body {
     background: oklch(var(--background));
     color: oklch(var(--foreground));
-    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
     font-feature-settings: "rlig" 1, "calt" 1;
     @apply h-full w-full;
+  }
+
+  /* Transition uniquement lors du changement de thème */
+  html.changing-theme body {
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
   }
 }
