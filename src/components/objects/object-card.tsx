@@ -19,20 +19,20 @@ interface ObjectCardProps {
 export function ObjectCard({ object }: ObjectCardProps) {
   const { addItem } = useCartStore();
   const { addItem: addToWishlist, removeItem, isInWishlist } = useObjectWishlistStore();
-  const { getCategoryName } = useCategories('objects');
+  const { _getCategoryName } = useCategories('objects');
 
-  const handleAddToCart = () => {
+  const _handleAddToCart = () => {
     addItem({
       id: object.id.toString(),
-      name: object.name,
+      name: object.title,
       price: object.price,
-      image: object.preview.imageUrl || '/placeholder.svg',
+      image: object.coverImage,
       quantity: 1,
     });
-    showToast.success('Ajouté au panier');
+    showToast.success('Added to cart');
   };
 
-  const handleToggleWishlist = () => {
+  const _handleToggleWishlist = () => {
     if (isInWishlist(object.id.toString())) {
       removeItem(object.id.toString());
       showToast.success('Retiré des favoris');

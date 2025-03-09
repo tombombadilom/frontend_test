@@ -19,18 +19,18 @@ export function PackCard({ pack }: PackCardProps) {
   const { addItem } = useCartStore();
   const { addItem: addToWishlist, removeItem, isInWishlist } = useWishlistStore();
 
-  const handleAddToCart = () => {
+  const _handleAddToCart = () => {
     addItem({
       id: pack.id.toString(),
-      name: pack.name,
+      name: pack.title,
       price: pack.price,
-      image: pack.preview?.imageUrl || '/placeholder.svg',
+      image: pack.coverImage,
       quantity: 1,
     });
-    showToast.success('Ajouté au panier');
+    showToast.success('Added to cart');
   };
 
-  const handleToggleWishlist = () => {
+  const _handleToggleWishlist = () => {
     if (isInWishlist(pack.id.toString())) {
       removeItem(pack.id.toString());
       showToast.success('Retiré des favoris');

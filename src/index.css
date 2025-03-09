@@ -106,6 +106,7 @@
     width: 100vw;
     min-height: 100dvh;
     transition: none !important;
+    overflow-x: hidden;
   }
 
   html.changing-theme body {

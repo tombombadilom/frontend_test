@@ -1,6 +1,6 @@
 'use client';
 
-const ITEMS_PER_VIEW = 1; // Nombre d'items affichés à la fois dans le carrousel
+const _ITEMS_PER_VIEW = 1; // Nombre d'items affichés à la fois dans le carrousel
 
 import { ObjectCard } from '@/components/objects/object-card';
 import type { GameItem } from '@/types/game';
@@ -35,8 +35,8 @@ export function ObjectCarousel({ objects }: ObjectCarouselProps) {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="text-white" />
+        <CarouselNext className="text-white" />
       </Carousel>
     </div>
   );

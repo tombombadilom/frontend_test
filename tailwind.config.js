@@ -86,13 +86,13 @@ export default {
   },
   plugins: [
     // Plugin pour définir les classes "border-custom" et "outline-custom"
-    function ({ addUtilities }) {
+    ({ addUtilities }) => {
       addUtilities({
         '.border-custom': {
-          'border-color': 'oklch(var(--border))',
-        },
-        '.outline-custom': {
-          'outline-color': 'oklch(var(--ring))',
+          border: '2px solid transparent',
+          backgroundImage: 'linear-gradient(var(--background), var(--background)), var(--border-gradient)',
+          backgroundOrigin: 'border-box',
+          backgroundClip: 'padding-box, border-box',
         },
       });
     },

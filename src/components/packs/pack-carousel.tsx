@@ -1,6 +1,6 @@
 'use client';
 
-const ITEMS_PER_VIEW = 1; // Nombre d'items affichés à la fois dans le carrousel
+const _ITEMS_PER_VIEW = 1; // Nombre d'items affichés à la fois dans le carrousel
 
 import { PackCard } from '@/components/packs/pack-card';
 import type { Pack } from '@/types/pack';
@@ -35,8 +35,8 @@ export function PackCarousel({ packs }: PackCarouselProps) {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="text-white" />
+        <CarouselNext className="text-white" />
       </Carousel>
     </div>
   );

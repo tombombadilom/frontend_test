@@ -7,10 +7,12 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen w-screen max-w-[99vw] bg-background overflow-x-hidden">
       <Header />
-      <main className="container mx-auto px-4 py-8">
-        {children}
+      <main className="w-full max-w-full">
+        <div className="container mx-auto py-8 px-0">
+          {children}
+        </div>
       </main>
     </div>
   );

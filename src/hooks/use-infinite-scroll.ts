@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-interface UseInfiniteScrollOptions {
-  items: any[];
+interface UseInfiniteScrollOptions<T> {
+  items: T[];
   itemsPerPage?: number;
   delay?: number;
 }
@@ -17,7 +17,7 @@ export function useInfiniteScroll<T>({
   items,
   itemsPerPage = 12,
   delay = 500
-}: UseInfiniteScrollOptions): UseInfiniteScrollReturn<T> {
+}: UseInfiniteScrollOptions<T>): UseInfiniteScrollReturn<T> {
   const [displayedItems, setDisplayedItems] = useState<T[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
