@@ -96,7 +96,7 @@ export default function GamePage() {
               />
               {gameData.screenshots.map((screenshot, index) => (
                 <ImageThumbnail
-                  key={index}
+                  key={`screenshot-${screenshot}`}
                   src={screenshot}
                   alt={`${gameData.title} screenshot ${index + 1}`}
                   isSelected={selectedImage === index + 1}
@@ -116,9 +116,9 @@ export default function GamePage() {
               <div className="flex items-center justify-between">
                 <h1 className="text-3xl font-bold">{gameData.title}</h1>
                 <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
+                  {Array.from({ length: 5 }, (_, i) => (
                     <Star
-                      key={i}
+                      key={`star-${gameData.id}-${i}`}
                       className={`h-5 w-5 ${i < Math.floor(gameData.rating) ? "fill-primary text-primary" : "fill-muted text-muted-foreground"}`}
                     />
                   ))}

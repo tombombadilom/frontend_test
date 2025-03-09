@@ -1,5 +1,8 @@
 import type { Price } from './game';
 
+// Type for unique numeric ID
+type UniqueId = number & { readonly brand: unique symbol };
+
 export interface PackPreview {
   imageUrl: string;
   videoUrl?: string | null;
@@ -12,17 +15,28 @@ export interface PackAvailability {
 }
 
 export interface Pack {
-  id: number;
+  id: UniqueId;
   name: string;
   description: string;
-  price: Price;
+  price: {
+    amount: number;
+    currency: string;
+  };
+  items: string[];
+  isActive: boolean;
+  type: string;
   gameId: number;
-  items: number[];
-  isActive?: boolean;
+  tags: string[];
   isFeatured?: boolean;
-  type?: string;
-  tags?: string[];
-  availability?: PackAvailability;
+  availability: {
+    startDate: string;
+    endDate: string;
+  };
   preview: PackPreview;
   metadata?: Record<string, unknown>;
+}
+
+// Helper function to create a unique ID
+export function createUniqueId(n: number): UniqueId {
+  return n as UniqueId;
 } 

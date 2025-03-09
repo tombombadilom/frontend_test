@@ -1,7 +1,7 @@
 {
   "packs": [
     {
-      "id": "pack_zelda_1",
+      "id": 1,
       "name": "Pack Starter Zelda",
       "description": "Pack de démarrage pour Zelda avec des objets essentiels",
       "price": {
@@ -25,7 +25,7 @@
       }
     },
     {
-      "id": "pack_zelda_2",
+      "id": 2,
       "name": "Pack Collector Zelda",
       "description": "Pack collector avec des objets rares et exclusifs",
       "price": {
@@ -49,7 +49,7 @@
       }
     },
     {
-      "id": "pack_ff16_1",
+      "id": 3,
       "name": "Pack Débutant FF XVI",
       "description": "Pack de démarrage pour Final Fantasy XVI",
       "price": {
@@ -73,7 +73,7 @@
       }
     },
     {
-      "id": "pack_ff16_2",
+      "id": 4,
       "name": "Pack Ultime FF XVI",
       "description": "Pack ultime avec des objets légendaires",
       "price": {
@@ -97,7 +97,7 @@
       }
     },
     {
-      "id": "pack_bg3_1",
+      "id": 5,
       "name": "Pack Aventurier BG3",
       "description": "Pack de démarrage pour Baldur's Gate 3",
       "price": {
@@ -121,7 +121,7 @@
       }
     },
     {
-      "id": "pack_cp2077_1",
+      "id": 6,
       "name": "Pack Night City",
       "description": "Pack essentiel pour Cyberpunk 2077",
       "price": {
@@ -144,7 +144,7 @@
       }
     },
     {
-      "id": "pack_elden_1",
+      "id": 7,
       "name": "Pack Sans-Éclat",
       "description": "Pack de démarrage pour Elden Ring",
       "price": {
@@ -167,7 +167,7 @@
       }
     },
     {
-      "id": "pack_gow_1",
+      "id": 8,
       "name": "Pack Nordique",
       "description": "Pack essentiel pour God of War Ragnarök",
       "price": {
@@ -190,7 +190,7 @@
       }
     },
     {
-      "id": "pack_starfield_1",
+      "id": 9,
       "name": "Pack Constellation",
       "description": "Pack de démarrage pour Starfield",
       "price": {
@@ -214,7 +214,7 @@
       }
     },
     {
-      "id": "pack_re4_1",
+      "id": 10,
       "name": "Pack Survie",
       "description": "Pack essentiel pour Resident Evil 4 Remake",
       "price": {
@@ -237,7 +237,7 @@
       }
     },
     {
-      "id": "pack_spiderman_1",
+      "id": 11,
       "name": "Pack Tisseur",
       "description": "Pack de démarrage pour Spider-Man 2",
       "price": {
@@ -261,7 +261,7 @@
       }
     },
     {
-      "id": "pack_diablo4_1",
+      "id": 12,
       "name": "Pack Sanctuaire",
       "description": "Pack de démarrage pour Diablo IV",
       "price": {
