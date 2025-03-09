@@ -9,12 +9,12 @@ import { UserLayout } from './layouts/user-layout';
 
 // Pages publiques
 const HomePage = lazy(() => import('./pages/home'));
-const GamesPage = lazy(() => import('./pages/games/games'));
-const GamePage = lazy(() => import('./pages/games/game'));
-const ObjectsPage = lazy(() => import('./pages/objects/objects'));
-const ObjectPage = lazy(() => import('./pages/objects/object'));
-const PacksPage = lazy(() => import('./pages/packs/packs'));
-const PackPage = lazy(() => import('./pages/packs/pack'));
+const GamesPage = lazy(() => import('./pages/catalog/games/games'));
+const GamePage = lazy(() => import('./pages/catalog/games/game'));
+const ObjectsPage = lazy(() => import('./pages/catalog/objects/objects'));
+const ObjectPage = lazy(() => import('./pages/catalog/objects/object'));
+const PacksPage = lazy(() => import('./pages/catalog/packs/packs'));
+const PackPage = lazy(() => import('./pages/catalog/packs/pack'));
 const LoginPage = lazy(() => import('./pages/auth/login'));
 const RegisterPage = lazy(() => import('./pages/auth/register'));
 
