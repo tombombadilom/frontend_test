@@ -14,9 +14,11 @@ import {
 
 interface ObjectCarouselProps {
   objects: GameItem[];
+  onPrevious?: () => void;
+  onNext?: () => void;
 }
 
-export function ObjectCarousel({ objects }: ObjectCarouselProps) {
+export function ObjectCarousel({ objects, onPrevious, onNext }: ObjectCarouselProps) {
   return (
     <div className="relative h-[calc(100dvh-12rem)] overflow-hidden px-0">
       <Carousel
@@ -35,8 +37,8 @@ export function ObjectCarousel({ objects }: ObjectCarouselProps) {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="text-white" />
-        <CarouselNext className="text-white" />
+        <CarouselPrevious className="text-white" onClick={onPrevious} />
+        <CarouselNext className="text-white" onClick={onNext} />
       </Carousel>
     </div>
   );

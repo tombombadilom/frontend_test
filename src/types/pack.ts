@@ -21,13 +21,16 @@ export interface Pack {
   price: {
     amount: number;
     currency: string;
+    discount?: number;
   };
+  category: number;
   items: string[];
   isActive: boolean;
   type: string;
   gameId: number;
   tags: string[];
   isFeatured?: boolean;
+  isNewRelease?: boolean;
   availability: {
     startDate: string;
     endDate: string;

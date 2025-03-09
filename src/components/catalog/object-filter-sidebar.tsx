@@ -2,38 +2,30 @@
 
 import type React from 'react';
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarFooter,
-  SidebarRail,
   SidebarGroup,
   SidebarGroupLabel,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { usePackFilterStore } from '@/store/filter-store';
+import { useObjectFilterStore } from '@/store/filter-store';
 import type { Price } from '@/types/game';
-import { cn } from '@/lib/utils';
 
-interface FilterSidebarProps {
+interface ObjectFilterSidebarProps {
+  games: Array<{
+    id: string;
+    name: string;
+    count: number;
+  }>;
   categories: Array<{
     id: string;
     name: string;
     count: number;
   }>;
-  games?: Array<{
-    id: string;
-    name: string;
-    count: number;
-  }>;
-  types?: Array<{
+  rarities: Array<{
     id: string;
     name: string;
     count: number;
@@ -48,31 +40,31 @@ interface FilterSidebarProps {
   newReleasesCount: number;
 }
 
-export function FilterSidebar({ 
-  categories,
+export function ObjectFilterSidebar({ 
   games,
-  types,
+  categories,
+  rarities,
   platforms,
   maxPrice,
   discountedCount,
   newReleasesCount,
-}: FilterSidebarProps) {
+}: ObjectFilterSidebarProps) {
   const {
-    categories: selectedCategories,
     games: selectedGames,
-    types: selectedTypes,
+    categories: selectedCategories,
+    rarities: selectedRarities,
     platforms: selectedPlatforms,
     priceRange,
     onlyDiscounted,
     onlyNewReleases,
-    toggleCategory,
     toggleGame,
-    toggleType,
+    toggleCategory,
+    toggleRarity,
     togglePlatform,
     setPriceRange,
     toggleDiscounted,
     toggleNewReleases,
-  } = usePackFilterStore();
+  } = useObjectFilterStore();
 
   const handlePriceChange = (value: number[]) => {
     setPriceRange([value[0], value[1]]);
@@ -101,6 +93,37 @@ export function FilterSidebar({
           </div>
         </SidebarGroupContent>
       </SidebarGroup>
+
+      {games.filter(game => game.count > 0).length > 0 && (
+        <SidebarGroup>
+          <SidebarGroupLabel>Jeux</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {games
+                .filter(game => game.count > 0)
+                .map(game => (
+                  <SidebarMenuItem key={game.id}>
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          id={game.id}
+                          checked={selectedGames.includes(game.id)}
+                          onCheckedChange={() => toggleGame(game.id)}
+                        />
+                        <label htmlFor={game.id}>
+                          {game.name}
+                        </label>
+                      </div>
+                      <Badge variant="secondary">
+                        {game.count}
+                      </Badge>
+                    </div>
+                  </SidebarMenuItem>
+                ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      )}
 
       {categories.filter(category => category.count > 0).length > 0 && (
         <SidebarGroup>
@@ -133,59 +156,28 @@ export function FilterSidebar({
         </SidebarGroup>
       )}
 
-      {games && games.filter(game => game.count > 0).length > 0 && (
+      {rarities.filter(rarity => rarity.count > 0).length > 0 && (
         <SidebarGroup>
-          <SidebarGroupLabel>Jeux</SidebarGroupLabel>
+          <SidebarGroupLabel>Rareté</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {games
-                .filter(game => game.count > 0)
-                .map(game => (
-                  <SidebarMenuItem key={game.id}>
+              {rarities
+                .filter(rarity => rarity.count > 0)
+                .map(rarity => (
+                  <SidebarMenuItem key={rarity.id}>
                     <div className="flex items-center justify-between w-full">
                       <div className="flex items-center gap-2">
                         <Checkbox
-                          id={game.id}
-                          checked={selectedGames.includes(game.id)}
-                          onCheckedChange={() => toggleGame(game.id)}
+                          id={rarity.id}
+                          checked={selectedRarities.includes(rarity.id)}
+                          onCheckedChange={() => toggleRarity(rarity.id)}
                         />
-                        <label htmlFor={game.id}>
-                          {game.name}
+                        <label htmlFor={rarity.id}>
+                          {rarity.name}
                         </label>
                       </div>
                       <Badge variant="secondary">
-                        {game.count}
-                      </Badge>
-                    </div>
-                  </SidebarMenuItem>
-                ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      )}
-
-      {types && types.filter(type => type.count > 0).length > 0 && (
-        <SidebarGroup>
-          <SidebarGroupLabel>Types</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {types
-                .filter(type => type.count > 0)
-                .map(type => (
-                  <SidebarMenuItem key={type.id}>
-                    <div className="flex items-center justify-between w-full">
-                      <div className="flex items-center gap-2">
-                        <Checkbox
-                          id={type.id}
-                          checked={selectedTypes.includes(type.id)}
-                          onCheckedChange={() => toggleType(type.id)}
-                        />
-                        <label htmlFor={type.id}>
-                          {type.name}
-                        </label>
-                      </div>
-                      <Badge variant="secondary">
-                        {type.count}
+                        {rarity.count}
                       </Badge>
                     </div>
                   </SidebarMenuItem>
@@ -275,4 +267,4 @@ export function FilterSidebar({
       )}
     </>
   );
-}
+} 

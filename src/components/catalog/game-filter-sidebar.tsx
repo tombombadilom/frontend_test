@@ -2,38 +2,20 @@
 
 import type React from 'react';
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarFooter,
-  SidebarRail,
   SidebarGroup,
   SidebarGroupLabel,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { usePackFilterStore } from '@/store/filter-store';
+import { useGameFilterStore } from '@/store/filter-store';
 import type { Price } from '@/types/game';
-import { cn } from '@/lib/utils';
 
-interface FilterSidebarProps {
+interface GameFilterSidebarProps {
   categories: Array<{
-    id: string;
-    name: string;
-    count: number;
-  }>;
-  games?: Array<{
-    id: string;
-    name: string;
-    count: number;
-  }>;
-  types?: Array<{
     id: string;
     name: string;
     count: number;
@@ -48,31 +30,25 @@ interface FilterSidebarProps {
   newReleasesCount: number;
 }
 
-export function FilterSidebar({ 
+export function GameFilterSidebar({ 
   categories,
-  games,
-  types,
   platforms,
   maxPrice,
   discountedCount,
   newReleasesCount,
-}: FilterSidebarProps) {
+}: GameFilterSidebarProps) {
   const {
     categories: selectedCategories,
-    games: selectedGames,
-    types: selectedTypes,
     platforms: selectedPlatforms,
     priceRange,
     onlyDiscounted,
     onlyNewReleases,
     toggleCategory,
-    toggleGame,
-    toggleType,
     togglePlatform,
     setPriceRange,
     toggleDiscounted,
     toggleNewReleases,
-  } = usePackFilterStore();
+  } = useGameFilterStore();
 
   const handlePriceChange = (value: number[]) => {
     setPriceRange([value[0], value[1]]);
@@ -124,68 +100,6 @@ export function FilterSidebar({
                       </div>
                       <Badge variant="secondary">
                         {category.count}
-                      </Badge>
-                    </div>
-                  </SidebarMenuItem>
-                ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      )}
-
-      {games && games.filter(game => game.count > 0).length > 0 && (
-        <SidebarGroup>
-          <SidebarGroupLabel>Jeux</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {games
-                .filter(game => game.count > 0)
-                .map(game => (
-                  <SidebarMenuItem key={game.id}>
-                    <div className="flex items-center justify-between w-full">
-                      <div className="flex items-center gap-2">
-                        <Checkbox
-                          id={game.id}
-                          checked={selectedGames.includes(game.id)}
-                          onCheckedChange={() => toggleGame(game.id)}
-                        />
-                        <label htmlFor={game.id}>
-                          {game.name}
-                        </label>
-                      </div>
-                      <Badge variant="secondary">
-                        {game.count}
-                      </Badge>
-                    </div>
-                  </SidebarMenuItem>
-                ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      )}
-
-      {types && types.filter(type => type.count > 0).length > 0 && (
-        <SidebarGroup>
-          <SidebarGroupLabel>Types</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {types
-                .filter(type => type.count > 0)
-                .map(type => (
-                  <SidebarMenuItem key={type.id}>
-                    <div className="flex items-center justify-between w-full">
-                      <div className="flex items-center gap-2">
-                        <Checkbox
-                          id={type.id}
-                          checked={selectedTypes.includes(type.id)}
-                          onCheckedChange={() => toggleType(type.id)}
-                        />
-                        <label htmlFor={type.id}>
-                          {type.name}
-                        </label>
-                      </div>
-                      <Badge variant="secondary">
-                        {type.count}
                       </Badge>
                     </div>
                   </SidebarMenuItem>
@@ -275,4 +189,4 @@ export function FilterSidebar({
       )}
     </>
   );
-}
+} 

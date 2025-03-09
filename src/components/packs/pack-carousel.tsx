@@ -14,9 +14,11 @@ import {
 
 interface PackCarouselProps {
   packs: Pack[];
+  onPrevious?: () => void;
+  onNext?: () => void;
 }
 
-export function PackCarousel({ packs }: PackCarouselProps) {
+export function PackCarousel({ packs, onPrevious, onNext }: PackCarouselProps) {
   return (
     <div className="relative h-[calc(100dvh-12rem)] overflow-hidden px-0">
       <Carousel
@@ -35,8 +37,8 @@ export function PackCarousel({ packs }: PackCarouselProps) {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="text-white" />
-        <CarouselNext className="text-white" />
+        <CarouselPrevious className="text-white" onClick={onPrevious} />
+        <CarouselNext className="text-white" onClick={onNext} />
       </Carousel>
     </div>
   );

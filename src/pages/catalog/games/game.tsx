@@ -1,12 +1,13 @@
 'use client';
 
 import { useParams } from 'react-router-dom';
-import { useState } from "react"
-import { motion } from "framer-motion"
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "motion/react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Star, ShoppingCart, Heart, Share2, Calendar } from "lucide-react"
+import { Skeleton } from "@/components/ui/skeleton"
 import type { Game } from "@/types/game"
 import gamesData from "@/data/games.json"
 
@@ -16,10 +17,12 @@ interface ImageThumbnailProps {
   alt: string
   isSelected: boolean
   onClick: () => void
+  onError?: () => void
+  hasError?: boolean
 }
 
-// Composant pour les miniatures d'images avec animations
-const ImageThumbnail = ({ src, alt, isSelected, onClick }: ImageThumbnailProps) => (
+// Composant pour les miniatures d'images avec animations et skeleton
+const ImageThumbnail = ({ src, alt, isSelected, onClick, onError, hasError }: ImageThumbnailProps) => (
   <motion.div
     className={`cursor-pointer rounded-md overflow-hidden border-2 ${isSelected ? "border-primary" : "border-transparent"}`}
     whileHover={{ scale: 1.05, borderColor: "rgba(var(--primary), 0.5)" }}
@@ -27,23 +30,116 @@ const ImageThumbnail = ({ src, alt, isSelected, onClick }: ImageThumbnailProps) 
     transition={{ duration: 0.2 }}
     onClick={onClick}
   >
-    <img src={src || "/placeholder.svg"} alt={alt} className="w-full aspect-video object-cover" />
+    {hasError ? (
+      <Skeleton className="w-full aspect-video" />
+    ) : (
+      <img 
+        src={src || "/placeholder.svg"} 
+        alt={alt} 
+        className="w-full aspect-video object-cover" 
+        onError={onError}
+      />
+    )}
   </motion.div>
 )
 
+// Skeleton component for loading state
+const GameSkeleton = () => (
+  <div className="container mx-auto py-8 px-4">
+    <div className="flex items-center text-sm text-muted-foreground mb-6">
+      <Skeleton className="h-4 w-20" />
+      <span className="mx-2">/</span>
+      <Skeleton className="h-4 w-20" />
+      <span className="mx-2">/</span>
+      <Skeleton className="h-4 w-32" />
+    </div>
+
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {/* Left column - Images */}
+      <div className="space-y-4">
+        <Skeleton className="w-full aspect-video rounded-lg" />
+        <div className="grid grid-cols-4 gap-2">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Skeleton key={`game-screenshot-skeleton-${i + 1}`} className="w-full aspect-video rounded-md" />
+          ))}
+        </div>
+      </div>
+
+      {/* Right column - Details */}
+      <div className="space-y-6">
+        <div>
+          <Skeleton className="h-8 w-3/4 mb-4" />
+          <div className="flex flex-wrap gap-2">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <Skeleton key={`game-tag-skeleton-${i + 1}`} className="h-6 w-20" />
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Skeleton className="h-6 w-32" />
+          <Skeleton className="h-24 w-full" />
+        </div>
+
+        <div className="space-y-4">
+          <Skeleton className="h-8 w-40" />
+          <div className="flex gap-2">
+            <Skeleton className="h-10 w-32" />
+            <Skeleton className="h-10 w-32" />
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Skeleton className="h-12 flex-1" />
+          <Skeleton className="h-12 w-32" />
+          <Skeleton className="h-12 w-12" />
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 export default function GamePage() {
   const { id } = useParams();
-  const [selectedImage, setSelectedImage] = useState<number>(0)
-  const [quantity, setQuantity] = useState<number>(1)
+  const [selectedImage, setSelectedImage] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
+  const [gameData, setGameData] = useState<Game | null>(null);
   
-  // Trouver le jeu correspondant à l'ID
-  const gameData = gamesData.games.find(game => game.id === Number(id)) as Game
+  useEffect(() => {
+    const loadGame = async () => {
+      setIsLoading(true);
+      try {
+        // Simuler un délai de chargement pour voir le skeleton
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        const game = gamesData.games.find(game => game.id === Number(id));
+        if (game) {
+          setGameData(game);
+        }
+      } catch (error) {
+        console.error('Error loading game:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    void loadGame();
+  }, [id]);
+
+  const handleImageError = (imageKey: string) => {
+    setImageErrors(prev => ({ ...prev, [imageKey]: true }));
+  };
+
+  if (isLoading) {
+    return <GameSkeleton />;
+  }
   
   if (!gameData) {
-    return <div>Game not found</div>
+    return <div>Game not found</div>;
   }
 
-  const discountedPrice = gameData.price.amount * (1 - ((gameData.price.discount ?? 0) / 100))
+  const discountedPrice = gameData.price.amount * (1 - ((gameData.price.discount ?? 0) / 100));
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -70,15 +166,20 @@ export default function GamePage() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <motion.img
-                src={selectedImage === 0 ? gameData.coverImage : gameData.screenshots[selectedImage - 1]}
-                alt={gameData.title}
-                className="w-full aspect-video object-cover"
-                key={selectedImage}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              />
+              {imageErrors.cover ? (
+                <Skeleton className="w-full aspect-video" />
+              ) : (
+                <motion.img
+                  src={selectedImage === 0 ? gameData.coverImage : gameData.screenshots[selectedImage - 1]}
+                  alt={gameData.title}
+                  className="w-full aspect-video object-cover"
+                  key={selectedImage}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                  onError={() => handleImageError('cover')}
+                />
+              )}
               {(gameData.price.discount ?? 0) > 0 && (
                 <Badge className="absolute top-4 right-4 text-lg px-3 py-1.5 bg-primary text-primary-foreground">
                   -{gameData.price.discount ?? 0}%
@@ -93,14 +194,18 @@ export default function GamePage() {
                 alt={`${gameData.title} cover`}
                 isSelected={selectedImage === 0}
                 onClick={() => setSelectedImage(0)}
+                onError={() => handleImageError('cover')}
+                hasError={imageErrors.cover}
               />
               {gameData.screenshots.map((screenshot, index) => (
                 <ImageThumbnail
-                  key={`screenshot-${screenshot}`}
+                  key={`game-screenshot-${gameData.id}-${index + 1}`}
                   src={screenshot}
                   alt={`${gameData.title} screenshot ${index + 1}`}
                   isSelected={selectedImage === index + 1}
                   onClick={() => setSelectedImage(index + 1)}
+                  onError={() => handleImageError(`screenshot-${index}`)}
+                  hasError={imageErrors[`screenshot-${index}`]}
                 />
               ))}
             </div>

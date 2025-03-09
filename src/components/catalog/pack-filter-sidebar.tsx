@@ -2,38 +2,25 @@
 
 import type React from 'react';
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarFooter,
-  SidebarRail,
   SidebarGroup,
   SidebarGroupLabel,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
 import { usePackFilterStore } from '@/store/filter-store';
 import type { Price } from '@/types/game';
-import { cn } from '@/lib/utils';
 
-interface FilterSidebarProps {
-  categories: Array<{
+interface PackFilterSidebarProps {
+  games: Array<{
     id: string;
     name: string;
     count: number;
   }>;
-  games?: Array<{
-    id: string;
-    name: string;
-    count: number;
-  }>;
-  types?: Array<{
+  types: Array<{
     id: string;
     name: string;
     count: number;
@@ -48,24 +35,21 @@ interface FilterSidebarProps {
   newReleasesCount: number;
 }
 
-export function FilterSidebar({ 
-  categories,
+export function PackFilterSidebar({ 
   games,
   types,
   platforms,
   maxPrice,
   discountedCount,
   newReleasesCount,
-}: FilterSidebarProps) {
+}: PackFilterSidebarProps) {
   const {
-    categories: selectedCategories,
     games: selectedGames,
     types: selectedTypes,
     platforms: selectedPlatforms,
     priceRange,
     onlyDiscounted,
     onlyNewReleases,
-    toggleCategory,
     toggleGame,
     toggleType,
     togglePlatform,
@@ -102,38 +86,7 @@ export function FilterSidebar({
         </SidebarGroupContent>
       </SidebarGroup>
 
-      {categories.filter(category => category.count > 0).length > 0 && (
-        <SidebarGroup>
-          <SidebarGroupLabel>Catégories</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {categories
-                .filter(category => category.count > 0)
-                .map(category => (
-                  <SidebarMenuItem key={category.id}>
-                    <div className="flex items-center justify-between w-full">
-                      <div className="flex items-center gap-2">
-                        <Checkbox
-                          id={category.id}
-                          checked={selectedCategories.includes(category.id)}
-                          onCheckedChange={() => toggleCategory(category.id)}
-                        />
-                        <label htmlFor={category.id}>
-                          {category.name}
-                        </label>
-                      </div>
-                      <Badge variant="secondary">
-                        {category.count}
-                      </Badge>
-                    </div>
-                  </SidebarMenuItem>
-                ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      )}
-
-      {games && games.filter(game => game.count > 0).length > 0 && (
+      {games.filter(game => game.count > 0).length > 0 && (
         <SidebarGroup>
           <SidebarGroupLabel>Jeux</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -164,7 +117,7 @@ export function FilterSidebar({
         </SidebarGroup>
       )}
 
-      {types && types.filter(type => type.count > 0).length > 0 && (
+      {types.filter(type => type.count > 0).length > 0 && (
         <SidebarGroup>
           <SidebarGroupLabel>Types</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -275,4 +228,4 @@ export function FilterSidebar({
       )}
     </>
   );
-}
+} 
