@@ -17,8 +17,8 @@
         "startDate": "2024-01-01T00:00:00Z"
       },
       "preview": {
-        "imageUrl": "https://www.zelda.com/tears-of-the-kingdom/assets/img/home/hero-bg.jpg",
-        "videoUrl": "https://www.youtube.com/watch?v=example"
+        "imageUrl": "https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.25/c_scale,w_1200/ncom/fr_CA/games/switch/t/the-legend-of-zelda-tears-of-the-kingdom-switch/hero",
+        "videoUrl": null
       }
     },
     {
@@ -75,7 +75,7 @@
       "items": [3, 4],
       "isActive": true,
       "preview": {
-        "imageUrl": "https://static.wikia.nocookie.net/gensin-impact/images/4/41/Item_Blessing_of_the_Welkin_Moon.png",
+        "imageUrl": "https://webstatic.hoyoverse.com/upload/event/2020/11/06/7fd661b5184e1734f91e697d77b2a3cf_7067277002687846379.png",
         "videoUrl": null
       }
     },
@@ -91,7 +91,7 @@
       "items": [3, 4, 5],
       "isActive": true,
       "preview": {
-        "imageUrl": "https://static.wikia.nocookie.net/gensin-impact/images/6/6c/Weapon_Primordial_Jade_Winged-Spear.png",
+        "imageUrl": "https://webstatic.hoyoverse.com/upload/contentweb/2022/07/22/4defda2d4882e892e631787d30711824_6128182087034183336.png",
         "videoUrl": null
       }
     },
@@ -107,7 +107,7 @@
       "items": [5, 6],
       "isActive": true,
       "preview": {
-        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/blog_header/IUQR1VHH3O4Y1666638454326.jpg",
+        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/template_resource/ETRR9PVX8BDP1649177420542.jpg",
         "videoUrl": null
       }
     },
@@ -123,7 +123,7 @@
       "items": [5, 6, 7],
       "isActive": true,
       "preview": {
-        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/blog_header/2G8KBJFEXN5F1666638454608.jpg",
+        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/template_resource/L3GXRQN1B6QK1649177420368.jpg",
         "videoUrl": null
       }
     },
@@ -139,7 +139,7 @@
       "items": [5, 6, 7, 8],
       "isActive": true,
       "preview": {
-        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/blog_header/IYBHRHH3XZ531666638454869.jpg",
+        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/template_resource/XGUWRM8YMHX41649177420368.jpg",
         "videoUrl": null
       }
     },
@@ -189,7 +189,7 @@
             "isLimited": false
           },
           "preview": {
-            "imageUrl": "https://static.wikia.nocookie.net/gensin-impact/images/1/1f/Item_Genesis_Crystal.png"
+            "imageUrl": "https://blz-contentstack-images.akamaized.net/v3/assets/blt9c12f249ac15c7ec/blt882aeaf87393c0f7/62fd78f8ad1f2f4e67e74aea/df_he_shop.png"
           },
           "gameId": 10,
           "tags": ["currency", "premium"],
@@ -214,7 +214,7 @@
         "bestValue": true
       },
       "preview": {
-        "imageUrl": "https://static.wikia.nocookie.net/gensin-impact/images/1/1f/Item_Genesis_Crystal.png",
+        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/template_resource/fq/FQ9CXMI7H4Y41674086881051.jpg",
         "videoUrl": null
       }
     },
@@ -237,7 +237,7 @@
             "isLimited": false
           },
           "preview": {
-            "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/blog_header/sy/SYUV8PHJNMK01666638455112.jpg"
+            "imageUrl": "https://images.blz-contentstack.com/v3/assets/blt3452e3b114fab0cd/bltad36aac4f3a8449a/6384462bc6d2e76a940d6f1a/WoW_DF_Shop_Complete_Bundle_Desktop.png"
           },
           "gameId": 11,
           "tags": ["mount", "epic", "expansion"],
@@ -261,7 +261,7 @@
             "isLimited": false
           },
           "preview": {
-            "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/blog_header/IYBHRHH3XZ531666638454869.jpg"
+            "imageUrl": "https://images.blz-contentstack.com/v3/assets/blt3452e3b114fab0cd/blt499a49c25a09c646/63844629e3f4ac27ce69db47/WoW_DF_Shop_Heroic_Bundle_Desktop.png"
           },
           "gameId": 11,
           "tags": ["boost", "level", "expansion"],
@@ -287,8 +287,7 @@
         "gameTimeMonths": 1
       },
       "preview": {
-        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/blog_header/sy/SYUV8PHJNMK01666638455112.jpg",
-        "videoUrl": null
+        "imageUrl": "https://images.blz-contentstack.com/v3/assets/blt3452e3b114fab0cd/blt0a18377b7709aa76/63844624e3f4ac27ce69db43/WoW_DF_Shop_Epic_Bundle_Desktop.png"
       }
     }
   ]

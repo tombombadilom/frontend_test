@@ -67,8 +67,8 @@
         "isLimited": true
       },
       "preview": {
-        "imageUrl": "https://static.wikia.nocookie.net/gensin-impact/images/6/6c/Weapon_Primordial_Jade_Winged-Spear.png",
-        "modelUrl": "https://static.wikia.nocookie.net/gensin-impact/images/6/6c/Weapon_Primordial_Jade_Winged-Spear.png"
+        "imageUrl": "https://genshin.honeyhunterworld.com/img/i_n400201.webp",
+        "modelUrl": "https://genshin.honeyhunterworld.com/img/i_n400201.webp"
       },
       "gameId": 10,
       "tags": ["weapon", "5-star", "polearm"],
@@ -92,7 +92,7 @@
         "isLimited": false
       },
       "preview": {
-        "imageUrl": "https://static.wikia.nocookie.net/gensin-impact/images/4/41/Item_Blessing_of_the_Welkin_Moon.png"
+        "imageUrl": "https://genshin.honeyhunterworld.com/img/i_n400201.webp"
       },
       "gameId": 10,
       "tags": ["subscription", "premium"],
@@ -143,7 +143,7 @@
         "isLimited": false
       },
       "preview": {
-        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/blog_header/RTAFB517JPPJ1509557104730.jpg"
+        "imageUrl": "https://genshin.honeyhunterworld.com/img/i_n203.webp"
       },
       "gameId": 11,
       "tags": ["service", "character"],

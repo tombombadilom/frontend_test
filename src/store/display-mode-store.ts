@@ -16,6 +16,15 @@ export const useDisplayMode = create<DisplayModeState>()(
     }),
     {
       name: 'display-mode-storage',
+      version: 1,
+      migrate: (persistedState: any, version: number) => {
+        if (version === 0) {
+          return {
+            displayMode: 'grid'
+          };
+        }
+        return persistedState as DisplayModeState;
+      }
     }
   )
 ); 

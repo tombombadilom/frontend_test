@@ -15,11 +15,11 @@
       "publisher": "Nintendo",
       "genres": ["Action", "Aventure", "RPG"],
       "platforms": ["Nintendo Switch"],
-      "coverImage": "https://www.zelda.com/tears-of-the-kingdom/assets/img/home/hero-bg.jpg",
+      "coverImage": "https://www.nintendo.com/eu/media/images/10_share_images/portals_3/2x1_Hub_TheLegendOfZelda_ToTK_image1600w.jpg",
       "screenshots": [
-        "https://www.zelda.com/tears-of-the-kingdom/assets/img/home/totk_logo.png",
-        "https://www.zelda.com/tears-of-the-kingdom/assets/img/home/screenshot-1.jpg",
-        "https://www.zelda.com/tears-of-the-kingdom/assets/img/home/screenshot-2.jpg"
+        "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000063714/2df6fb4b899031d40557c2e6bfe8c14bec353f5511892370b13e8ae75fd6dcd1",
+        "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000063714/d88799f950b7a33598a4f6b2f68a81def0309d48caa46e64c42c482dbce53fce",
+        "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/ncom/software/switch/70010000063714/7c75d7a40c00d8f850148b7ee788f9e18c5ee330a30dfbf17c9e3cba34c95b89"
       ],
       "rating": 4.9,
       "isFeatured": true,

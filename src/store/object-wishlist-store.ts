@@ -57,6 +57,15 @@ export const useObjectWishlistStore = create<ObjectWishlistState>()(
     }),
     {
       name: 'game-shop-object-wishlist',
+      version: 1,
+      migrate: (persistedState: any, version: number) => {
+        if (version === 0) {
+          return {
+            items: []
+          };
+        }
+        return persistedState as ObjectWishlistState;
+      }
     }
   )
 ); 

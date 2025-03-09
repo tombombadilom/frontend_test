@@ -16,6 +16,15 @@ export const useThemeStore = create<ThemeState>()(
     }),
     {
       name: 'theme-storage',
+      version: 1,
+      migrate: (persistedState: any, version: number) => {
+        if (version === 0) {
+          return {
+            theme: 'system'
+          };
+        }
+        return persistedState as ThemeState;
+      }
     }
   )
 );

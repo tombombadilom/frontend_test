@@ -59,6 +59,15 @@ export const useWishlistStore = create<WishlistState>()(
     {
       name: 'game-shop-wishlist',
       version: 1,
+      migrate: (persistedState: any, version: number) => {
+        if (version === 0) {
+          // Si c'est une ancienne version, on retourne un état par défaut
+          return {
+            items: []
+          };
+        }
+        return persistedState as WishlistState;
+      }
     }
   )
 );

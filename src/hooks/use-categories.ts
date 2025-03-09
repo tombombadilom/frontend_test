@@ -2,25 +2,16 @@ import { useMemo } from 'react';
 import gamesCategories from '@/data/games-categories.json';
 import objectsCategories from '@/data/objects-categories.json';
 import packsCategories from '@/data/packs-categories.json';
+import type { GameCategory, GameCategoriesData } from '@/types/category';
 
 export type CategoryType = 'games' | 'objects' | 'packs';
 
-interface Category {
-  id: number;
-  name: string;
-  description: string;
-  subcategories?: {
-    id: number;
-    name: string;
-    description: string;
-  }[];
-}
-
 interface UseCategories {
-  categories: Category[];
+  categories: GameCategory[];
   getCategoryName: (id: number) => string;
   getSubcategoryName: (id: number) => string;
-  getAllCategories: () => Category[];
+  getCategoryIcon: (id: number) => string;
+  getAllCategories: () => GameCategory[];
   getAllCategoryNames: () => string[];
 }
 
@@ -28,11 +19,11 @@ export function useCategories(type: CategoryType): UseCategories {
   const categoriesData = useMemo(() => {
     switch (type) {
       case 'games':
-        return gamesCategories.categories;
+        return (gamesCategories as GameCategoriesData).categories;
       case 'objects':
-        return objectsCategories.categories;
+        return (objectsCategories as GameCategoriesData).categories;
       case 'packs':
-        return packsCategories.categories;
+        return (packsCategories as GameCategoriesData).categories;
       default:
         return [];
     }
@@ -49,7 +40,12 @@ export function useCategories(type: CategoryType): UseCategories {
     return subcategory?.name || `Sous-catégorie ${id}`;
   };
 
-  const getAllCategories = (): Category[] => {
+  const getCategoryIcon = (id: number): string => {
+    const category = categoriesData.find(cat => cat.id === Math.floor(id / 100));
+    return category?.icon || 'Category';
+  };
+
+  const getAllCategories = (): GameCategory[] => {
     return categoriesData;
   };
 
@@ -61,6 +57,7 @@ export function useCategories(type: CategoryType): UseCategories {
     categories: categoriesData,
     getCategoryName,
     getSubcategoryName,
+    getCategoryIcon,
     getAllCategories,
     getAllCategoryNames,
   };

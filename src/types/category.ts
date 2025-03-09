@@ -1,3 +1,25 @@
+import type { LucideIcon } from 'lucide-react';
+
+export interface GameSubcategory {
+  id: number;
+  name: string;
+  description: string;
+  icon: string;
+}
+
+export interface GameCategory {
+  id: number;
+  name: string;
+  description: string;
+  icon: string;
+  image: string;
+  subcategories: GameSubcategory[];
+}
+
+export interface GameCategoriesData {
+  categories: GameCategory[];
+}
+
 export interface Subcategory {
   id: number;
   name: string;
