@@ -3,7 +3,9 @@
 import React, { lazy } from 'react';
 import { useGames } from '@/hooks/use-games';
 import { useCategories } from '@/hooks/use-categories';
-import { CatalogLayout, prepareFilterOptions, prepareTagOptions } from '@/components/catalog/catalog-layout';
+import { CatalogLayout } from '@/components/catalog/catalog-layout';
+import { prepareFilterOptions, prepareTagOptions } from '@/components/catalog/utils';
+import { SidebarProvider } from '@/components/ui/sidebar';
 
 const FilterSidebarLazy = lazy(() => 
   import('@/components/catalog/filter-sidebar').then(mod => ({ default: mod.FilterSidebar }))
@@ -34,18 +36,20 @@ export default function GamesPage() {
   const newReleasesCount = games.filter(game => game.isNewRelease).length;
 
   return (
-    <CatalogLayout
-      title="Jeux"
-      filterSidebar={
-        <FilterSidebarLazy 
-          categories={categories}
-          platforms={platforms}
-          maxPrice={maxPrice}
-          discountedCount={discountedCount}
-          newReleasesCount={newReleasesCount}
-        />
-      }
-      content={<GameDisplayLazy />}
-    />
+    <SidebarProvider>
+      <CatalogLayout
+        title="Jeux"
+        filterSidebar={
+          <FilterSidebarLazy 
+            categories={categories}
+            platforms={platforms}
+            maxPrice={maxPrice}
+            discountedCount={discountedCount}
+            newReleasesCount={newReleasesCount}
+          />
+        }
+        content={<GameDisplayLazy />}
+      />
+    </SidebarProvider>
   );
 } 

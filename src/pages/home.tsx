@@ -4,6 +4,8 @@ import { useGames } from '@/hooks/use-games';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { useCategories } from '@/hooks/use-categories';
+import { FeaturedPacks } from '@/components/home/FeaturedPacks';
+import { FeaturedObjects } from '@/components/home/FeaturedObjects';
 import { 
   Swords, 
   Scroll, 
@@ -12,7 +14,7 @@ import {
   Cog, 
   Target, 
   Sparkles, 
-  Map,
+  Map as MapIcon,
   LayoutGrid
 } from 'lucide-react';
 
@@ -24,7 +26,7 @@ const iconMap = {
   Cog,
   Target,
   Sparkles,
-  Map,
+  MapIcon,
   LayoutGrid
 };
 
@@ -89,51 +91,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured Games */}
-      <section className="game-section">
-        <div className="game-container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="mb-8 flex items-center justify-between"
-          >
-            <h2 className="text-2xl font-bold md:text-3xl">Jeux à la une</h2>
-            <Link
-              to="/featured"
-              className="text-sm font-medium text-primary hover:underline"
-            >
-              Voir tout
-            </Link>
-          </motion.div>
+      {/* Featured Packs */}
+      <FeaturedPacks />
 
-          {isLoading ? (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {Array.from({ length: 4 }).map((_, index) => (
-                <div
-                  key={`featured-skeleton-${Date.now()}-${index}`}
-                  className="h-[300px] animate-pulse rounded-lg bg-muted"
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {featuredGames.map((game, index) => (
-                <motion.div
-                  key={game.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <GameCard game={game} />
-                </motion.div>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+      {/* Featured Objects */}
+      <FeaturedObjects />
 
       {/* Categories */}
       <section className="game-section">
@@ -184,6 +146,52 @@ export default function HomePage() {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      {/* Featured Games */}
+      <section className="game-section">
+        <div className="game-container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mb-8 flex items-center justify-between"
+          >
+            <h2 className="text-2xl font-bold md:text-3xl">Jeux à la une</h2>
+            <Link
+              to="/featured"
+              className="text-sm font-medium text-primary hover:underline"
+            >
+              Voir tout
+            </Link>
+          </motion.div>
+
+          {isLoading ? (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div
+                  key={`featured-skeleton-${Date.now()}-${index}`}
+                  className="h-[300px] animate-pulse rounded-lg bg-muted"
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {featuredGames.map((game, index) => (
+                <motion.div
+                  key={game.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <GameCard game={game} />
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

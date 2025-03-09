@@ -8,6 +8,10 @@ interface ThemeState {
   setTheme: (theme: Theme) => void;
 }
 
+interface PersistedThemeState {
+  theme: Theme;
+}
+
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({
@@ -17,14 +21,14 @@ export const useThemeStore = create<ThemeState>()(
     {
       name: 'theme-storage',
       version: 1,
-      migrate: (persistedState: any, version: number) => {
+      migrate: (persistedState: unknown, version: number) => {
         if (version === 0) {
           return {
-            theme: 'system'
+            theme: 'system' as Theme,
           };
         }
-        return persistedState as ThemeState;
-      }
+        return (persistedState as PersistedThemeState);
+      },
     }
   )
 );

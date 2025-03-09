@@ -2,6 +2,7 @@ import { toast } from 'sonner';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Game } from '@/types/game';
+import type { MigrateFunction } from '@/types/store';
 
 export interface WishlistItem {
   id: string;
@@ -59,15 +60,14 @@ export const useWishlistStore = create<WishlistState>()(
     {
       name: 'game-shop-wishlist',
       version: 1,
-      migrate: (persistedState: any, version: number) => {
+      migrate: ((persistedState: unknown, version: number) => {
         if (version === 0) {
-          // Si c'est une ancienne version, on retourne un état par défaut
           return {
             items: []
           };
         }
         return persistedState as WishlistState;
-      }
+      }) as MigrateFunction<WishlistState>,
     }
   )
 );

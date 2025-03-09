@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { GamePreview } from '@/components/catalog/game-preview';
-import { PackPreview } from '@/components/catalog/pack-preview';
-import { ObjectPreview } from '@/components/catalog/object-preview';
+import { GameDisplay } from '@/components/catalog/game-display';
+import { PackDisplay } from '@/components/catalog/pack-display';
+import { ObjectDisplay } from '@/components/catalog/object-display';
 import { DisplayModeSwitcher } from '@/components/catalog/display-mode-switcher';
 
 export default function CatalogPage() {
@@ -28,7 +28,7 @@ export default function CatalogPage() {
         </div>
         <Card>
           <CardContent className="p-6">
-            <GamePreview />
+            <GameDisplay />
           </CardContent>
         </Card>
       </section>
@@ -46,7 +46,7 @@ export default function CatalogPage() {
         </div>
         <Card>
           <CardContent className="p-6">
-            <PackPreview />
+            <PackDisplay />
           </CardContent>
         </Card>
       </section>
@@ -64,7 +64,7 @@ export default function CatalogPage() {
         </div>
         <Card>
           <CardContent className="p-6">
-            <ObjectPreview />
+            <ObjectDisplay />
           </CardContent>
         </Card>
       </section>

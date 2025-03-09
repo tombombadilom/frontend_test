@@ -1,31 +1,20 @@
 'use client';
 
 import { useUserSettingsStore } from '@/store/user-settings-store';
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 
 export function useSettings() {
   const settings = useUserSettingsStore();
-
-  const formatCurrency = useCallback(
-    (amount: number) => {
-      return new Intl.NumberFormat(settings.language, {
-        style: 'currency',
-        currency: settings.currency,
-      }).format(amount);
-    },
-    [settings.language, settings.currency]
-  );
+  const formatCurrency = useMemo(() => new Intl.NumberFormat('fr-FR', {
+    style: 'currency',
+    currency: 'EUR'
+  }), []);
 
   return useMemo(() => ({
     ...settings,
     formatCurrency,
   }), [
-    settings.language,
-    settings.currency,
-    settings.emailNotifications,
-    settings.pushNotifications,
-    settings.showRecentlyViewed,
-    settings.showRecommendations,
+    settings,
     formatCurrency
   ]);
 }

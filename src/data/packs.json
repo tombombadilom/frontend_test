@@ -1,293 +1,287 @@
 {
   "packs": [
     {
-      "id": 1,
+      "id": "pack_zelda_1",
       "name": "Pack Starter Zelda",
-      "description": "Pack de démarrage pour The Legend of Zelda avec des objets exclusifs",
+      "description": "Pack de démarrage pour Zelda avec des objets essentiels",
       "price": {
         "amount": 19.99,
         "currency": "EUR"
       },
+      "items": [
+        "Master Sword Skin",
+        "Hylian Shield Skin",
+        "10000 Rubis",
+        "Tenue du Héros"
+      ],
+      "isActive": true,
+      "type": "starter",
       "gameId": 1,
-      "items": [1001, 1002],
-      "isActive": true,
-      "type": "Starter",
-      "tags": ["starter", "exclusive"],
+      "tags": ["starter", "zelda", "bundle"],
+      "isFeatured": true,
       "availability": {
-        "startDate": "2024-01-01T00:00:00Z"
-      },
-      "preview": {
-        "imageUrl": "https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.25/c_scale,w_1200/ncom/fr_CA/games/switch/t/the-legend-of-zelda-tears-of-the-kingdom-switch/hero",
-        "videoUrl": null
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
       }
     },
     {
-      "id": 2,
-      "name": "Pack Deluxe FF XVI",
-      "description": "Pack deluxe pour Final Fantasy XVI avec des bonus exclusifs",
-      "price": {
-        "amount": 29.99,
-        "currency": "EUR"
-      },
-      "gameId": 2,
-      "items": [2001],
-      "isActive": true,
-      "type": "Deluxe",
-      "tags": ["deluxe", "exclusive"],
-      "availability": {
-        "startDate": "2024-02-01T00:00:00Z"
-      },
-      "preview": {
-        "imageUrl": "https://cdn.akamai.steamstatic.com/steam/apps/2324650/header.jpg",
-        "videoUrl": "https://www.youtube.com/watch?v=example2"
-      }
-    },
-    {
-      "id": 3,
-      "name": "Pack Collector BG3",
-      "description": "Pack collector pour Baldur's Gate 3 avec des objets rares",
-      "price": {
-        "amount": 39.99,
-        "currency": "EUR"
-      },
-      "gameId": 3,
-      "items": [1001, 2001],
-      "isActive": true,
-      "type": "Collector",
-      "tags": ["collector", "rare"],
-      "availability": {
-        "startDate": "2024-03-01T00:00:00Z"
-      },
-      "preview": {
-        "imageUrl": "https://cdn.cloudflare.steamstatic.com/steam/apps/1086940/header.jpg",
-        "videoUrl": "https://www.youtube.com/watch?v=example3"
-      }
-    },
-    {
-      "id": 4,
-      "name": "Genshin Impact Bundle",
-      "description": "Pack de bienvenue pour Genshin Impact",
-      "price": {
-        "amount": 9.99,
-        "currency": "EUR"
-      },
-      "gameId": 10,
-      "items": [3, 4],
-      "isActive": true,
-      "preview": {
-        "imageUrl": "https://webstatic.hoyoverse.com/upload/event/2020/11/06/7fd661b5184e1734f91e697d77b2a3cf_7067277002687846379.png",
-        "videoUrl": null
-      }
-    },
-    {
-      "id": 5,
-      "name": "Genshin Impact Premium Bundle",
-      "description": "Pack premium pour Genshin Impact",
-      "price": {
-        "amount": 19.99,
-        "currency": "EUR"
-      },
-      "gameId": 10,
-      "items": [3, 4, 5],
-      "isActive": true,
-      "preview": {
-        "imageUrl": "https://webstatic.hoyoverse.com/upload/contentweb/2022/07/22/4defda2d4882e892e631787d30711824_6128182087034183336.png",
-        "videoUrl": null
-      }
-    },
-    {
-      "id": 6,
-      "name": "WoW Starter Pack",
-      "description": "Pack de démarrage pour World of Warcraft",
-      "price": {
-        "amount": 29.99,
-        "currency": "EUR"
-      },
-      "gameId": 11,
-      "items": [5, 6],
-      "isActive": true,
-      "preview": {
-        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/template_resource/ETRR9PVX8BDP1649177420542.jpg",
-        "videoUrl": null
-      }
-    },
-    {
-      "id": 7,
-      "name": "WoW Premium Pack",
-      "description": "Pack premium pour World of Warcraft",
+      "id": "pack_zelda_2",
+      "name": "Pack Collector Zelda",
+      "description": "Pack collector avec des objets rares et exclusifs",
       "price": {
         "amount": 49.99,
         "currency": "EUR"
       },
-      "gameId": 11,
-      "items": [5, 6, 7],
+      "items": [
+        "Épée Légendaire Dorée",
+        "Bouclier Royal Exclusif",
+        "Tenue Divine",
+        "Mount Épona Exclusive",
+        "50000 Rubis"
+      ],
       "isActive": true,
-      "preview": {
-        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/template_resource/L3GXRQN1B6QK1649177420368.jpg",
-        "videoUrl": null
+      "type": "collector",
+      "gameId": 1,
+      "tags": ["collector", "zelda", "exclusive"],
+      "availability": {
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-06-30T23:59:59Z"
       }
     },
     {
-      "id": 8,
-      "name": "WoW Ultimate Pack",
-      "description": "Pack ultime pour World of Warcraft",
+      "id": "pack_ff16_1",
+      "name": "Pack Débutant FF XVI",
+      "description": "Pack de démarrage pour Final Fantasy XVI",
       "price": {
-        "amount": 99.99,
+        "amount": 24.99,
         "currency": "EUR"
       },
-      "gameId": 11,
-      "items": [5, 6, 7, 8],
+      "items": [
+        "Épée de Débutant+",
+        "Set d'Armure de Base",
+        "100 Potions",
+        "50000 Gil"
+      ],
       "isActive": true,
-      "preview": {
-        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/template_resource/XGUWRM8YMHX41649177420368.jpg",
-        "videoUrl": null
-      }
-    },
-    {
-      "id": 1001,
-      "name": "Midas Bundle",
-      "description": "Complete Midas character set with matching items",
-      "items": [1001, 1002],
-      "price": {
-        "amount": 28,
-        "currency": "EUR",
-        "discount": 20
-      },
+      "type": "starter",
+      "gameId": 2,
+      "tags": ["starter", "ff16", "bundle"],
+      "isFeatured": true,
       "availability": {
-        "startDate": "2024-03-01T00:00:00Z",
-        "endDate": "2024-03-31T23:59:59Z",
-        "isLimited": true
-      },
-      "type": "character",
-      "gameId": 9,
-      "tags": ["bundle", "character", "seasonal"],
-      "metadata": {
-        "originalPrice": 35,
-        "savings": 7
-      },
-      "preview": {
-        "imageUrl": "https://cdn2.unrealengine.com/fortnite-midas-outfit-1920x1080-579970755.jpg",
-        "videoUrl": null
+        "startDate": "2024-02-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
       }
     },
     {
-      "id": 2001,
-      "name": "Genesis Crystal Bundle",
-      "description": "Purchase Genesis Crystals with bonus",
-      "items": [
-        {
-          "id": 2003,
-          "name": "Genesis Crystals",
-          "description": "6480 Genesis Crystals + 1600 bonus",
-          "category": 401,
-          "rarity": "epic",
-          "price": {
-            "amount": 99.99,
-            "currency": "EUR"
-          },
-          "availability": {
-            "isLimited": false
-          },
-          "preview": {
-            "imageUrl": "https://blz-contentstack-images.akamaized.net/v3/assets/blt9c12f249ac15c7ec/blt882aeaf87393c0f7/62fd78f8ad1f2f4e67e74aea/df_he_shop.png"
-          },
-          "gameId": 10,
-          "tags": ["currency", "premium"],
-          "metadata": {
-            "amount": 8080,
-            "bonus": 1600
-          }
-        }
-      ],
-      "price": {
-        "amount": 99.99,
-        "currency": "EUR",
-        "discount": 0
-      },
-      "availability": {
-        "isLimited": false
-      },
-      "type": "currency",
-      "gameId": 10,
-      "tags": ["currency", "premium"],
-      "metadata": {
-        "bestValue": true
-      },
-      "preview": {
-        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/template_resource/fq/FQ9CXMI7H4Y41674086881051.jpg",
-        "videoUrl": null
-      }
-    },
-    {
-      "id": 3001,
-      "name": "Dragonflight Epic Edition",
-      "description": "Complete Dragonflight expansion with exclusive items",
-      "items": [
-        {
-          "id": 3003,
-          "name": "Dragonflight Mount",
-          "description": "Exclusive dragon mount",
-          "category": 103,
-          "rarity": "epic",
-          "price": {
-            "amount": 0,
-            "currency": "EUR"
-          },
-          "availability": {
-            "isLimited": false
-          },
-          "preview": {
-            "imageUrl": "https://images.blz-contentstack.com/v3/assets/blt3452e3b114fab0cd/bltad36aac4f3a8449a/6384462bc6d2e76a940d6f1a/WoW_DF_Shop_Complete_Bundle_Desktop.png"
-          },
-          "gameId": 11,
-          "tags": ["mount", "epic", "expansion"],
-          "metadata": {
-            "mountType": "flying",
-            "groundSpeed": 310,
-            "flyingSpeed": 310
-          }
-        },
-        {
-          "id": 3004,
-          "name": "Level 60 Boost",
-          "description": "Instant level 60 character boost",
-          "category": 201,
-          "rarity": "epic",
-          "price": {
-            "amount": 0,
-            "currency": "EUR"
-          },
-          "availability": {
-            "isLimited": false
-          },
-          "preview": {
-            "imageUrl": "https://images.blz-contentstack.com/v3/assets/blt3452e3b114fab0cd/blt499a49c25a09c646/63844629e3f4ac27ce69db47/WoW_DF_Shop_Heroic_Bundle_Desktop.png"
-          },
-          "gameId": 11,
-          "tags": ["boost", "level", "expansion"],
-          "metadata": {
-            "level": 60,
-            "includesGear": true
-          }
-        }
-      ],
+      "id": "pack_ff16_2",
+      "name": "Pack Ultime FF XVI",
+      "description": "Pack ultime avec des objets légendaires",
       "price": {
         "amount": 79.99,
-        "currency": "EUR",
-        "discount": 0
+        "currency": "EUR"
       },
+      "items": [
+        "Épée Ultime de Clive",
+        "Armure Divine",
+        "Invocation Exclusive",
+        "250000 Gil",
+        "Pass Saisonnier"
+      ],
+      "isActive": true,
+      "type": "ultimate",
+      "gameId": 2,
+      "tags": ["ultimate", "ff16", "exclusive"],
       "availability": {
-        "isLimited": false
+        "startDate": "2024-02-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      }
+    },
+    {
+      "id": "pack_bg3_1",
+      "name": "Pack Aventurier BG3",
+      "description": "Pack de démarrage pour Baldur's Gate 3",
+      "price": {
+        "amount": 29.99,
+        "currency": "EUR"
       },
-      "type": "expansion",
-      "gameId": 11,
-      "tags": ["expansion", "premium"],
-      "metadata": {
-        "includesGameTime": true,
-        "gameTimeMonths": 1
+      "items": [
+        "Équipement d'Aventurier+",
+        "Sorts de Base",
+        "100 Potions de Soins",
+        "10000 Or"
+      ],
+      "isActive": true,
+      "type": "starter",
+      "gameId": 3,
+      "tags": ["starter", "bg3", "bundle"],
+      "isFeatured": true,
+      "availability": {
+        "startDate": "2024-03-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      }
+    },
+    {
+      "id": "pack_cp2077_1",
+      "name": "Pack Night City",
+      "description": "Pack essentiel pour Cyberpunk 2077",
+      "price": {
+        "amount": 34.99,
+        "currency": "EUR"
       },
-      "preview": {
-        "imageUrl": "https://images.blz-contentstack.com/v3/assets/blt3452e3b114fab0cd/blt0a18377b7709aa76/63844624e3f4ac27ce69db43/WoW_DF_Shop_Epic_Bundle_Desktop.png"
+      "items": [
+        "Implants de Base",
+        "Arsenal de Démarrage",
+        "50000 Eurodollars",
+        "Véhicule de Base"
+      ],
+      "isActive": true,
+      "type": "starter",
+      "gameId": 4,
+      "tags": ["starter", "cyberpunk", "bundle"],
+      "availability": {
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      }
+    },
+    {
+      "id": "pack_elden_1",
+      "name": "Pack Sans-Éclat",
+      "description": "Pack de démarrage pour Elden Ring",
+      "price": {
+        "amount": 24.99,
+        "currency": "EUR"
+      },
+      "items": [
+        "Équipement de Vagabond",
+        "Fioles Améliorées",
+        "50000 Runes",
+        "Monture Spectrale"
+      ],
+      "isActive": true,
+      "type": "starter",
+      "gameId": 5,
+      "tags": ["starter", "elden ring", "bundle"],
+      "availability": {
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      }
+    },
+    {
+      "id": "pack_gow_1",
+      "name": "Pack Nordique",
+      "description": "Pack essentiel pour God of War Ragnarök",
+      "price": {
+        "amount": 29.99,
+        "currency": "EUR"
+      },
+      "items": [
+        "Armure de Kratos",
+        "Améliorations de la Léviathan",
+        "Ressources Rares",
+        "XP Bonus"
+      ],
+      "isActive": true,
+      "type": "starter",
+      "gameId": 6,
+      "tags": ["starter", "god of war", "bundle"],
+      "availability": {
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      }
+    },
+    {
+      "id": "pack_starfield_1",
+      "name": "Pack Constellation",
+      "description": "Pack de démarrage pour Starfield",
+      "price": {
+        "amount": 39.99,
+        "currency": "EUR"
+      },
+      "items": [
+        "Vaisseau de Base Amélioré",
+        "Équipement d'Exploration",
+        "25000 Crédits",
+        "Pack de Ressources"
+      ],
+      "isActive": true,
+      "type": "starter",
+      "gameId": 7,
+      "tags": ["starter", "starfield", "bundle"],
+      "isFeatured": true,
+      "availability": {
+        "startDate": "2024-01-15T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      }
+    },
+    {
+      "id": "pack_re4_1",
+      "name": "Pack Survie",
+      "description": "Pack essentiel pour Resident Evil 4 Remake",
+      "price": {
+        "amount": 19.99,
+        "currency": "EUR"
+      },
+      "items": [
+        "Arsenal de Base",
+        "Munitions Bonus",
+        "Herbes Médicinales",
+        "Équipement Tactique"
+      ],
+      "isActive": true,
+      "type": "starter",
+      "gameId": 8,
+      "tags": ["starter", "resident evil", "bundle"],
+      "availability": {
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      }
+    },
+    {
+      "id": "pack_spiderman_1",
+      "name": "Pack Tisseur",
+      "description": "Pack de démarrage pour Spider-Man 2",
+      "price": {
+        "amount": 24.99,
+        "currency": "EUR"
+      },
+      "items": [
+        "Costumes Classiques",
+        "Gadgets de Base",
+        "Points de Compétence",
+        "Ressources de Craft"
+      ],
+      "isActive": true,
+      "type": "starter",
+      "gameId": 9,
+      "tags": ["starter", "spider-man", "bundle"],
+      "isFeatured": true,
+      "availability": {
+        "startDate": "2024-02-15T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      }
+    },
+    {
+      "id": "pack_diablo4_1",
+      "name": "Pack Sanctuaire",
+      "description": "Pack de démarrage pour Diablo IV",
+      "price": {
+        "amount": 29.99,
+        "currency": "EUR"
+      },
+      "items": [
+        "Équipement Légendaire",
+        "Monture Exclusive",
+        "100000 Or",
+        "Bonus d'XP"
+      ],
+      "isActive": true,
+      "type": "starter",
+      "gameId": 10,
+      "tags": ["starter", "diablo", "bundle"],
+      "isFeatured": true,
+      "availability": {
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
       }
     }
   ]

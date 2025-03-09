@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import type { MigrateFunction } from '@/types/store';
 
 export interface UserSettings {
   language: string;
@@ -53,6 +54,13 @@ export const useUserSettingsStore = create<UserSettings>()(
     {
       name: 'user-settings',
       storage: createJSONStorage(() => localStorage),
+      version: 1,
+      migrate: ((persistedState: unknown, version: number) => {
+        if (version === 0) {
+          return initialState;
+        }
+        return persistedState as UserSettings;
+      }) as MigrateFunction<UserSettings>,
       partialize: (state) => ({
         language: state.language,
         currency: state.currency,

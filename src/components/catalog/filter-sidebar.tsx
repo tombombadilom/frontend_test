@@ -7,6 +7,11 @@ import {
   SidebarHeader,
   SidebarFooter,
   SidebarRail,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarGroupContent,
+  SidebarMenu,
+  SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -39,8 +44,7 @@ export function FilterSidebar({
   maxPrice,
   discountedCount,
   newReleasesCount,
-  ...props 
-}: FilterSidebarProps & React.ComponentProps<typeof Sidebar>) {
+}: FilterSidebarProps) {
   const {
     categories: selectedCategories,
     platforms: selectedPlatforms,
@@ -52,7 +56,6 @@ export function FilterSidebar({
     setPriceRange,
     toggleDiscounted,
     toggleNewReleases,
-    resetFilters,
   } = useFilterStore();
 
   const handlePriceChange = (value: number[]) => {
@@ -60,171 +63,138 @@ export function FilterSidebar({
   };
 
   return (
-    <Sidebar collapsible="icon" {...props}>
-      <SidebarContent>
-        <div className="space-y-6 px-4 pt-6">
-          <div>
-            <h3 className="mb-3 text-sm font-medium">Prix</h3>
-            <div className="space-y-3">
-              <Slider
-                min={0}
-                max={maxPrice.amount}
-                step={1}
-                value={[priceRange[0], priceRange[1]]}
-                onValueChange={handlePriceChange}
-                className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
-              />
-              <div className="flex items-center justify-between">
-                <Badge variant="outline" className="text-xs font-medium">
-                  {priceRange[0]} €
-                </Badge>
-                <Badge variant="outline" className="text-xs font-medium">
-                  {priceRange[1]} €
-                </Badge>
-              </div>
-            </div>
+    <>
+      <SidebarGroup>
+        <SidebarGroupLabel>Prix</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <Slider
+            min={0}
+            max={maxPrice.amount}
+            step={1}
+            value={[priceRange[0], priceRange[1]]}
+            onValueChange={handlePriceChange}
+            className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
+          />
+          <div className="flex items-center justify-between mt-4">
+            <Badge variant="outline" className="text-xs font-medium">
+              {priceRange[0]} €
+            </Badge>
+            <Badge variant="outline" className="text-xs font-medium">
+              {priceRange[1]} €
+            </Badge>
           </div>
+        </SidebarGroupContent>
+      </SidebarGroup>
 
-          <Separator className="my-4" />
+      {categories.filter(category => category.count > 0).length > 0 && (
+        <SidebarGroup>
+          <SidebarGroupLabel>Catégories</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {categories
+                .filter(category => category.count > 0)
+                .map(category => (
+                  <SidebarMenuItem key={category.id}>
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          id={category.id}
+                          checked={selectedCategories.includes(category.id)}
+                          onCheckedChange={() => toggleCategory(category.id)}
+                        />
+                        <label htmlFor={category.id}>
+                          {category.name}
+                        </label>
+                      </div>
+                      <Badge variant="secondary">
+                        {category.count}
+                      </Badge>
+                    </div>
+                  </SidebarMenuItem>
+                ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      )}
 
-          {categories.filter(category => category.count > 0).length > 0 && (
-            <div>
-              <h3 className="mb-3 text-sm font-medium">Catégories</h3>
-              <div className="space-y-2">
-                {categories
-                  .filter(category => category.count > 0)
-                  .map(category => (
-                    <div key={category.id} className="flex items-center space-x-2">
+      {platforms.filter(platform => platform.count > 0).length > 0 && (
+        <SidebarGroup>
+          <SidebarGroupLabel>Plateformes</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {platforms
+                .filter(platform => platform.count > 0)
+                .map(platform => (
+                  <SidebarMenuItem key={platform.id}>
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          id={platform.id}
+                          checked={selectedPlatforms.includes(platform.id)}
+                          onCheckedChange={() => togglePlatform(platform.id)}
+                        />
+                        <label htmlFor={platform.id}>
+                          {platform.name}
+                        </label>
+                      </div>
+                      <Badge variant="secondary">
+                        {platform.count}
+                      </Badge>
+                    </div>
+                  </SidebarMenuItem>
+                ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      )}
+
+      {(discountedCount > 0 || newReleasesCount > 0) && (
+        <SidebarGroup>
+          <SidebarGroupLabel>Autres filtres</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {discountedCount > 0 && (
+                <SidebarMenuItem>
+                  <div className="flex items-center justify-between w-full">
+                    <div className="flex items-center gap-2">
                       <Checkbox
-                        id={category.id}
-                        checked={selectedCategories.includes(category.id)}
-                        onCheckedChange={() => toggleCategory(category.id)}
+                        id="discounted"
+                        checked={onlyDiscounted}
+                        onCheckedChange={toggleDiscounted}
                       />
-                      <label
-                        htmlFor={category.id}
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        {category.name} ({category.count})
+                      <label htmlFor="discounted">
+                        En promotion
                       </label>
                     </div>
-                  ))}
-              </div>
-            </div>
-          )}
-
-          {platforms.filter(platform => platform.count > 0).length > 0 && (
-            <>
-              <div>
-                <h3 className="mb-3 text-sm font-medium">Plateformes</h3>
-                <div className="space-y-2">
-                  {platforms
-                    .filter(platform => platform.count > 0)
-                    .map((platform) => (
-                      <div key={platform.id} className="flex items-center justify-between group hover:bg-muted/50 rounded-lg p-2 transition-colors">
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id={platform.id}
-                            checked={selectedPlatforms.includes(platform.id)}
-                            onCheckedChange={() => togglePlatform(platform.id)}
-                          />
-                          <label
-                            htmlFor={platform.id}
-                            className={cn(
-                              "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
-                              selectedPlatforms.includes(platform.id) && "text-primary"
-                            )}
-                          >
-                            {platform.name}
-                          </label>
-                        </div>
-                        <Badge 
-                          variant="secondary" 
-                          className="opacity-60 group-hover:opacity-100"
-                        >
-                          {platform.count}
-                        </Badge>
-                      </div>
-                    ))}
-                </div>
-              </div>
-
-              <Separator className="my-4" />
-            </>
-          )}
-
-          {(discountedCount > 0 || newReleasesCount > 0) && (
-            <>
-              <div>
-                <h3 className="mb-3 text-sm font-medium">Autres filtres</h3>
-                <div className="space-y-2">
-                  {discountedCount > 0 && (
-                    <div className="flex items-center justify-between group hover:bg-muted/50 rounded-lg p-2 transition-colors">
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="discounted"
-                          checked={onlyDiscounted}
-                          onCheckedChange={toggleDiscounted}
-                        />
-                        <label
-                          htmlFor="discounted"
-                          className={cn(
-                            "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
-                            onlyDiscounted && "text-primary"
-                          )}
-                        >
-                          En promotion
-                        </label>
-                      </div>
-                      <Badge 
-                        variant="secondary" 
-                        className="opacity-60 group-hover:opacity-100"
-                      >
-                        {discountedCount}
-                      </Badge>
+                    <Badge variant="secondary">
+                      {discountedCount}
+                    </Badge>
+                  </div>
+                </SidebarMenuItem>
+              )}
+              {newReleasesCount > 0 && (
+                <SidebarMenuItem>
+                  <div className="flex items-center justify-between w-full">
+                    <div className="flex items-center gap-2">
+                      <Checkbox
+                        id="newReleases"
+                        checked={onlyNewReleases}
+                        onCheckedChange={toggleNewReleases}
+                      />
+                      <label htmlFor="newReleases">
+                        Nouveautés
+                      </label>
                     </div>
-                  )}
-                  {newReleasesCount > 0 && (
-                    <div className="flex items-center justify-between group hover:bg-muted/50 rounded-lg p-2 transition-colors">
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="newReleases"
-                          checked={onlyNewReleases}
-                          onCheckedChange={toggleNewReleases}
-                        />
-                        <label
-                          htmlFor="newReleases"
-                          className={cn(
-                            "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
-                            onlyNewReleases && "text-primary"
-                          )}
-                        >
-                          Nouveautés
-                        </label>
-                      </div>
-                      <Badge 
-                        variant="secondary" 
-                        className="opacity-60 group-hover:opacity-100"
-                      >
-                        {newReleasesCount}
-                      </Badge>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <Separator className="my-4" />
-            </>
-          )}
-
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={resetFilters}
-          >
-            Réinitialiser les filtres
-          </Button>
-        </div>
-      </SidebarContent>
-    </Sidebar>
+                    <Badge variant="secondary">
+                      {newReleasesCount}
+                    </Badge>
+                  </div>
+                </SidebarMenuItem>
+              )}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      )}
+    </>
   );
 }

@@ -3,7 +3,8 @@
 import React, { lazy } from 'react';
 import { useObjects } from '@/hooks/use-objects';
 import { useCategories } from '@/hooks/use-categories';
-import { CatalogLayout, prepareFilterOptions, prepareTagOptions } from '@/components/catalog/catalog-layout';
+import { CatalogLayout } from '@/components/catalog/catalog-layout';
+import { prepareFilterOptions, prepareTagOptions } from '@/components/catalog/utils';
 
 const FilterSidebarLazy = lazy(() => 
   import('@/components/catalog/filter-sidebar').then(mod => ({ default: mod.FilterSidebar }))

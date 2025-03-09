@@ -10,7 +10,7 @@ export interface CartItem {
   quantity: number;
 }
 
-const calculateDiscountedPrice = (price: Price, quantity: number = 1) => {
+const calculateDiscountedPrice = (price: Price, quantity = 1) => {
   const discountMultiplier = 1 - (price.discount || 0) / 100;
   return price.amount * discountMultiplier * quantity;
 };
@@ -44,7 +44,7 @@ export interface CartState {
 
 export const useCartStore = create<CartState>()(
   persist(
-    (set, get) => ({
+    (set, _get) => ({
       items: [],
       totalItems: 0,
       totalPrice: {
@@ -117,6 +117,20 @@ export const useCartStore = create<CartState>()(
     {
       name: 'game-shop-cart',
       version: 1,
+      migrate: (persistedState: unknown, version: number) => {
+        if (version === 0) {
+          return {
+            items: [],
+            totalItems: 0,
+            totalPrice: {
+              amount: 0,
+              currency: 'EUR',
+              discount: 0,
+            }
+          };
+        }
+        return persistedState as CartState;
+      }
     }
   )
 );

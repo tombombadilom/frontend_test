@@ -2,6 +2,7 @@ import { API_URL } from '@/lib/constants';
 import { toast } from 'sonner';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import type { MigrateFunction } from '@/types/store';
 
 interface User {
   email: string;
@@ -132,6 +133,18 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'auth-storage',
+      version: 1,
+      migrate: ((persistedState: unknown, version: number) => {
+        if (version === 0) {
+          return {
+            user: null,
+            isLoading: false,
+            error: null,
+            isAuthenticated: false
+          };
+        }
+        return persistedState as AuthState;
+      }) as MigrateFunction<AuthState>,
     }
   )
 );

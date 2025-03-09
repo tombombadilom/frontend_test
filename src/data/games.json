@@ -74,6 +74,181 @@
       "rating": 4.8,
       "isFeatured": true,
       "isNewRelease": true
+    },
+    {
+      "id": 4,
+      "gameId": 4,
+      "title": "Cyberpunk 2077",
+      "description": "Explorez Night City dans cette aventure futuriste immersive",
+      "price": {
+        "amount": 49.99,
+        "currency": "EUR",
+        "discount": 30
+      },
+      "releaseDate": "2023-09-26T00:00:00Z",
+      "developer": "CD PROJEKT RED",
+      "publisher": "CD PROJEKT RED",
+      "genres": ["RPG", "Action", "FPS"],
+      "platforms": ["PC", "PS5", "Xbox Series X|S"],
+      "coverImage": "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg",
+      "screenshots": [
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/ss_b529b0abc43f4531e9b4cece1f5560ca9e6e08c6.jpg",
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/ss_872822c5e50dc71f345416098d29fc3ae5cd26c1.jpg",
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/ss_6cdf0a630c46a0c47d1f97a6f3c5ce88d50da4d5.jpg"
+      ],
+      "rating": 4.5,
+      "isFeatured": false,
+      "isNewRelease": false
+    },
+    {
+      "id": 5,
+      "gameId": 5,
+      "title": "Elden Ring",
+      "description": "Un voyage épique dans un monde créé par Hidetaka Miyazaki et George R. R. Martin",
+      "price": {
+        "amount": 59.99,
+        "currency": "EUR",
+        "discount": 25
+      },
+      "releaseDate": "2023-08-15T00:00:00Z",
+      "developer": "FromSoftware",
+      "publisher": "Bandai Namco",
+      "genres": ["Action", "RPG", "Fantasy"],
+      "platforms": ["PC", "PS5", "Xbox Series X|S"],
+      "coverImage": "https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg",
+      "screenshots": [
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/ss_ae44317e3bd07b7690b4d62cc5d0d1df30367a91.jpg",
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/ss_c372274833ae6e5437b952fa1979430546a3d8ea.jpg",
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/ss_6f5d259a70c9a54a8a13f23a67b53c6b3af8a266.jpg"
+      ],
+      "rating": 4.9,
+      "isFeatured": true,
+      "isNewRelease": false
+    },
+    {
+      "id": 6,
+      "gameId": 6,
+      "title": "God of War Ragnarök",
+      "description": "Kratos et Atreus doivent voyager vers chacun des Neuf Royaumes à la recherche de réponses",
+      "price": {
+        "amount": 69.99,
+        "currency": "EUR",
+        "discount": 15
+      },
+      "releaseDate": "2023-11-09T00:00:00Z",
+      "developer": "Santa Monica Studio",
+      "publisher": "Sony Interactive Entertainment",
+      "genres": ["Action", "Aventure"],
+      "platforms": ["PS5"],
+      "coverImage": "https://image.api.playstation.com/vulcan/ap/rnd/202207/1210/4xJ8XB3bi888QTLZYdl7Oi0s.png",
+      "screenshots": [
+        "https://image.api.playstation.com/vulcan/ap/rnd/202207/1210/8jW5qvxGHwxoqA7BvGxKWI0P.png",
+        "https://image.api.playstation.com/vulcan/ap/rnd/202207/1210/3Wx8dBhVBx2JrISo3bm4MXCG.png",
+        "https://image.api.playstation.com/vulcan/ap/rnd/202207/1210/QF5qZGwJRdTuUJJMPfhxRiAo.png"
+      ],
+      "rating": 4.8,
+      "isFeatured": true,
+      "isNewRelease": false
+    },
+    {
+      "id": 7,
+      "gameId": 7,
+      "title": "Starfield",
+      "description": "Le premier nouveau univers en 25 ans de Bethesda Game Studios",
+      "price": {
+        "amount": 69.99,
+        "currency": "EUR",
+        "discount": 0
+      },
+      "releaseDate": "2024-01-15T00:00:00Z",
+      "developer": "Bethesda Game Studios",
+      "publisher": "Bethesda Softworks",
+      "genres": ["RPG", "Action", "Science-fiction"],
+      "platforms": ["PC", "Xbox Series X|S"],
+      "coverImage": "https://cdn.cloudflare.steamstatic.com/steam/apps/1716740/header.jpg",
+      "screenshots": [
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/1716740/ss_c26d3b5c216237c8d5856f9392de558cf138d3c8.jpg",
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/1716740/ss_ad14a71962b31f5fad0d9bc4d6a0e3b82c5c14c4.jpg",
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/1716740/ss_f597c3f7f9b0c8da8e0c3957e9e4b1c3a7751d1e.jpg"
+      ],
+      "rating": 4.6,
+      "isFeatured": true,
+      "isNewRelease": true
+    },
+    {
+      "id": 8,
+      "gameId": 8,
+      "title": "Resident Evil 4 Remake",
+      "description": "Un remake moderne du classique de survival horror",
+      "price": {
+        "amount": 59.99,
+        "currency": "EUR",
+        "discount": 20
+      },
+      "releaseDate": "2023-12-01T00:00:00Z",
+      "developer": "Capcom",
+      "publisher": "Capcom",
+      "genres": ["Survival Horror", "Action"],
+      "platforms": ["PC", "PS5", "Xbox Series X|S"],
+      "coverImage": "https://cdn.cloudflare.steamstatic.com/steam/apps/2050650/header.jpg",
+      "screenshots": [
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/2050650/ss_c41ce50c1d05ab6c0b0c48f5df8eaef5d0c9d4c7.jpg",
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/2050650/ss_c0c8b10c58c2d2a46c0e5c7dfba8d2e7c6b0a8c7.jpg",
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/2050650/ss_f1c3c79e86f1a40a3e0c9f596c86cc1c6c3f8b4c.jpg"
+      ],
+      "rating": 4.7,
+      "isFeatured": false,
+      "isNewRelease": true
+    },
+    {
+      "id": 9,
+      "gameId": 9,
+      "title": "Marvel's Spider-Man 2",
+      "description": "Peter Parker et Miles Morales reviennent dans une nouvelle aventure épique",
+      "price": {
+        "amount": 69.99,
+        "currency": "EUR",
+        "discount": 0
+      },
+      "releaseDate": "2024-02-15T00:00:00Z",
+      "developer": "Insomniac Games",
+      "publisher": "Sony Interactive Entertainment",
+      "genres": ["Action", "Aventure"],
+      "platforms": ["PS5"],
+      "coverImage": "https://image.api.playstation.com/cdn/UP9000/CUSA34646_00/EEbHDJ5l63FNZFpxBE1n3iUr4CNWTcEr.png",
+      "screenshots": [
+        "https://image.api.playstation.com/cdn/UP9000/CUSA34646_00/FREE_CONTENTvMhgZYx5QhMGRZaBXWnd/PREVIEW_SCREENSHOT1.PNG",
+        "https://image.api.playstation.com/cdn/UP9000/CUSA34646_00/FREE_CONTENTvMhgZYx5QhMGRZaBXWnd/PREVIEW_SCREENSHOT2.PNG",
+        "https://image.api.playstation.com/cdn/UP9000/CUSA34646_00/FREE_CONTENTvMhgZYx5QhMGRZaBXWnd/PREVIEW_SCREENSHOT3.PNG"
+      ],
+      "rating": 4.8,
+      "isFeatured": true,
+      "isNewRelease": true
+    },
+    {
+      "id": 10,
+      "gameId": 10,
+      "title": "Diablo IV",
+      "description": "Le retour de la légendaire série de hack-and-slash dans un monde sombre et immersif",
+      "price": {
+        "amount": 69.99,
+        "currency": "EUR",
+        "discount": 15
+      },
+      "releaseDate": "2023-06-06T00:00:00Z",
+      "developer": "Blizzard Entertainment",
+      "publisher": "Blizzard Entertainment",
+      "genres": ["Action RPG", "Hack and Slash"],
+      "platforms": ["PC", "PS5", "Xbox Series X|S"],
+      "coverImage": "https://cdn.cloudflare.steamstatic.com/steam/apps/2344520/header.jpg",
+      "screenshots": [
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/2344520/ss_c93b76687b1468c6e4a80876bdf0c5c9d8d6d7c1.jpg",
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/2344520/ss_e5d0e72b1c01fd2aa6d40c89f3b08f5c4cae792e.jpg",
+        "https://cdn.cloudflare.steamstatic.com/steam/apps/2344520/ss_8f51f5570262d50203e8d6664772d0c3c7c7d75b.jpg"
+      ],
+      "rating": 4.6,
+      "isFeatured": true,
+      "isNewRelease": false
     }
   ]
 }

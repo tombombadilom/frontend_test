@@ -2,8 +2,8 @@
   "items": [
     {
       "id": 1001,
-      "name": "Midas Rex",
-      "description": "Legendary character skin with golden effects",
+      "name": "Épée de Légende",
+      "description": "L'épée légendaire de Zelda avec des effets dorés",
       "category": 101,
       "rarity": "legendary",
       "price": {
@@ -11,145 +11,519 @@
         "currency": "EUR"
       },
       "availability": {
-        "startDate": "2024-03-01T00:00:00Z",
-        "endDate": "2024-03-31T23:59:59Z",
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z",
         "isLimited": true
       },
       "preview": {
-        "imageUrl": "https://cdn2.unrealengine.com/fortnite-midas-outfit-1920x1080-579970755.jpg",
-        "videoUrl": "https://www.youtube.com/watch?v=JgPXMxW7zJk"
+        "imageUrl": "https://placehold.co/600x400/gold/white?text=Master+Sword"
       },
-      "gameId": 9,
-      "tags": ["seasonal", "legendary", "character"],
+      "gameId": 1,
+      "tags": ["weapon", "legendary", "zelda"],
       "metadata": {
-        "battlePassTier": 100,
-        "season": "Chapter 5"
+        "damage": 100,
+        "durability": "infinite",
+        "isFeatured": true
       }
     },
     {
       "id": 1002,
-      "name": "Dragon Dance Emote",
-      "description": "Epic dance animation with dragon effects",
+      "name": "Bouclier d'Hylia",
+      "description": "Le bouclier sacré du royaume d'Hyrule",
       "category": 102,
-      "rarity": "epic",
+      "rarity": "legendary",
       "price": {
-        "amount": 8,
+        "amount": 15,
         "currency": "EUR"
       },
       "availability": {
-        "startDate": "2024-03-01T00:00:00Z",
-        "endDate": "2024-03-07T23:59:59Z",
-        "isLimited": true
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
       },
       "preview": {
-        "imageUrl": "https://cdn2.unrealengine.com/fortnite-dragon-rune-lance-1920x1080-1920x1080-99c0a1e04767.jpg",
-        "videoUrl": "https://www.youtube.com/watch?v=example2"
+        "imageUrl": "https://placehold.co/600x400/blue/white?text=Hylian+Shield"
       },
-      "gameId": 9,
-      "tags": ["emote", "epic", "seasonal"],
+      "gameId": 1,
+      "tags": ["shield", "legendary", "zelda"],
       "metadata": {
-        "animationDuration": 8
+        "defense": 90,
+        "durability": 800,
+        "isFeatured": true
+      }
+    },
+    {
+      "id": 1003,
+      "name": "Tenue du Prodige",
+      "description": "L'armure des champions d'Hyrule",
+      "category": 103,
+      "rarity": "epic",
+      "price": {
+        "amount": 18,
+        "currency": "EUR"
+      },
+      "availability": {
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      },
+      "preview": {
+        "imageUrl": "https://placehold.co/600x400/purple/white?text=Champion+Tunic"
+      },
+      "gameId": 1,
+      "tags": ["armor", "epic", "zelda"],
+      "metadata": {
+        "defense": 28,
+        "setBonus": "Champion's Blessing",
+        "isFeatured": true
       }
     },
     {
       "id": 2001,
-      "name": "Primordial Jade Winged-Spear",
-      "description": "5-star polearm with high base attack",
-      "category": 201,
+      "name": "Épée de Clive",
+      "description": "L'épée légendaire de Clive Rosfield",
+      "category": 101,
+      "rarity": "legendary",
+      "price": {
+        "amount": 25,
+        "currency": "EUR"
+      },
+      "availability": {
+        "startDate": "2024-02-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      },
+      "preview": {
+        "imageUrl": "https://placehold.co/600x400/red/white?text=Clive+Sword"
+      },
+      "gameId": 2,
+      "tags": ["weapon", "legendary", "ff16"],
+      "metadata": {
+        "damage": 120,
+        "element": "fire",
+        "isFeatured": true
+      }
+    },
+    {
+      "id": 2002,
+      "name": "Armure de Phoenix",
+      "description": "Armure imprégnée du pouvoir de Phoenix",
+      "category": 102,
+      "rarity": "epic",
+      "price": {
+        "amount": 20,
+        "currency": "EUR"
+      },
+      "availability": {
+        "startDate": "2024-02-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      },
+      "preview": {
+        "imageUrl": "https://placehold.co/600x400/orange/white?text=Phoenix+Armor"
+      },
+      "gameId": 2,
+      "tags": ["armor", "epic", "ff16"],
+      "metadata": {
+        "defense": 85,
+        "element": "fire",
+        "isFeatured": true
+      }
+    },
+    {
+      "id": 3001,
+      "name": "Épée Vorpale",
+      "description": "Une épée légendaire des Royaumes Oubliés",
+      "category": 101,
+      "rarity": "legendary",
+      "price": {
+        "amount": 22,
+        "currency": "EUR"
+      },
+      "availability": {
+        "startDate": "2024-03-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      },
+      "preview": {
+        "imageUrl": "https://placehold.co/600x400/purple/white?text=Vorpal+Sword"
+      },
+      "gameId": 3,
+      "tags": ["weapon", "legendary", "bg3"],
+      "metadata": {
+        "damage": "2d8",
+        "criticalRange": "18-20",
+        "isFeatured": true
+      }
+    },
+    {
+      "id": 3002,
+      "name": "Armure de Mithral",
+      "description": "Une armure légère mais résistante en mithral",
+      "category": 102,
+      "rarity": "epic",
+      "price": {
+        "amount": 18,
+        "currency": "EUR"
+      },
+      "availability": {
+        "startDate": "2024-03-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      },
+      "preview": {
+        "imageUrl": "https://placehold.co/600x400/silver/black?text=Mithral+Armor"
+      },
+      "gameId": 3,
+      "tags": ["armor", "epic", "bg3"],
+      "metadata": {
+        "armorClass": 17,
+        "stealthDisadvantage": false,
+        "isFeatured": true
+      }
+    },
+    {
+      "id": 4001,
+      "name": "Mantis Blades",
+      "description": "Lames cybernétiques rétractables",
+      "category": 101,
       "rarity": "legendary",
       "price": {
         "amount": 30,
         "currency": "EUR"
       },
       "availability": {
-        "startDate": "2024-03-01T00:00:00Z",
-        "endDate": "2024-03-21T23:59:59Z",
-        "isLimited": true
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
       },
       "preview": {
-        "imageUrl": "https://genshin.honeyhunterworld.com/img/i_n400201.webp",
-        "modelUrl": "https://genshin.honeyhunterworld.com/img/i_n400201.webp"
+        "imageUrl": "https://placehold.co/600x400/red/white?text=Mantis+Blades"
       },
-      "gameId": 10,
-      "tags": ["weapon", "5-star", "polearm"],
+      "gameId": 4,
+      "tags": ["cyberware", "legendary", "cyberpunk"],
       "metadata": {
-        "baseAttack": 674,
-        "subStat": "Crit Rate",
-        "subStatValue": "22.1%"
+        "damage": 150,
+        "type": "melee",
+        "isFeatured": true
       }
     },
     {
-      "id": 2002,
-      "name": "Blessing of the Welkin Moon",
-      "description": "30-day subscription with daily rewards",
-      "category": 402,
-      "rarity": "epic",
-      "price": {
-        "amount": 4.99,
-        "currency": "EUR"
-      },
-      "availability": {
-        "isLimited": false
-      },
-      "preview": {
-        "imageUrl": "https://genshin.honeyhunterworld.com/img/i_n400201.webp"
-      },
-      "gameId": 10,
-      "tags": ["subscription", "premium"],
-      "metadata": {
-        "duration": "30 days",
-        "dailyPrimogems": 90,
-        "totalPrimogems": 3000
-      }
-    },
-    {
-      "id": 3001,
-      "name": "Celestial Steed",
-      "description": "Epic flying mount with celestial effects",
-      "category": 103,
+      "id": 4002,
+      "name": "Sandevistan",
+      "description": "Implant de ralentissement du temps",
+      "category": 102,
       "rarity": "epic",
       "price": {
         "amount": 25,
         "currency": "EUR"
       },
       "availability": {
-        "startDate": "2024-03-01T00:00:00Z",
-        "endDate": "2024-03-31T23:59:59Z",
-        "isLimited": true
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
       },
       "preview": {
-        "imageUrl": "https://bnetcmsus-a.akamaihd.net/cms/gallery/IYBHRHH3XZ531666638454869.jpg",
-        "modelUrl": "https://bnetcmsus-a.akamaihd.net/cms/gallery/IYBHRHH3XZ531666638454869.jpg"
+        "imageUrl": "https://placehold.co/600x400/cyan/white?text=Sandevistan"
       },
-      "gameId": 11,
-      "tags": ["mount", "epic", "flying"],
+      "gameId": 4,
+      "tags": ["cyberware", "epic", "cyberpunk"],
       "metadata": {
-        "mountType": "flying",
-        "groundSpeed": 310,
-        "flyingSpeed": 310
+        "duration": "8s",
+        "cooldown": "30s",
+        "isFeatured": true
       }
     },
     {
-      "id": 3002,
-      "name": "Character Transfer",
-      "description": "Transfer a character to another realm",
-      "category": 302,
-      "rarity": "common",
+      "id": 5001,
+      "name": "Rivers of Blood",
+      "description": "Katana légendaire avec effet de saignement",
+      "category": 101,
+      "rarity": "legendary",
+      "price": {
+        "amount": 28,
+        "currency": "EUR"
+      },
+      "availability": {
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      },
+      "preview": {
+        "imageUrl": "https://placehold.co/600x400/darkred/white?text=Rivers+of+Blood"
+      },
+      "gameId": 5,
+      "tags": ["weapon", "legendary", "elden ring"],
+      "metadata": {
+        "damage": 120,
+        "bleed": 60,
+        "isFeatured": true
+      }
+    },
+    {
+      "id": 5002,
+      "name": "Armure de Radahn",
+      "description": "Armure du général Radahn",
+      "category": 102,
+      "rarity": "epic",
+      "price": {
+        "amount": 22,
+        "currency": "EUR"
+      },
+      "availability": {
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      },
+      "preview": {
+        "imageUrl": "https://placehold.co/600x400/gold/black?text=Radahn+Armor"
+      },
+      "gameId": 5,
+      "tags": ["armor", "epic", "elden ring"],
+      "metadata": {
+        "poise": 45,
+        "weight": 30.5,
+        "isFeatured": true
+      }
+    },
+    {
+      "id": 6001,
+      "name": "Lames du Chaos",
+      "description": "Les lames iconiques de Kratos",
+      "category": 101,
+      "rarity": "legendary",
       "price": {
         "amount": 25,
         "currency": "EUR"
       },
       "availability": {
-        "isLimited": false
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
       },
       "preview": {
-        "imageUrl": "https://genshin.honeyhunterworld.com/img/i_n203.webp"
+        "imageUrl": "https://placehold.co/600x400/red/white?text=Blades+of+Chaos"
       },
-      "gameId": 11,
-      "tags": ["service", "character"],
+      "gameId": 6,
+      "tags": ["weapon", "legendary", "god of war"],
       "metadata": {
-        "cooldown": "30 days",
-        "restrictions": ["Cannot transfer to PvE from PvP"]
+        "damage": 140,
+        "element": "fire",
+        "isFeatured": true
+      }
+    },
+    {
+      "id": 6002,
+      "name": "Armure de Valkyrie",
+      "description": "Armure forgée par les Valkyries",
+      "category": 102,
+      "rarity": "epic",
+      "price": {
+        "amount": 20,
+        "currency": "EUR"
+      },
+      "availability": {
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      },
+      "preview": {
+        "imageUrl": "https://placehold.co/600x400/silver/white?text=Valkyrie+Armor"
+      },
+      "gameId": 6,
+      "tags": ["armor", "epic", "god of war"],
+      "metadata": {
+        "defense": 95,
+        "resistance": "all",
+        "isFeatured": true
+      }
+    },
+    {
+      "id": 7001,
+      "name": "Fusil Nova",
+      "description": "Fusil à énergie avancé",
+      "category": 101,
+      "rarity": "legendary",
+      "price": {
+        "amount": 28,
+        "currency": "EUR"
+      },
+      "availability": {
+        "startDate": "2024-01-15T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      },
+      "preview": {
+        "imageUrl": "https://placehold.co/600x400/blue/white?text=Nova+Rifle"
+      },
+      "gameId": 7,
+      "tags": ["weapon", "legendary", "starfield"],
+      "metadata": {
+        "damage": 85,
+        "type": "energy",
+        "isFeatured": true
+      }
+    },
+    {
+      "id": 7002,
+      "name": "Combinaison Constellation",
+      "description": "Combinaison spatiale de haute technologie",
+      "category": 102,
+      "rarity": "epic",
+      "price": {
+        "amount": 22,
+        "currency": "EUR"
+      },
+      "availability": {
+        "startDate": "2024-01-15T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      },
+      "preview": {
+        "imageUrl": "https://placehold.co/600x400/white/black?text=Constellation+Suit"
+      },
+      "gameId": 7,
+      "tags": ["armor", "epic", "starfield"],
+      "metadata": {
+        "protection": 75,
+        "oxygenCapacity": 300,
+        "isFeatured": true
+      }
+    },
+    {
+      "id": 8001,
+      "name": "Red9",
+      "description": "Pistolet personnalisé haute puissance",
+      "category": 101,
+      "rarity": "legendary",
+      "price": {
+        "amount": 20,
+        "currency": "EUR"
+      },
+      "availability": {
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      },
+      "preview": {
+        "imageUrl": "https://placehold.co/600x400/red/white?text=Red9"
+      },
+      "gameId": 8,
+      "tags": ["weapon", "legendary", "resident evil"],
+      "metadata": {
+        "damage": 95,
+        "capacity": 10,
+        "isFeatured": true
+      }
+    },
+    {
+      "id": 8002,
+      "name": "Gilet Tactique",
+      "description": "Gilet tactique avec rangements supplémentaires",
+      "category": 102,
+      "rarity": "epic",
+      "price": {
+        "amount": 15,
+        "currency": "EUR"
+      },
+      "availability": {
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      },
+      "preview": {
+        "imageUrl": "https://placehold.co/600x400/green/white?text=Tactical+Vest"
+      },
+      "gameId": 8,
+      "tags": ["armor", "epic", "resident evil"],
+      "metadata": {
+        "slots": 12,
+        "defense": 30,
+        "isFeatured": true
+      }
+    },
+    {
+      "id": 9001,
+      "name": "Costume Symbiote",
+      "description": "Costume noir avec pouvoirs du symbiote",
+      "category": 101,
+      "rarity": "legendary",
+      "price": {
+        "amount": 25,
+        "currency": "EUR"
+      },
+      "availability": {
+        "startDate": "2024-02-15T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      },
+      "preview": {
+        "imageUrl": "https://placehold.co/600x400/black/white?text=Symbiote+Suit"
+      },
+      "gameId": 9,
+      "tags": ["costume", "legendary", "spider-man"],
+      "metadata": {
+        "power": "symbiote",
+        "stealth": 100,
+        "isFeatured": true
+      }
+    },
+    {
+      "id": 9002,
+      "name": "Lanceur de Toile Avancé",
+      "description": "Version améliorée du lanceur de toile",
+      "category": 102,
+      "rarity": "epic",
+      "price": {
+        "amount": 18,
+        "currency": "EUR"
+      },
+      "availability": {
+        "startDate": "2024-02-15T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      },
+      "preview": {
+        "imageUrl": "https://placehold.co/600x400/red/white?text=Advanced+Web+Shooter"
+      },
+      "gameId": 9,
+      "tags": ["gadget", "epic", "spider-man"],
+      "metadata": {
+        "webTypes": 8,
+        "capacity": 100,
+        "isFeatured": true
+      }
+    },
+    {
+      "id": 10001,
+      "name": "Shako de Harlequin",
+      "description": "Casque légendaire pour les classes de mêlée",
+      "category": 101,
+      "rarity": "legendary",
+      "price": {
+        "amount": 30,
+        "currency": "EUR"
+      },
+      "availability": {
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      },
+      "preview": {
+        "imageUrl": "https://placehold.co/600x400/gold/black?text=Harlequin+Shako"
+      },
+      "gameId": 10,
+      "tags": ["helmet", "legendary", "diablo"],
+      "metadata": {
+        "attributes": "+2 All Skills",
+        "magicFind": "50%",
+        "isFeatured": true
+      }
+    },
+    {
+      "id": 10002,
+      "name": "Enigma",
+      "description": "Armure runique légendaire",
+      "category": 102,
+      "rarity": "legendary",
+      "price": {
+        "amount": 35,
+        "currency": "EUR"
+      },
+      "availability": {
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:59:59Z"
+      },
+      "preview": {
+        "imageUrl": "https://placehold.co/600x400/purple/white?text=Enigma+Runeword"
+      },
+      "gameId": 10,
+      "tags": ["armor", "legendary", "diablo"],
+      "metadata": {
+        "teleport": true,
+        "strength": "+777",
+        "isFeatured": true
       }
     }
   ]

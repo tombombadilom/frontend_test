@@ -1,126 +1,113 @@
 @import "tailwindcss";
-/* @config "../tailwind.config.js"; */
-
-@import "tailwindcss/utilities";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+
+/* Le reste de votre CSS (déclarations de variables, etc.) reste inchangé */
 @layer base {
-  /* === Mode clair (Light) === */
   :root {
-    /* Fond plus chaleureux */
-    --background-light: 90% 0.07 80;  /* Beige-crème chaud */
-    --foreground-light: 25% 0.05 250;  /* Bleu profond */
-
-    --card: var(--background);
-    --card-foreground: var(--foreground);
-
-    --popover: var(--background);
-    --popover-foreground: var(--foreground);
-
-    /* Couleurs principales */
-    --primary: 70% 0.3 250;  /* Bleu néon intense */
-    --primary-foreground: 98% 0.02 250; /* Presque blanc */
-
-    --secondary: 85% 0.1 290; /* Lavande douce */
-    --secondary-foreground: 30% 0.05 250; /* Gris-bleuté */
-
-    --muted: 88% 0.05 280; /* Bleu-gris pâle */
-    --muted-foreground: 50% 0.02 250; /* Gris moyen */
-
-    --accent: 90% 0.1 50; /* Jaune doux */
-    --accent-foreground: 30% 0.05 250; /* Bleu foncé */
-
-    --destructive: 70% 0.3 30; /* Rouge vif */
-    --destructive-foreground: 98% 0.02 250; /* Blanc légèrement teinté */
-
-    /* Bordures et inputs */
-    --border: 80% 0.05 250; /* Bleu-gris clair */
-    --input: var(--border);
-    --ring: var(--primary);
-
-    /* Couleurs Gaming */
-    --game-primary: var(--primary);
-    --game-secondary: 65% 0.35 300; /* Violet électrique */
-    --game-accent: 85% 0.2 90; /* Or vibrant */
-    --game-text: 25% 0.02 250; /* Texte bleu foncé */
-    --game-text-muted: 50% 0.02 250; /* Texte gris-bleuté */
-
-    /* Couleurs des graphiques */
-    --chart-1: 75% 0.3 30; /* Orange intense */
-    --chart-2: 70% 0.3 160; /* Vert vibrant */
-    --chart-3: 60% 0.3 200; /* Bleu profond */
-    --chart-4: 85% 0.3 50; /* Jaune éclatant */
-    --chart-5: 80% 0.3 340; /* Rouge rosé */
-
-    /* Valeurs initiales */
+    /* Mode clair */
+    --background-light: 90% 0.07 80;
+    --foreground-light: 25% 0.05 250;
     --background: var(--background-light);
     --foreground: var(--foreground-light);
-  }
-
-  /* === Mode sombre (Dark) === */
-  html.dark {
-    --background-dark: 15% 0.2 250; /* Bleu nuit profond */
-    --foreground-dark: 85% 0.3 90; /* Or vibrant */
-
     --card: var(--background);
     --card-foreground: var(--foreground);
-
     --popover: var(--background);
     --popover-foreground: var(--foreground);
-
-    /* Couleurs principales */
-    --primary: 60% 0.35 260; /* Bleu-violet intense */
-    --primary-foreground: 98% 0.02 250; /* Presque blanc */
-
-    --secondary: 30% 0.1 250; /* Gris-bleu foncé */
-    --secondary-foreground: 85% 0.05 250; /* Bleu pâle */
-
-    --muted: 25% 0.05 250; /* Bleu-gris foncé */
-    --muted-foreground: 70% 0.02 250; /* Gris clair */
-
-    --accent: 35% 0.2 320; /* Rose foncé */
-    --accent-foreground: 98% 0.02 250; /* Blanc légèrement teinté */
-
-    --destructive: 50% 0.3 30; /* Rouge intense */
-    --destructive-foreground: 98% 0.02 250; /* Blanc légèrement teinté */
-
-    /* Bordures et inputs */
-    --border: 40% 0.15 250; /* Bleu nuit moyen */
+    --primary: 70% 0.3 250;
+    --primary-foreground: 98% 0.02 250;
+    --secondary: 85% 0.1 290;
+    --secondary-foreground: 30% 0.05 250;
+    --muted: 88% 0.05 280;
+    --muted-foreground: 50% 0.02 250;
+    --accent: 90% 0.1 50;
+    --accent-foreground: 30% 0.05 250;
+    --destructive: 70% 0.3 30;
+    --destructive-foreground: 98% 0.02 250;
+    --border: 80% 0.05 250;
     --input: var(--border);
     --ring: var(--primary);
-
-    /* Couleurs Gaming */
     --game-primary: var(--primary);
-    --game-secondary: 65% 0.35 300; /* Violet électrique */
-    --game-accent: 85% 0.2 90; /* Or vibrant */
-    --game-text: 98% 0.02 250; /* Texte très clair */
-    --game-text-muted: 70% 0.02 250; /* Texte gris clair */
-
-    /* Couleurs des graphiques */
-    --chart-1: 30% 0.3 30; /* Orange intense foncé */
-    --chart-2: 35% 0.3 160; /* Vert profond */
-    --chart-3: 40% 0.3 200; /* Bleu intense */
-    --chart-4: 50% 0.3 50; /* Jaune doré */
-    --chart-5: 45% 0.3 340; /* Rouge sombre */
-
-    /* Mise à jour */
-    --background: var(--background-dark);
-    --foreground: var(--foreground-dark);
+    --game-secondary: 65% 0.35 300;
+    --game-accent: 85% 0.2 90;
+    --game-text: 25% 0.02 250;
+    --game-text-muted: 50% 0.02 250;
+    --chart-1: 75% 0.3 30;
+    --chart-2: 70% 0.3 160;
+    --chart-3: 60% 0.3 200;
+    --chart-4: 85% 0.3 50;
+    --chart-5: 80% 0.3 340;
+    --sidebar-background: var(--background-light);
+    --sidebar-foreground: var(--foreground-light);
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+    --sidebar-accent: var(--accent);
+    --sidebar-accent-foreground: var(--accent-foreground);
+    --sidebar-border: var(--border);
+    --sidebar-ring: var(--ring);
+    /* Dialog */
+    --dialog-background: 90% 0.07 80;
+    --dialog-foreground: 25% 0.05 250;
   }
 
-  /* Application des couleurs sans transition par défaut */
+  .dark {
+    /* Mode sombre */
+    --background-dark: 15% 0.2 250;
+    --foreground-dark: 85% 0.3 90;
+    --background: var(--background-dark);
+    --foreground: var(--foreground-dark);
+    --card: var(--background);
+    --card-foreground: var(--foreground);
+    --popover: var(--background);
+    --popover-foreground: var(--foreground);
+    --primary: 60% 0.35 260;
+    --primary-foreground: 98% 0.02 250;
+    --secondary: 30% 0.1 250;
+    --secondary-foreground: 85% 0.05 250;
+    --muted: 25% 0.05 250;
+    --muted-foreground: 70% 0.02 250;
+    --accent: 35% 0.2 320;
+    --accent-foreground: 98% 0.02 250;
+    --destructive: 50% 0.3 30;
+    --destructive-foreground: 98% 0.02 250;
+    --border: 40% 0.15 250;
+    --input: var(--border);
+    --ring: var(--primary);
+    --game-primary: var(--primary);
+    --game-secondary: 65% 0.35 300;
+    --game-accent: 85% 0.2 90;
+    --game-text: 98% 0.02 250;
+    --game-text-muted: 70% 0.02 250;
+    --chart-1: 30% 0.3 30;
+    --chart-2: 35% 0.3 160;
+    --chart-3: 40% 0.3 200;
+    --chart-4: 50% 0.3 50;
+    --chart-5: 45% 0.3 340;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Dialog */
+    --dialog-background: 15% 0.2 250;
+    --dialog-foreground: 85% 0.3 90;
+  }
+
   body {
     background: oklch(var(--background));
     color: oklch(var(--foreground));
     font-feature-settings: "rlig" 1, "calt" 1;
-    @apply h-full w-full;
+    width: 100vw;
+    min-height: 100dvh;
     transition: none !important;
   }
 
-  /* Transition UNIQUEMENT lors du changement de thème */
   html.changing-theme body {
     transition: background 0.3s ease-in-out, color 0.3s ease-in-out !important;
   }

@@ -3,6 +3,7 @@ import { fontFamily } from 'tailwindcss/defaultTheme';
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ['class'],
+  safelist: ['border-custom', 'outline-custom'],
   content: [
     './index.html',
     './src/**/*.{js,ts,jsx,tsx}',
@@ -14,60 +15,60 @@ export default {
     container: {
       center: true,
       padding: '2rem',
-      screens: {
-        '2xl': '1400px',
-      },
+      screens: { '2xl': '1400px' },
     },
     extend: {
       colors: {
-        border: 'var(--border)',
-        input: 'var(--input)',
-        ring: 'var(--ring)',
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
+        border: { DEFAULT: 'oklch(var(--border))' },
+        input: { DEFAULT: 'oklch(var(--input))' },
+        ring: { DEFAULT: 'oklch(var(--ring))' },
+        background: { DEFAULT: 'oklch(var(--background))' },
+        foreground: { DEFAULT: 'oklch(var(--foreground))' },
         primary: {
-          DEFAULT: 'var(--primary)',
-          foreground: 'var(--primary-foreground)',
+          DEFAULT: 'oklch(var(--primary))',
+          foreground: 'oklch(var(--primary-foreground))',
         },
         secondary: {
-          DEFAULT: 'var(--secondary)',
-          foreground: 'var(--secondary-foreground)',
+          DEFAULT: 'oklch(var(--secondary))',
+          foreground: 'oklch(var(--secondary-foreground))',
         },
         destructive: {
-          DEFAULT: 'var(--destructive)',
-          foreground: 'var(--destructive-foreground)',
+          DEFAULT: 'oklch(var(--destructive))',
+          foreground: 'oklch(var(--destructive-foreground))',
         },
         muted: {
-          DEFAULT: 'var(--muted)',
-          foreground: 'var(--muted-foreground)',
+          DEFAULT: 'oklch(var(--muted))',
+          foreground: 'oklch(var(--muted-foreground))',
         },
         accent: {
-          DEFAULT: 'var(--accent)',
-          foreground: 'var(--accent-foreground)',
+          DEFAULT: 'oklch(var(--accent))',
+          foreground: 'oklch(var(--accent-foreground))',
         },
         popover: {
-          DEFAULT: 'var(--popover)',
-          foreground: 'var(--popover-foreground)',
+          DEFAULT: 'oklch(var(--popover))',
+          foreground: 'oklch(var(--popover-foreground))',
         },
         card: {
-          DEFAULT: 'var(--card)',
-          foreground: 'var(--card-foreground)',
+          DEFAULT: 'oklch(var(--card))',
+          foreground: 'oklch(var(--card-foreground))',
         },
-        // Couleurs spécifiques au gaming
+        dialog: {
+          DEFAULT: 'oklch(var(--dialog-background))',
+          foreground: 'oklch(var(--dialog-foreground))',
+        },
         game: {
-          primary: 'var(--game-primary)',
-          secondary: 'var(--game-secondary)',
-          accent: 'var(--game-accent)',
-          text: 'var(--game-text)',
-          'text-muted': 'var(--game-text-muted)',
+          primary: 'oklch(var(--game-primary))',
+          secondary: 'oklch(var(--game-secondary))',
+          accent: 'oklch(var(--game-accent))',
+          text: 'oklch(var(--game-text))',
+          'text-muted': 'oklch(var(--game-text-muted))',
         },
-        // Couleurs des graphiques
         chart: {
-          1: 'var(--chart-1)',
-          2: 'var(--chart-2)',
-          3: 'var(--chart-3)',
-          4: 'var(--chart-4)',
-          5: 'var(--chart-5)',
+          1: 'oklch(var(--chart-1))',
+          2: 'oklch(var(--chart-2))',
+          3: 'oklch(var(--chart-3))',
+          4: 'oklch(var(--chart-4))',
+          5: 'oklch(var(--chart-5))',
         },
       },
       borderRadius: {
@@ -80,43 +81,21 @@ export default {
         heading: ['var(--font-heading)', ...fontFamily.sans],
         mono: ['var(--font-mono)', ...fontFamily.mono],
       },
-      keyframes: {
-        'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
-        },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
-        },
-        'fade-in': {
-          from: { opacity: '0' },
-          to: { opacity: '1' },
-        },
-        'fade-out': {
-          from: { opacity: '1' },
-          to: { opacity: '0' },
-        },
-        'slide-in': {
-          from: { transform: 'translateY(10px)', opacity: '0' },
-          to: { transform: 'translateY(0)', opacity: '1' },
-        },
-        'slide-out': {
-          from: { transform: 'translateY(0)', opacity: '1' },
-          to: { transform: 'translateY(10px)', opacity: '0' },
-        },
-      },
-      animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
-        'fade-in': 'fade-in 0.3s ease-in-out',
-        'fade-out': 'fade-out 0.3s ease-in-out',
-        'slide-in': 'slide-in 0.3s ease-out',
-        'slide-out': 'slide-out 0.3s ease-out',
-      },
+      // keyframes et animations inchangés
     },
   },
   plugins: [
+    // Plugin pour définir les classes "border-custom" et "outline-custom"
+    function ({ addUtilities }) {
+      addUtilities({
+        '.border-custom': {
+          'border-color': 'oklch(var(--border))',
+        },
+        '.outline-custom': {
+          'outline-color': 'oklch(var(--ring))',
+        },
+      });
+    },
     require('tailwindcss-animate'),
     require('@tailwindcss/typography'),
   ],

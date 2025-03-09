@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { GameItem } from '@/types/game';
+import type { MigrateFunction } from '@/types/store';
 
 export interface ObjectWishlistItem {
   id: string;
@@ -58,14 +59,14 @@ export const useObjectWishlistStore = create<ObjectWishlistState>()(
     {
       name: 'game-shop-object-wishlist',
       version: 1,
-      migrate: (persistedState: any, version: number) => {
+      migrate: ((persistedState: unknown, version: number) => {
         if (version === 0) {
           return {
             items: []
           };
         }
         return persistedState as ObjectWishlistState;
-      }
+      }) as MigrateFunction<ObjectWishlistState>,
     }
   )
 ); 

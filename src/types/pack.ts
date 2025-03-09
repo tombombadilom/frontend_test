@@ -19,6 +19,7 @@ export interface Pack {
   gameId: number;
   items: number[];
   isActive?: boolean;
+  isFeatured?: boolean;
   type?: string;
   tags?: string[];
   availability?: PackAvailability;
