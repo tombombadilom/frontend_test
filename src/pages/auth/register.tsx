@@ -1,8 +1,11 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -11,53 +14,48 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
 import { useAuth } from '@/hooks/use-auth';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { showToast } from '@/lib/toast';
-import { z } from 'zod';
+import { motion } from 'motion/react';
 
-// Validation schema with Zod
-const registerSchema = z
+const formSchema = z
   .object({
     name: z
       .string()
-      .min(2, 'Name must be at least 2 characters')
-      .max(50, 'Name cannot exceed 50 characters')
+      .min(2, { message: "Le nom doit contenir au moins 2 caractères" })
+      .max(50, { message: "Le nom ne peut pas dépasser 50 caractères" })
       .regex(
         /^[a-zA-Z0-9\s\-']+$/,
-        'Name contains invalid characters'
+        { message: "Le nom contient des caractères invalides" }
       ),
     email: z
       .string()
-      .min(1, 'Email is required')
-      .email('Invalid email format')
-      .max(100, 'Email cannot exceed 100 characters'),
+      .min(1, { message: "L'email est requis" })
+      .email({ message: "Format d'email invalide" })
+      .max(100, { message: "L'email ne peut pas dépasser 100 caractères" }),
     password: z
       .string()
-      .min(6, 'Password must be at least 6 characters')
-      .max(100, 'Password cannot exceed 100 characters')
+      .min(6, { message: "Le mot de passe doit contenir au moins 6 caractères" })
+      .max(100, { message: "Le mot de passe ne peut pas dépasser 100 caractères" })
       .regex(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-        'Password must contain at least one uppercase letter, one lowercase letter, and one number'
+        { message: "Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre" }
       ),
     confirmPassword: z
       .string()
-      .min(6, 'Password confirmation is required'),
+      .min(6, { message: "La confirmation du mot de passe est requise" }),
     acceptTerms: z.boolean().refine((val) => val === true, {
-      message: 'You must accept the terms of service',
+      message: "Vous devez accepter les conditions d'utilisation",
     }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords do not match',
-    path: ['confirmPassword'],
+    message: "Les mots de passe ne correspondent pas",
+    path: ["confirmPassword"],
   });
-
-type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -72,48 +70,70 @@ export default function RegisterPage() {
     }
   }, [user, navigate]);
 
-  const form = useForm<RegisterFormValues>({
-    resolver: zodResolver(registerSchema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
       acceptTerms: false,
     },
   });
 
-  const onSubmit = async (data: RegisterFormValues) => {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       // Sanitize inputs
-      const sanitizedName = data.name.trim();
-      const sanitizedEmail = data.email.trim().toLowerCase();
+      const sanitizedName = values.name.trim();
+      const sanitizedEmail = values.email.trim().toLowerCase();
 
       const result = await registerUser({
         name: sanitizedName,
         email: sanitizedEmail,
-        password: data.password,
+        password: values.password,
       });
 
       if (result.success) {
-        showToast.success('Account created successfully');
+        showToast.success('Compte créé avec succès');
         navigate('/');
       } else {
-        showToast.error(result.error || 'Registration failed');
+        showToast.error(result.error || "L'inscription a échoué");
       }
     } catch (_error) {
-      showToast.error('An error occurred');
+      showToast.error('Une erreur est survenue');
     }
-  };
+  }
 
   return (
-    <div className="container mx-auto flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md space-y-6">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="container mx-auto flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 py-12"
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md space-y-6"
+      >
         <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold">Create an account</h1>
-          <p className="text-muted-foreground">
-            Enter your information to create an account
-          </p>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-3xl font-bold"
+          >
+            Créer un compte
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-muted-foreground"
+          >
+            Entrez vos informations pour créer un compte
+          </motion.p>
         </div>
 
         <Form {...form}>
@@ -123,17 +143,16 @@ export default function RegisterPage() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="name">Full name</FormLabel>
+                  <FormLabel>Nom complet</FormLabel>
                   <FormControl>
                     <Input
-                      id="name"
                       placeholder="John Doe"
                       autoComplete="name"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    This is your public display name.
+                    C'est votre nom public qui sera affiché.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -145,18 +164,17 @@ export default function RegisterPage() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="email">Email</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      id="email"
                       type="email"
-                      placeholder="example@email.com"
+                      placeholder="exemple@email.com"
                       autoComplete="email"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    We'll never share your email with anyone else.
+                    Nous ne partagerons jamais votre email avec qui que ce soit.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -168,11 +186,10 @@ export default function RegisterPage() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="password">Password</FormLabel>
+                  <FormLabel>Mot de passe</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Input
-                        id="password"
                         type={showPassword ? 'text' : 'password'}
                         placeholder="••••••••"
                         autoComplete="new-password"
@@ -191,13 +208,13 @@ export default function RegisterPage() {
                           <Eye className="h-4 w-4" />
                         )}
                         <span className="sr-only">
-                          {showPassword ? 'Hide password' : 'Show password'}
+                          {showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
                         </span>
                       </Button>
                     </div>
                   </FormControl>
                   <FormDescription>
-                    Must be at least 6 characters with one uppercase letter, one lowercase letter, and one number.
+                    Doit contenir au moins 6 caractères avec une majuscule, une minuscule et un chiffre.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -209,11 +226,10 @@ export default function RegisterPage() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="confirmPassword">Confirm password</FormLabel>
+                  <FormLabel>Confirmer le mot de passe</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Input
-                        id="confirmPassword"
                         type={showConfirmPassword ? 'text' : 'password'}
                         placeholder="••••••••"
                         autoComplete="new-password"
@@ -232,13 +248,13 @@ export default function RegisterPage() {
                           <Eye className="h-4 w-4" />
                         )}
                         <span className="sr-only">
-                          {showConfirmPassword ? 'Hide password' : 'Show password'}
+                          {showConfirmPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
                         </span>
                       </Button>
                     </div>
                   </FormControl>
                   <FormDescription>
-                    Re-enter your password to confirm.
+                    Entrez à nouveau votre mot de passe pour confirmer.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -258,13 +274,16 @@ export default function RegisterPage() {
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel>
-                      I accept the{' '}
-                      <Link to="/terms" className="text-primary hover:underline">
-                        terms of service
+                      J'accepte les{' '}
+                      <Link
+                        to="/terms"
+                        className="text-primary hover:underline"
+                      >
+                        conditions d'utilisation
                       </Link>
                     </FormLabel>
                     <FormDescription>
-                      You must accept our terms of service to create an account.
+                      Vous devez accepter nos conditions d'utilisation pour créer un compte.
                     </FormDescription>
                   </div>
                   <FormMessage />
@@ -273,18 +292,18 @@ export default function RegisterPage() {
             />
 
             <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? 'Creating account...' : 'Create account'}
+              {form.formState.isSubmitting ? 'Création en cours...' : 'Créer un compte'}
             </Button>
           </form>
         </Form>
 
         <div className="text-center text-sm">
-          Already have an account?{' '}
+          Vous avez déjà un compte ?{' '}
           <Link to="/login" className="text-primary hover:underline">
-            Sign in
+            Se connecter
           </Link>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

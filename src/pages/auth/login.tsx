@@ -1,8 +1,11 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Checkbox } from '@/components/ui/checkbox';
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -11,32 +14,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
 import { useAuth } from '@/hooks/use-auth';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import { motion } from 'motion/react';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { showToast } from '@/lib/toast';
-import { z } from 'zod';
 
-// Validation schema with Zod
-const loginSchema = z.object({
+const formSchema = z.object({
   email: z
     .string()
-    .min(1, 'Email is required')
-    .email('Invalid email format')
-    .max(100, 'Email cannot exceed 100 characters'),
+    .min(1, { message: "L'email est requis" })
+    .email({ message: "Format d'email invalide" }),
   password: z
     .string()
-    .min(6, 'Password must be at least 6 characters')
-    .max(100, 'Password cannot exceed 100 characters'),
-  rememberMe: z.boolean().optional(),
+    .min(6, { message: "Le mot de passe doit contenir au moins 6 caractères" }),
+  rememberMe: z.boolean().default(false).optional(),
 });
-
-type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -54,21 +49,23 @@ export default function LoginPage() {
     }
   }, [user, navigate, from]);
 
-  const form = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+  // 1. Define your form.
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       rememberMe: false,
     },
   });
 
-  const onSubmit = async (data: LoginFormValues) => {
+  // 2. Define a submit handler.
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       // Sanitize inputs
-      const sanitizedEmail = data.email.trim().toLowerCase();
+      const sanitizedEmail = values.email.trim().toLowerCase();
 
-      const result = await login(sanitizedEmail, data.password);
+      const result = await login(sanitizedEmail, values.password);
 
       if (result.success) {
         showToast.success('Connexion réussie');
@@ -79,7 +76,7 @@ export default function LoginPage() {
     } catch (_error) {
       showToast.error('Une erreur est survenue');
     }
-  };
+  }
 
   return (
     <motion.div
@@ -114,10 +111,7 @@ export default function LoginPage() {
         </div>
 
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="email"
