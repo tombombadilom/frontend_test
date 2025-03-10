@@ -1,4 +1,4 @@
-import { GameCard } from '@/components/games/game-card';
+import { GameCard } from '@/components/catalog/games/game-card';
 import { Button } from '@/components/ui/button';
 import { useGames } from '@/hooks/use-games';
 import { motion } from 'motion/react';
@@ -17,6 +17,7 @@ import {
   Map as MapIcon,
   LayoutGrid
 } from 'lucide-react';
+import { HomeGameCard } from '@/components/home/HomeGameCard';
 
 const iconMap = {
   Swords,
@@ -49,12 +50,9 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-4xl font-bold sm:text-5xl md:text-6xl"
+            className="text-4xl font-bold sm:text-5xl md:text-6xl text-game-primary"
           >
-            Découvrez notre{' '}
-            <span className="bg-gradient-to-r from-primary to-primary/50 bg-clip-text text-transparent">
-              collection de jeux
-            </span>
+            Découvrez notre boutique de jeux
           </motion.h1>
 
           <motion.p
@@ -63,9 +61,8 @@ export default function HomePage() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="mx-auto max-w-2xl text-muted-foreground"
           >
-            Explorez notre vaste catalogue de jeux et trouvez votre prochain coup
-            de cœur. Des classiques aux dernières sorties, il y en a pour tous les
-            goûts.
+            Explorez notre vaste catalogue de jeux, packs et objets exclusifs. Des classiques aux dernières sorties, 
+            trouvez votre prochain coup de cœur parmi notre sélection soigneusement choisie.
           </motion.p>
 
           <motion.div
@@ -75,17 +72,21 @@ export default function HomePage() {
             className="flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
             <Link to="/catalog">
-              <Button
-                size="lg"
-                className="bg-game-primary text-white hover:bg-game-primary/90"
-              >
-                Explorer le catalogue
-              </Button>
+              <motion.div className="cursor-pointer" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  size="lg"
+                  className="bg-game-primary text-game-text hover:bg-game-primary/90"
+                >
+                  Explorer le catalogue
+                </Button>
+              </motion.div>
             </Link>
             <Link to="/promotions">
-              <Button size="lg" variant="outline">
-                Voir les promotions
-              </Button>
+              <motion.div className="cursor-pointer p-0.5" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button size="lg" variant="outline">
+                  Voir les promotions
+                </Button>
+              </motion.div>
             </Link>
           </motion.div>
         </div>
@@ -187,7 +188,7 @@ export default function HomePage() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <GameCard game={game} />
+                  <HomeGameCard game={game} />
                 </motion.div>
               ))}
             </div>
@@ -233,7 +234,7 @@ export default function HomePage() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <GameCard game={game} />
+                  <HomeGameCard game={game} />
                 </motion.div>
               ))}
             </div>

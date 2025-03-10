@@ -1,11 +1,12 @@
 'use client';
 
-import { ObjectCard } from '@/components/objects/object-card';
+import { ObjectCard } from '@/components/catalog/objects/object-card';
 import { useObjects } from '@/hooks/use-objects';
 import { Button } from '@/components/ui/button';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import type { GameItem } from '@/types/game';
+import { HomeObjectCard } from './HomeObjectCard';
 
 export function FeaturedObjects() {
   const { objects, isLoading } = useObjects();
@@ -51,7 +52,7 @@ export function FeaturedObjects() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <ObjectCard object={object} />
+                <HomeObjectCard object={object} />
               </motion.div>
             ))}
           </div>

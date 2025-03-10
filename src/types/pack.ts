@@ -9,34 +9,23 @@ export interface PackPreview {
 }
 
 export interface PackAvailability {
-  startDate?: string;
-  endDate?: string;
-  isLimited?: boolean;
+  startDate: string;
+  endDate: string;
 }
 
 export interface Pack {
-  id: UniqueId;
+  id: number;
   name: string;
   description: string;
-  price: {
-    amount: number;
-    currency: string;
-    discount?: number;
-  };
-  category: number;
+  price: Price;
+  coverImage: string;
   items: string[];
   isActive: boolean;
-  type: string;
+  type: 'starter' | 'collector' | 'ultimate';
   gameId: number;
   tags: string[];
   isFeatured?: boolean;
-  isNewRelease?: boolean;
-  availability: {
-    startDate: string;
-    endDate: string;
-  };
-  preview: PackPreview;
-  metadata?: Record<string, unknown>;
+  availability: PackAvailability;
 }
 
 // Helper function to create a unique ID

@@ -1,6 +1,6 @@
 'use client';
 
-import { GameCard } from '@/components/games/game-card';
+import { GameCard } from '@/components/catalog/games/game-card';
 import { useGames } from '@/hooks/use-games';
 import { Button } from '@/components/ui/button';
 import { ChevronRight } from 'lucide-react';

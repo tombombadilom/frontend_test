@@ -1,28 +1,31 @@
 import { toast } from 'sonner';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Game } from '@/types/game';
+import type { Game, GameItem } from '@/types/game';
+import type { Pack } from '@/types/pack';
 import type { MigrateFunction } from '@/types/store';
+
+type Product = Game | Pack | GameItem;
 
 export interface WishlistItem {
   id: string;
-  gameId: string;
+  productId: string;
   addedAt: string;
-  game: Game;
+  product: Product;
 }
 
 const generateId = () => Math.random().toString(36).substring(7);
 
-const createWishlistItem = (game: Game): WishlistItem => ({
+const createWishlistItem = (product: Product): WishlistItem => ({
   id: generateId(),
-  gameId: game.gameId.toString(),
+  productId: product.id.toString(),
   addedAt: new Date().toISOString(),
-  game,
+  product,
 });
 
 export interface WishlistState {
   items: WishlistItem[];
-  addItem: (game: Game) => void;
+  addItem: (product: Product) => void;
   removeItem: (id: string) => void;
   isInWishlist: (id: string) => boolean;
   clearWishlist: () => void;
@@ -33,10 +36,10 @@ export const useWishlistStore = create<WishlistState>()(
     (set, get) => ({
       items: [],
 
-      addItem: (game) =>
+      addItem: (product) =>
         set((state) => {
           const existingItem = state.items.find(
-            (i) => i.gameId === game.gameId.toString()
+            (i) => i.productId === product.id.toString()
           );
           
           if (existingItem) {
@@ -44,7 +47,7 @@ export const useWishlistStore = create<WishlistState>()(
           }
 
           return {
-            items: [...state.items, createWishlistItem(game)],
+            items: [...state.items, createWishlistItem(product)],
           };
         }),
 
@@ -53,15 +56,15 @@ export const useWishlistStore = create<WishlistState>()(
           items: state.items.filter((item) => item.id !== id),
         })),
 
-      isInWishlist: (id) => get().items.some((item) => item.id === id),
+      isInWishlist: (id) => get().items.some((item) => item.productId === id),
 
       clearWishlist: () => set({ items: [] }),
     }),
     {
       name: 'game-shop-wishlist',
-      version: 1,
+      version: 2,
       migrate: ((persistedState: unknown, version: number) => {
-        if (version === 0) {
+        if (version === 0 || version === 1) {
           return {
             items: []
           };
