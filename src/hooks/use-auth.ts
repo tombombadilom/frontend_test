@@ -13,6 +13,13 @@ export interface User {
   role: 'user' | 'admin';
   language: 'fr' | 'en';
   theme: 'light' | 'dark';
+  preferences: {
+    saveHistory: boolean;
+    autoPlayVideos: boolean;
+    enableSounds: boolean;
+    showRecommendations: boolean;
+    enableBetaFeatures: boolean;
+  };
   notifications: {
     email: boolean;
     push: boolean;
@@ -60,6 +67,13 @@ export function useAuth() {
         role: email.includes('admin') ? 'admin' : 'user',
         language: 'fr',
         theme: 'light',
+        preferences: {
+          saveHistory: true,
+          autoPlayVideos: false,
+          enableSounds: true,
+          showRecommendations: true,
+          enableBetaFeatures: false,
+        },
         notifications: {
           email: true,
           push: true,
@@ -112,6 +126,13 @@ export function useAuth() {
         role: 'user',
         language: 'fr',
         theme: 'light',
+        preferences: {
+          saveHistory: true,
+          autoPlayVideos: false,
+          enableSounds: true,
+          showRecommendations: true,
+          enableBetaFeatures: false,
+        },
         notifications: {
           email: true,
           push: true,
@@ -185,6 +206,30 @@ export function useAuth() {
     []
   );
 
+  const updateSettings = useCallback(
+    async (settings: Omit<User, 'id' | 'email' | 'name' | 'role'>) => {
+      try {
+        if (!user) {
+          return { success: false, error: 'User not found' };
+        }
+
+        const updatedUser = {
+          ...user,
+          ...settings
+        };
+
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        setUser(updatedUser);
+
+        return { success: true };
+      } catch (error) {
+        console.error('Error updating settings:', error);
+        return { success: false, error: 'Failed to update settings' };
+      }
+    },
+    [user, setUser]
+  );
+
   return useMemo(() => ({
     user,
     login,
@@ -192,5 +237,6 @@ export function useAuth() {
     logout,
     updateProfile,
     updatePassword,
-  }), [user, login, register, logout, updateProfile, updatePassword]);
+    updateSettings,
+  }), [user, login, register, logout, updateProfile, updatePassword, updateSettings]);
 }

@@ -6,6 +6,7 @@ import { AuthGuard } from './components/auth/AuthGuard';
 import { DefaultLayout } from './components/layout/DefaultLayout';
 import { AdminLayout } from './components/layout/AdminLayout';
 import { UserLayout } from './layouts/user-layout';
+import type { ReactNode } from 'react';
 
 // Pages publiques
 const HomePage = lazy(() => import('./pages/home'));
@@ -24,7 +25,6 @@ const CartPage = lazy(() => import('./pages/cart'));
 const UserProfilePage = lazy(() => import('./pages/user/profile').then(module => ({ default: module.default })));
 const UserSettingsPage = lazy(() => import('./pages/user/settings').then(module => ({ default: module.default })));
 const UserOrdersPage = lazy(() => import('./pages/user/orders').then(module => ({ default: module.default })));
-const UserWishlistPage = lazy(() => import('./pages/user/wishlist').then(module => ({ default: module.default })));
 
 // Pages admin
 const AdminDashboardPage = lazy(() => import('./pages/admin/dashboard'));
@@ -72,7 +72,6 @@ const publicRoutes = [
       { path: 'packs/:id', element: <PackPage /> },
       { path: 'objects', element: <ObjectsPage /> },
       { path: 'objects/:id', element: <ObjectPage /> },
-      { path: 'wishlist', element: <WishlistPage /> },
       { path: 'cart', element: <CartPage /> },
     ],
   },
@@ -90,9 +89,9 @@ const userRoutes = {
   ),
   children: [
     { index: true, element: <UserProfilePage /> },
-    { path: 'settings', element: <UserSettingsPage /> },
     { path: 'orders', element: <UserOrdersPage /> },
-    { path: 'wishlist', element: <UserWishlistPage /> },
+    { path: 'settings', element: <UserSettingsPage /> },
+    { path: 'wishlist', element: <WishlistPage /> },
   ],
 };
 

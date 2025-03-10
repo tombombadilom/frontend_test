@@ -1,6 +1,8 @@
 import { Facebook, Github, Instagram, Twitter, Youtube } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Link as RouterLink } from 'react-router-dom';
+import { navigation } from '@/config/navigation';
+import { useAuth } from '@/hooks/use-auth';
 
 const socialLinks = [
   { id: 'twitter', icon: <Twitter />, href: '#' },
@@ -10,6 +12,24 @@ const socialLinks = [
 ] as const;
 
 export function Footer() {
+  const { user } = useAuth();
+
+  const publicLinks = navigation.public.map(item => ({
+    path: item.path,
+    label: item.labelFr
+  }));
+
+  const userLinks = user ? navigation.user.map(item => ({
+    path: item.path,
+    label: item.labelFr
+  })) : [];
+
+  const supportLinks = [
+    { path: '/contact', label: 'Contact' },
+    { path: '/terms', label: "Conditions d'utilisation" },
+    { path: '/privacy', label: "Politique de confidentialité" },
+  ];
+
   return (
     <footer className="border-t bg-background">
       <div className="container mx-auto px-4 py-12">
@@ -44,15 +64,9 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h3 className="mb-4 text-lg font-bold">Liens rapides</h3>
+            <h3 className="mb-4 text-lg font-bold">Navigation</h3>
             <ul className="space-y-2 text-sm">
-              {[
-                { path: '/', label: 'Accueil' },
-                { path: '/catalog', label: 'Catalogue' },
-                { path: '/new-releases', label: 'Nouveautés' },
-                { path: '/promotions', label: 'Promotions' },
-                { path: '/about', label: 'À propos' },
-              ].map((link, index) => (
+              {publicLinks.map((link, index) => (
                 <motion.li
                   key={link.path}
                   initial={{ opacity: 0, x: -10 }}
@@ -77,15 +91,51 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
+            <h3 className="mb-4 text-lg font-bold">Mon Compte</h3>
+            <ul className="space-y-2 text-sm">
+              {userLinks.map((link, index) => (
+                <motion.li
+                  key={link.path}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: 0.3 + index * 0.05 }}
+                >
+                  <RouterLink
+                    to={link.path}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    {link.label}
+                  </RouterLink>
+                </motion.li>
+              ))}
+              {!user && (
+                <motion.li
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: 0.3 }}
+                >
+                  <RouterLink
+                    to="/login"
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    Se connecter
+                  </RouterLink>
+                </motion.li>
+              )}
+            </ul>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             <h3 className="mb-4 text-lg font-bold">Support</h3>
             <ul className="space-y-2 text-sm">
-              {[
-                { path: '/faq', label: 'FAQ' },
-                { path: '/contact', label: 'Contact' },
-                { path: '/shipping', label: 'Livraison' },
-                { path: '/returns', label: 'Retours' },
-                { path: '/terms', label: "Conditions d'utilisation" },
-              ].map((link, index) => (
+              {supportLinks.map((link, index) => (
                 <motion.li
                   key={link.path}
                   initial={{ opacity: 0, x: -10 }}
@@ -102,41 +152,6 @@ export function Footer() {
                 </motion.li>
               ))}
             </ul>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <h3 className="mb-4 text-lg font-bold">Newsletter</h3>
-            <p className="mb-4 text-sm text-muted-foreground">
-              Inscrivez-vous pour recevoir les dernières nouvelles et offres
-              spéciales.
-            </p>
-            <motion.form
-              className="flex flex-col space-y-2"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <input
-                type="email"
-                placeholder="Votre email"
-                className="rounded-md border border-input bg-background px-3 py-2 text-sm"
-                required
-              />
-              <motion.button
-                type="submit"
-                className="rounded-md bg-game-primary px-3 py-2 text-sm font-medium text-white hover:bg-game-primary/90"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                S'inscrire
-              </motion.button>
-            </motion.form>
           </motion.div>
         </div>
 

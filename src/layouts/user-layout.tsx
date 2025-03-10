@@ -3,8 +3,13 @@ import { Header } from '@/components/layout/header';
 import { PageTransition } from '@/components/shared/page-transition';
 import { UserSidebar } from '@/components/user/user-sidebar';
 import { Outlet } from 'react-router-dom';
+import type { ReactNode } from 'react';
 
-export function UserLayout() {
+interface UserLayoutProps {
+  children: ReactNode;
+}
+
+export function UserLayout({ children }: UserLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
@@ -12,7 +17,7 @@ export function UserLayout() {
         <UserSidebar className="w-full md:w-64" />
         <main className="flex-1">
           <PageTransition>
-            <Outlet />
+            {children}
           </PageTransition>
         </main>
       </div>
