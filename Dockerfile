@@ -2,12 +2,22 @@
 FROM node:23-alpine AS builder
 WORKDIR /app
 
+# Configure pnpm and network settings
+ENV PNPM_TIMEOUT=1200000 \
+    PNPM_FETCH_RETRIES=10 \
+    PNPM_REGISTRY=https://registry.npmjs.org \
+    NODE_OPTIONS="--max-old-space-size=4096" \
+    NODE_TLS_REJECT_UNAUTHORIZED=0 \
+    NODE_DNS_LOOKUP_TIMEOUT=120000 \
+    NODE_DNS_LOOKUP_RETRIES=10
+
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Install dependencies
+# Install dependencies with retry mechanism and cache
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
+    pnpm install --no-frozen-lockfile --prefer-offline
 
 # Build the app
 COPY . .

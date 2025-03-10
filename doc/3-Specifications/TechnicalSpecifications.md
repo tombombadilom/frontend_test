@@ -27,74 +27,132 @@ Before detailing the technical specifications, it's important to acknowledge the
 
 ## Technology Stack
 
-### Frontend Framework
+### Core Technologies
+- React 19 with TypeScript
+- Vite 6
+- Tailwind CSS 4
+- Shadcn UI
+- React Router 7
+- Zustand for state management
+- React Context for global UI state
+- Vitest for testing
 
-**Primary Framework: React with Vite**
-- React 19.0.0 for component-based architecture
-- Vite 6.2.0 for fast development and building
-- React Router DOM 7.2.0 for routing
-- TypeScript 5.7.3 for type safety and developer experience
+### Development Tools
+- Biome for linting and formatting
+- TypeScript for type safety
+- PNPM for package management
 
-**State Management**
-- Zustand 5.0.3 for global state management
-  - Lightweight and performant alternative to Redux
-  - Simple API with hooks-based approach
-  - Built-in middleware for persistence and devtools
-  - Ideal for managing shop state, cart, and user preferences
-- React Context API for theme and authentication context
-- Local component state for isolated functionality
-- URL parameters for shareable state
+## Project Structure
 
-**UI Component Library**
-- Shadcn UI with Radix UI primitives
-  - @radix-ui/react-* components for accessible UI primitives
-  - Custom styled components built on these foundations
-  - Skeleton loading components for all data-dependent UI elements
+```
+src/
+├── components/      # Reusable components
+│   ├── admin/      # Admin interface components
+│   ├── auth/       # Authentication components
+│   ├── catalog/    # Catalog components
+│   │   ├── games/  # Game-specific components
+│   │   ├── packs/  # Pack-specific components
+│   │   └── objects/# Object-specific components
+│   ├── layout/     # Layout components
+│   ├── shared/     # Shared components
+│   └── ui/         # Shadcn UI components
+├── contexts/       # React contexts
+├── data/          # Mock JSON data
+├── hooks/         # Custom React hooks
+├── layouts/       # Layout templates
+├── lib/           # Utility functions
+├── pages/         # Page components
+├── store/         # Zustand stores
+├── styles/        # Global styles
+├── test/          # Test utilities and mocks
+└── types/         # TypeScript definitions
+```
 
-**Styling**
-- Tailwind CSS 4.0.10 for utility-first styling
-- CSS Variables for theming and customization
-- tailwind-merge for conditional class merging
-- class-variance-authority for component variants
+## State Management
 
-**Form Management**
-- React Hook Form 7.54.2 for form handling
-- Zod 3.24.2 for schema validation
+### Global UI State (React Context)
+- Authentication state
+- Theme state
+- UI preferences
 
-**Animation**
-- Motion 12.4.10 for animations
-- Motion Primitives 0.1.0 for reusable animation components
-  - Performant animation primitives
-  - Built-in spring animations
-  - Gesture support
-  - Layout animations
+### Data State (Zustand)
+- Cart management
+- Wishlist management
+- Filter preferences
+- Display mode preferences
+- User settings
+- History tracking
 
-**Code Quality**
-- Biome 1.9.4 for linting and formatting
-  - Single tool replacing ESLint and Prettier
-  - Significantly faster performance
-  - TypeScript-aware linting rules
-  - Built-in formatter with opinionated defaults
+## Routing
 
-**Testing**
-- Vitest 1.6.0 for unit and component testing
-- React Testing Library 15.0.6 for component testing
-- Jest DOM 6.4.2 for DOM testing utilities
+### Public Routes
+- Home
+- Games catalog
+- Objects catalog
+- Packs catalog
+- Cart
+- Authentication (login/register)
 
-### Simulated Backend
+### User Routes
+- Profile
+- Orders
+- Settings
+- Wishlist
 
-**Data Storage**
-- JSON files for mock data
-- Local Storage for persisting user selections and cart
+### Admin Routes
+- Dashboard
+- Games management
+- Packs management
+- Objects management
+- Categories management
+- Settings
 
-**Authentication**
-- Simulated authentication flow
-- Hardcoded user credentials for testing
+## Testing Strategy
 
-**API Simulation**
-- Static JSON files loaded as modules
-- Simulated API response delays
-- Mock error states for testing
+### Unit Tests
+- Component tests
+- Hook tests
+- Utility function tests
+- Store tests
+
+### Test Structure
+- Tests located in `__tests__` directories
+- Mock data in `src/test/mocks`
+- Test utilities in `src/test/test-utils.tsx`
+
+### Coverage Requirements
+- Minimum 80% coverage
+- 100% coverage for critical paths
+
+## Development Guidelines
+
+### Code Style
+- Use TypeScript for all new code
+- Follow Biome linting rules
+- Use functional components
+- Implement proper error handling
+- Write unit tests for new features
+
+### Component Guidelines
+- Use Shadcn UI components when possible
+- Implement responsive design
+- Follow accessibility guidelines
+- Use proper TypeScript types
+- Document complex logic
+
+### State Management Guidelines
+- Use React Context for UI state
+- Use Zustand for data state
+- Implement proper error states
+- Handle loading states
+- Persist necessary state
+
+### Testing Guidelines
+- Write tests for new components
+- Mock external dependencies
+- Test edge cases
+- Maintain test isolation
+- Follow AAA pattern
 
 ## Architecture
 

@@ -27,12 +27,16 @@ This navigation guide provides quick access to all documentation files with colo
 ## 🎨 Design
 
 - [🖼️ Wireframes](1-Design/Wireframes.md) - Wireframes for the three display modes
-- [⚙️ Admin Interface](1-Design/AdminInterface.md) - Conceptual design for the administration interface
+- [⚙️ Admin Interface](AdminInterface.md) - Administration interface documentation
 
 ## 📝 Specifications
 
 - [📱 Functional Specifications](3-Specifications/FunctionalSpecifications.md) - Detailed functional requirements
 - [💻 Technical Specifications](3-Specifications/TechnicalSpecifications.md) - Technical implementation details
+
+## 🧪 Testing
+
+- [🧪 Testing Documentation](Testing.md) - Testing strategy and guidelines
 
 ## 📋 Project Management
 
@@ -49,6 +53,7 @@ This navigation guide provides quick access to all documentation files with colo
    - ⚙️ Administration documents
    - 📱 Functional specifications
    - 💻 Technical specifications
+   - 🧪 Testing documentation
    - ✅ Project management documents
 
 ## 🎯 Quick Reference
@@ -62,6 +67,7 @@ This navigation guide provides quick access to all documentation files with colo
 | Game Stores Analysis | Store patterns | Common patterns across different game stores |
 | Wireframes | Display mode designs | Carousel, Grid, Infinite Scroll wireframes |
 | Admin Interface | Administration design | User roles, product management, store configuration |
+| Testing Documentation | Testing strategy | Test structure, guidelines, coverage requirements |
 | Functional Specs | User experience | Core functionality, user flows, interface states |
 | Technical Specs | Implementation details | Technology stack, architecture, implementation plan |
 | Implementation Plan | Project management | Tasks, timeline, priorities |
