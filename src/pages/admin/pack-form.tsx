@@ -28,37 +28,32 @@ import { z } from 'zod';
 const packSchema = z.object({
   name: z
     .string()
-    .min(3, 'Name must be at least 3 characters')
-    .max(100, 'Name cannot exceed 100 characters')
+    .min(3, 'Le nom doit contenir au moins 3 caractères')
+    .max(100, 'Le nom ne peut pas dépasser 100 caractères')
     .regex(
       /^[a-zA-Z0-9\s\-':,.!?]+$/,
-      'Name contains invalid characters'
+      'Le nom contient des caractères invalides'
     ),
   description: z
     .string()
-    .min(10, 'Description must be at least 10 characters')
-    .max(2000, 'Description cannot exceed 2000 characters'),
+    .min(10, 'La description doit contenir au moins 10 caractères')
+    .max(2000, 'La description ne peut pas dépasser 2000 caractères'),
   amount: z.coerce
     .number()
-    .min(0.01, 'Price must be greater than 0')
-    .max(999999.99, 'Price cannot exceed 999,999.99'),
+    .min(0.01, 'Le prix doit être supérieur à 0')
+    .max(999999.99, 'Le prix ne peut pas dépasser 999,999.99'),
   currency: z
     .string()
-    .min(1, 'Currency is required')
-    .max(10, 'Currency cannot exceed 10 characters'),
-  discount: z.coerce
-    .number()
-    .min(0, 'Discount cannot be negative')
-    .max(100, 'Discount cannot exceed 100%')
-    .optional(),
-  type: z.string().min(1, 'Type is required'),
-  gameId: z.coerce.number().min(1, 'Game ID is required'),
-  isLimited: z.boolean(),
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
-  isActive: z.boolean().optional(),
-  isFeatured: z.boolean().optional(),
-  isNewRelease: z.boolean().optional(),
+    .min(1, 'La devise est requise')
+    .max(10, 'La devise ne peut pas dépasser 10 caractères'),
+  type: z.enum(['starter', 'collector', 'ultimate', 'pack'], {
+    required_error: 'Le type est requis',
+  }),
+  gameId: z.coerce.number().min(1, 'L\'ID du jeu est requis'),
+  isActive: z.boolean().default(true),
+  isFeatured: z.boolean().default(false),
+  startDate: z.string().min(1, 'La date de début est requise'),
+  endDate: z.string().min(1, 'La date de fin est requise'),
 });
 
 type PackFormValues = z.infer<typeof packSchema>;
@@ -72,7 +67,7 @@ export default function PackFormPage({ editMode = false }: PackFormProps) {
   const { id: urlId } = useParams<{ id: string }>();
   const [initialData, setInitialData] = useState<Pack | null>(null);
   const [isLoading, setIsLoading] = useState(editMode);
-  const [items, setItems] = useState<number[]>([]);
+  const [items, setItems] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [newItem, setNewItem] = useState('');
   const [newTag, setNewTag] = useState('');
@@ -84,66 +79,70 @@ export default function PackFormPage({ editMode = false }: PackFormProps) {
       description: initialData?.description || '',
       amount: initialData?.price.amount || 0,
       currency: initialData?.price.currency || 'USD',
-      discount: initialData?.price.discount || 0,
-      type: initialData?.type || '',
+      type: initialData?.type || 'starter',
       gameId: initialData?.gameId || 0,
-      isLimited: initialData?.availability?.isLimited || false,
-      startDate: initialData?.availability?.startDate || '',
-      endDate: initialData?.availability?.endDate || '',
       isActive: initialData?.isActive || true,
       isFeatured: initialData?.isFeatured || false,
-      isNewRelease: initialData?.isNewRelease || false,
+      startDate: initialData?.availability.startDate || '',
+      endDate: initialData?.availability.endDate || '',
     },
   });
 
   // Charger les données du pack si en mode édition
   useEffect(() => {
-    if (editMode && urlId) {
-      const fetchPack = async () => {
+    const loadPack = async () => {
+      if (editMode && urlId) {
         try {
           setIsLoading(true);
-          // Dans une application réelle, cela ferait une requête API
           const response = await import('@/data/packs.json');
-          const packs = (response.default.packs || []) as Pack[];
-          const numericId = Number.parseInt(urlId, 10);
-          const pack = packs.find((p) => p.id === numericId);
-
-          if (pack) {
-            setInitialData(pack);
-            setItems(pack.items);
-            setTags(pack.tags || []);
-
-            form.reset({
-              name: pack.name,
-              description: pack.description,
-              amount: pack.price.amount,
-              currency: pack.price.currency,
-              discount: pack.price.discount,
+          console.log('Loading pack with ID:', urlId);
+          const packId = Number.parseInt(urlId, 10);
+          console.log('Parsed pack ID:', packId);
+          const pack = response.default.packs.find(p => p.id === packId);
+          console.log('Found pack:', pack);
+          
+          if (pack && (pack.type === 'starter' || pack.type === 'collector' || pack.type === 'ultimate' || pack.type === 'pack')) {
+            const validPack: Pack = {
+              ...pack,
               type: pack.type,
-              gameId: pack.gameId,
-              isLimited: pack.availability?.isLimited || false,
-              startDate: pack.availability?.startDate || '',
-              endDate: pack.availability?.endDate || '',
-              isActive: pack.isActive,
-              isFeatured: pack.isFeatured,
-              isNewRelease: pack.isNewRelease,
+              availability: {
+                startDate: pack.availability?.startDate,
+                endDate: pack.availability?.endDate,
+              },
+            };
+            
+            setInitialData(validPack);
+            setItems(validPack.items);
+            setTags(validPack.tags);
+            
+            form.reset({
+              name: validPack.name,
+              description: validPack.description,
+              amount: validPack.price.amount,
+              currency: validPack.price.currency,
+              type: validPack.type,
+              gameId: validPack.gameId,
+              isActive: validPack.isActive,
+              isFeatured: validPack.isFeatured,
+              startDate: validPack.availability?.startDate,
+              endDate: validPack.availability?.endDate,
             });
           } else {
+            console.error('Pack not found with ID:', packId);
             showToast.error('Pack non trouvé');
             navigate('/admin/packs');
           }
         } catch (error) {
           console.error('Erreur lors du chargement du pack:', error);
           showToast.error('Erreur lors du chargement du pack');
-          navigate('/admin/packs');
         } finally {
           setIsLoading(false);
         }
-      };
+      }
+    };
 
-      fetchPack();
-    }
-  }, [editMode, urlId, navigate, form]);
+    loadPack();
+  }, [editMode, urlId, form, navigate]);
 
   const addItem = () => {
     if (!newItem.trim()) return;
@@ -154,16 +153,16 @@ export default function PackFormPage({ editMode = false }: PackFormProps) {
       return;
     }
 
-    if (items.includes(itemId)) {
+    if (items.includes(itemId.toString())) {
       showToast.error('This item is already in the pack');
       return;
     }
 
-    setItems([...items, itemId]);
+    setItems([...items, itemId.toString()]);
     setNewItem('');
   };
 
-  const removeItem = (itemId: number) => {
+  const removeItem = (itemId: string) => {
     setItems(items.filter((id) => id !== itemId));
   };
 
@@ -190,13 +189,11 @@ export default function PackFormPage({ editMode = false }: PackFormProps) {
 
   const onSubmit = async (data: PackFormValues) => {
     try {
-      // Check that at least one item is included
       if (items.length === 0) {
-        showToast.error('Please add at least one item to the pack');
+        showToast.error('Veuillez ajouter au moins un item au pack');
         return;
       }
 
-      // Build the complete pack object
       const packData: Pack = {
         id: initialData?.id || Math.floor(Date.now() / 1000),
         name: data.name,
@@ -205,20 +202,18 @@ export default function PackFormPage({ editMode = false }: PackFormProps) {
         price: {
           amount: data.amount,
           currency: data.currency,
-          discount: data.discount,
         },
-        availability: {
-          startDate: data.startDate,
-          endDate: data.endDate,
-          isLimited: data.isLimited,
-        },
+        coverImage: initialData?.coverImage || '',
         type: data.type,
         gameId: data.gameId,
         tags,
-        metadata: {},
         isActive: data.isActive,
         isFeatured: data.isFeatured,
-        isNewRelease: data.isNewRelease,
+        availability: {
+          startDate: data.startDate,
+          endDate: data.endDate,
+        },
+        preview: initialData?.preview,
       };
 
       console.log('Données du pack à envoyer:', packData);
@@ -344,30 +339,6 @@ export default function PackFormPage({ editMode = false }: PackFormProps) {
 
               <FormField
                 control={form.control}
-                name="discount"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Discount (%)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        step="1"
-                        placeholder="0"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      The discount percentage (0-100).
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <FormField
-                control={form.control}
                 name="type"
                 render={({ field }) => (
                   <FormItem>
@@ -382,7 +353,9 @@ export default function PackFormPage({ editMode = false }: PackFormProps) {
                   </FormItem>
                 )}
               />
+            </div>
 
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <FormField
                 control={form.control}
                 name="gameId"
@@ -485,63 +458,46 @@ export default function PackFormPage({ editMode = false }: PackFormProps) {
 
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">Availability</h3>
-              <div className="space-y-2">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <FormField
                   control={form.control}
-                  name="isLimited"
+                  name="startDate"
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormItem>
+                      <FormLabel>Start Date</FormLabel>
                       <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
+                        <Input
+                          type="datetime-local"
+                          {...field}
                         />
                       </FormControl>
-                      <div className="space-y-1 leading-none">
-                        <FormLabel>Limited Time</FormLabel>
-                        <FormDescription>
-                          Is this pack only available for a limited time?
-                        </FormDescription>
-                      </div>
+                      <FormDescription>
+                        When the pack becomes available.
+                      </FormDescription>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
 
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  <FormField
-                    control={form.control}
-                    name="startDate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Start Date</FormLabel>
-                        <FormControl>
-                          <Input type="datetime-local" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          When the pack becomes available.
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="endDate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>End Date</FormLabel>
-                        <FormControl>
-                          <Input type="datetime-local" {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          When the pack becomes unavailable.
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                <FormField
+                  control={form.control}
+                  name="endDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>End Date</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="datetime-local"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        When the pack becomes unavailable.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             </div>
 
@@ -584,27 +540,6 @@ export default function PackFormPage({ editMode = false }: PackFormProps) {
                         <FormLabel>Featured</FormLabel>
                         <FormDescription>
                           Show this pack in the featured section.
-                        </FormDescription>
-                      </div>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="isNewRelease"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-center space-x-3 space-y-0">
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <div className="space-y-1 leading-none">
-                        <FormLabel>New Release</FormLabel>
-                        <FormDescription>
-                          Show this pack in the new releases section.
                         </FormDescription>
                       </div>
                     </FormItem>

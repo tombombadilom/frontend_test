@@ -24,11 +24,8 @@ export interface Pack {
   type: 'starter' | 'collector' | 'ultimate' | 'pack';
   gameId: number;
   tags: string[];
-  isFeatured: boolean;
-  availability: {
-    inStock: boolean;
-    quantity?: number;
-  };
+  isFeatured?: boolean;
+  availability: PackAvailability;
   preview?: PackPreview;
 }
 

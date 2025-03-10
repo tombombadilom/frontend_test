@@ -1,9 +1,8 @@
-@import "tailwindcss";
+@import './styles/admin.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 /* Le reste de votre CSS (déclarations de variables, etc.) reste inchangé */
 @layer base {
@@ -111,5 +110,12 @@
 
   html.changing-theme body {
     transition: background 0.3s ease-in-out, color 0.3s ease-in-out !important;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

@@ -242,7 +242,7 @@ const AdminOrdersPage = () => {
               />
             </div>
             <div className="w-full md:w-[200px]">
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <Select value={statusFilter} onValueChange={setStatusFilter} disabled>
                 <SelectTrigger>
                   <Filter className="mr-2 h-4 w-4" />
                   <SelectValue placeholder="Statut" />

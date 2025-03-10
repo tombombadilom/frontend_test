@@ -25,7 +25,7 @@ interface SidebarItemProps {
   isActive?: boolean;
 }
 
-function SidebarItem({ icon: Icon, title, href, isActive }: SidebarItemProps) {
+export function SidebarItem({ icon: Icon, title, href, isActive }: SidebarItemProps) {
   return (
     <Link
       to={href}
@@ -48,7 +48,7 @@ interface SidebarGroupProps {
   defaultOpen?: boolean;
 }
 
-function SidebarGroup({
+export function SidebarGroup({
   title,
   children,
   defaultOpen = false,

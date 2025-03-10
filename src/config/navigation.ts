@@ -12,6 +12,9 @@ import {
   Users,
   ShoppingCart,
   FolderTree,
+  Folder,
+  Boxes,
+  BoxesIcon,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -47,6 +50,9 @@ export const navigation: MenuConfig = {
     { path: '/admin/packs', labelFr: 'Packs', labelEn: 'Packs', icon: Package },
     { path: '/admin/objects', labelFr: 'Objets', labelEn: 'Objects', icon: Sparkles },
     { path: '/admin/categories', labelFr: 'Catégories', labelEn: 'Categories', icon: FolderTree },
+    { path: '/admin/game-categories', labelFr: 'Catégories de jeux', labelEn: 'Game Categories', icon: Folder },
+    { path: '/admin/pack-categories', labelFr: 'Catégories de packs', labelEn: 'Pack Categories', icon: Boxes },
+    { path: '/admin/object-categories', labelFr: 'Catégories d\'objets', labelEn: 'Object Categories', icon: BoxesIcon },
     { path: '/admin/orders', labelFr: 'Commandes', labelEn: 'Orders', icon: ShoppingCart },
     { path: '/admin/settings', labelFr: 'Paramètres', labelEn: 'Settings', icon: Settings },
   ],

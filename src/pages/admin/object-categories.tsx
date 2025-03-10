@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import type { Category } from '@/types/category';
+import type { GameCategory } from '@/types/category';
 import {
   ArrowUpDown,
   Filter,
@@ -36,7 +36,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-// import CategoryFormPage from './category-form';
 import {
   Select,
   SelectContent,
@@ -44,30 +43,33 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { ObjectCategoryForm } from './object-category-form';
 
-// Composant temporaire en attendant l'implémentation complète
-const CategoryFormPage = ({ editMode }: { editMode?: boolean }) => (
-  <div>
-    <p>Formulaire de catégorie {editMode ? 'en mode édition' : 'en mode création'}</p>
-    <p>Ce composant sera implémenté prochainement.</p>
-  </div>
-);
+interface ObjectCategory {
+  id: number;
+  name: string;
+  description: string;
+  subcategories: {
+    id: number;
+    name: string;
+    description: string;
+  }[];
+}
 
-interface AdminCategoriesPageProps {
+interface AdminObjectCategoriesPageProps {
   isNew?: boolean;
   isEdit?: boolean;
 }
 
-export default function AdminCategoriesPage({ isNew, isEdit }: AdminCategoriesPageProps) {
+export default function AdminObjectCategoriesPage({ isNew, isEdit }: AdminObjectCategoriesPageProps) {
   const { id } = useParams();
   const [searchQuery, setSearchQuery] = useState('');
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<ObjectCategory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState('');
   const [filters, setFilters] = useState({
     sortBy: '',
-    isActive: undefined as boolean | undefined,
   });
   const [showFilters, setShowFilters] = useState(false);
 
@@ -76,7 +78,7 @@ export default function AdminCategoriesPage({ isNew, isEdit }: AdminCategoriesPa
     const loadCategories = async () => {
       try {
         setIsLoading(true);
-        const response = await import('@/data/categories.json');
+        const response = await import('@/data/objects-categories.json');
         setCategories(response.default.categories || []);
       } catch (error) {
         console.error('Erreur lors du chargement des catégories:', error);
@@ -94,9 +96,7 @@ export default function AdminCategoriesPage({ isNew, isEdit }: AdminCategoriesPa
       category.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       category.description.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesActive = filters.isActive === undefined || category.isActive === filters.isActive;
-
-    return matchesSearch && matchesActive;
+    return matchesSearch;
   });
 
   // Trier les catégories
@@ -106,20 +106,16 @@ export default function AdminCategoriesPage({ isNew, isEdit }: AdminCategoriesPa
         return a.name.localeCompare(b.name);
       case 'name-desc':
         return b.name.localeCompare(a.name);
-      case 'order-asc':
-        return a.order - b.order;
-      case 'order-desc':
-        return b.order - a.order;
       default:
-        return a.order - b.order;
+        return 0;
     }
   });
 
   if (isNew) {
     return (
       <div className="container mx-auto py-6">
-        <h1 className="text-3xl font-bold mb-6">Créer une nouvelle catégorie</h1>
-        <CategoryFormPage />
+        <h1 className="text-3xl font-bold mb-6">Créer une nouvelle catégorie d'objets</h1>
+        <ObjectCategoryForm />
       </div>
     );
   }
@@ -127,8 +123,8 @@ export default function AdminCategoriesPage({ isNew, isEdit }: AdminCategoriesPa
   if (isEdit && id) {
     return (
       <div className="container mx-auto py-6">
-        <h1 className="text-3xl font-bold mb-6">Modifier la catégorie</h1>
-        <CategoryFormPage editMode />
+        <h1 className="text-3xl font-bold mb-6">Modifier la catégorie d'objets</h1>
+        <ObjectCategoryForm editMode />
       </div>
     );
   }
@@ -136,9 +132,9 @@ export default function AdminCategoriesPage({ isNew, isEdit }: AdminCategoriesPa
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Catégories</h1>
+        <h1 className="text-2xl font-bold">Catégories d'objets</h1>
         <Link
-          to="/admin/categories/new"
+          to="/admin/object-categories/new"
           className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
         >
           <Plus className="mr-2 h-4 w-4" />
@@ -161,16 +157,15 @@ export default function AdminCategoriesPage({ isNew, isEdit }: AdminCategoriesPa
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[300px] p-0" align="start">
-              <Command className="bg-command border-command-border">
+              <Command>
                 <CommandInput 
                   placeholder="Rechercher une catégorie..." 
                   value={searchQuery}
                   onValueChange={setSearchQuery}
-                  className="bg-command-input text-command-foreground"
                 />
-                <CommandList className="bg-command">
+                <CommandList>
                   <CommandEmpty>Aucune catégorie trouvée</CommandEmpty>
-                  <CommandGroup heading="Catégories" className="text-command-foreground">
+                  <CommandGroup heading="Catégories">
                     {sortedCategories.slice(0, 10).map((category) => (
                       <CommandItem
                         key={category.id}
@@ -180,17 +175,9 @@ export default function AdminCategoriesPage({ isNew, isEdit }: AdminCategoriesPa
                           setSelectedValue(category.name);
                           setOpen(false);
                         }}
-                        className="bg-command-item hover:bg-command-item-hover data-[selected=true]:bg-command-item-selected data-[selected=true]:text-command-item-selected-foreground"
                       >
                         <div className="flex items-center gap-2">
                           <span>{category.name}</span>
-                          <div className="ml-auto flex items-center gap-2">
-                            <span className={`rounded-sm px-1.5 py-0.5 text-xs ${
-                              category.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                            }`}>
-                              {category.isActive ? 'Active' : 'Inactive'}
-                            </span>
-                          </div>
                         </div>
                       </CommandItem>
                     ))}
@@ -214,30 +201,6 @@ export default function AdminCategoriesPage({ isNew, isEdit }: AdminCategoriesPa
           <PopoverContent className="w-80">
             <div className="grid gap-4">
               <div className="space-y-2">
-                <h4 className="font-medium leading-none">Statut</h4>
-                <Select
-                  value={filters.isActive === undefined ? '' : filters.isActive.toString()}
-                  onValueChange={(value) => setFilters(f => ({ 
-                    ...f, 
-                    isActive: value === '' ? undefined : value === 'true'
-                  }))}
-                >
-                  <SelectTrigger className="bg-command border-command-border">
-                    <SelectValue placeholder="Tous les statuts" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-command border-command-border">
-                    <SelectItem value="" className="bg-command-item hover:bg-command-item-hover">Tous les statuts</SelectItem>
-                    <SelectItem value="true" className="bg-command-item hover:bg-command-item-hover data-[selected=true]:bg-command-item-selected data-[selected=true]:text-command-item-selected-foreground">
-                      Active
-                    </SelectItem>
-                    <SelectItem value="false" className="bg-command-item hover:bg-command-item-hover data-[selected=true]:bg-command-item-selected data-[selected=true]:text-command-item-selected-foreground">
-                      Inactive
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
                 <h4 className="font-medium leading-none">Trier par</h4>
                 <Select
                   value={filters.sortBy}
@@ -247,9 +210,7 @@ export default function AdminCategoriesPage({ isNew, isEdit }: AdminCategoriesPa
                     <SelectValue placeholder="Trier par..." />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Par défaut (Ordre)</SelectItem>
-                    <SelectItem value="order-asc">Ordre croissant</SelectItem>
-                    <SelectItem value="order-desc">Ordre décroissant</SelectItem>
+                    <SelectItem value="">Par défaut</SelectItem>
                     <SelectItem value="name-asc">Nom A-Z</SelectItem>
                     <SelectItem value="name-desc">Nom Z-A</SelectItem>
                   </SelectContent>
@@ -261,7 +222,6 @@ export default function AdminCategoriesPage({ isNew, isEdit }: AdminCategoriesPa
                 onClick={() => {
                   setFilters({
                     sortBy: '',
-                    isActive: undefined,
                   });
                   setShowFilters(false);
                 }}
@@ -284,21 +244,14 @@ export default function AdminCategoriesPage({ isNew, isEdit }: AdminCategoriesPa
                 </div>
               </TableHead>
               <TableHead>Description</TableHead>
-              <TableHead>Jeu</TableHead>
-              <TableHead>Ordre</TableHead>
-              <TableHead>
-                <div className="flex items-center gap-1">
-                  Statut
-                  <ArrowUpDown className="h-4 w-4" />
-                </div>
-              </TableHead>
+              <TableHead>Sous-catégories</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center py-8">
+                <TableCell colSpan={4} className="text-center py-8">
                   <div className="flex justify-center">
                     <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
                   </div>
@@ -306,7 +259,7 @@ export default function AdminCategoriesPage({ isNew, isEdit }: AdminCategoriesPa
               </TableRow>
             ) : sortedCategories.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
                   Aucune catégorie trouvée
                 </TableCell>
               </TableRow>
@@ -317,19 +270,11 @@ export default function AdminCategoriesPage({ isNew, isEdit }: AdminCategoriesPa
                     <span className="font-medium">{category.name}</span>
                   </TableCell>
                   <TableCell>{category.description}</TableCell>
-                  <TableCell>{category.gameId}</TableCell>
-                  <TableCell>{category.order}</TableCell>
-                  <TableCell>
-                    <span className={`rounded-sm px-1.5 py-0.5 text-xs ${
-                      category.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                    }`}>
-                      {category.isActive ? 'Active' : 'Inactive'}
-                    </span>
-                  </TableCell>
+                  <TableCell>{category.subcategories?.length || 0}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex items-center justify-end gap-2">
                       <Button variant="ghost" size="icon" asChild>
-                        <Link to={`/admin/categories/edit/${category.id}`}>
+                        <Link to={`/admin/object-categories/edit/${category.id}`}>
                           <Pencil className="h-4 w-4" />
                           <span className="sr-only">Modifier</span>
                         </Link>
@@ -366,4 +311,4 @@ export default function AdminCategoriesPage({ isNew, isEdit }: AdminCategoriesPa
       </div>
     </div>
   );
-}
+} 

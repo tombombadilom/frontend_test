@@ -32,6 +32,11 @@ const AdminSettingsPage = lazy(() => import('./pages/admin/settings'));
 const AdminGamesPage = lazy(() => import('./pages/admin/games'));
 const AdminPacksPage = lazy(() => import('./pages/admin/packs'));
 const AdminObjectsPage = lazy(() => import('./pages/admin/objects'));
+const AdminCategoriesPage = lazy(() => import('./pages/admin/categories'));
+const AdminGameCategoriesPage = lazy(() => import('./pages/admin/game-categories'));
+const AdminObjectCategoriesPage = lazy(() => import('./pages/admin/object-categories'));
+const AdminPackCategoriesPage = lazy(() => import('./pages/admin/pack-categories'));
+const AdminLoginPage = lazy(() => import('./pages/admin/login'));
 
 const LoadingFallback = () => (
   <div className="flex justify-center items-center h-full">
@@ -54,6 +59,14 @@ const publicRoutes = [
     element: (
       <AuthGuard requireAuth={false}>
         <RegisterPage />
+      </AuthGuard>
+    ),
+  },
+  {
+    path: '/admin/login',
+    element: (
+      <AuthGuard requireAuth={false}>
+        <AdminLoginPage />
       </AuthGuard>
     ),
   },
@@ -110,13 +123,25 @@ const adminRoutes = {
     { path: 'settings', element: <AdminSettingsPage /> },
     { path: 'games', element: <AdminGamesPage /> },
     { path: 'games/new', element: <AdminGamesPage isNew /> },
-    { path: 'games/:id', element: <AdminGamesPage isEdit /> },
+    { path: 'games/edit/:id', element: <AdminGamesPage isEdit /> },
     { path: 'packs', element: <AdminPacksPage /> },
     { path: 'packs/new', element: <AdminPacksPage isNew /> },
-    { path: 'packs/:id', element: <AdminPacksPage isEdit /> },
+    { path: 'packs/edit/:id', element: <AdminPacksPage isEdit /> },
     { path: 'objects', element: <AdminObjectsPage /> },
     { path: 'objects/new', element: <AdminObjectsPage isNew /> },
-    { path: 'objects/:id', element: <AdminObjectsPage isEdit /> },
+    { path: 'objects/edit/:id', element: <AdminObjectsPage isEdit /> },
+    { path: 'categories', element: <AdminCategoriesPage /> },
+    { path: 'categories/new', element: <AdminCategoriesPage isNew /> },
+    { path: 'categories/edit/:id', element: <AdminCategoriesPage isEdit /> },
+    { path: 'game-categories', element: <AdminGameCategoriesPage /> },
+    { path: 'game-categories/new', element: <AdminGameCategoriesPage isNew /> },
+    { path: 'game-categories/edit/:id', element: <AdminGameCategoriesPage isEdit /> },
+    { path: 'object-categories', element: <AdminObjectCategoriesPage /> },
+    { path: 'object-categories/new', element: <AdminObjectCategoriesPage isNew /> },
+    { path: 'object-categories/edit/:id', element: <AdminObjectCategoriesPage isEdit /> },
+    { path: 'pack-categories', element: <AdminPackCategoriesPage /> },
+    { path: 'pack-categories/new', element: <AdminPackCategoriesPage isNew /> },
+    { path: 'pack-categories/edit/:id', element: <AdminPackCategoriesPage isEdit /> },
   ],
 };
 

@@ -85,6 +85,7 @@ export default function GameFormPage({ editMode = false }: GameFormProps) {
   const [platforms, setPlatforms] = useState<string[]>([]);
   const [newGenre, setNewGenre] = useState('');
   const [newPlatform, setNewPlatform] = useState('');
+  const [_screenshots, setScreenshots] = useState<string[]>([]);
 
   const form = useForm<GameFormValues>({
     resolver: zodResolver(gameSchema),
@@ -110,45 +111,58 @@ export default function GameFormPage({ editMode = false }: GameFormProps) {
   });
 
   useEffect(() => {
-    const fetchGame = async () => {
-      if (!editMode || !urlId) return;
-
-      try {
-        setIsLoading(true);
-        const response = await import('@/data/games.json');
-        const game = response.default.find(
-          (g: Game) => g.id.toString() === urlId
-        );
-
-        if (game) {
-          setInitialData(game);
-          setGenres(game.genres);
-          setPlatforms(game.platforms);
-          form.reset({
-            title: game.title,
-            description: game.description,
-            price: game.price,
-            releaseDate: game.releaseDate,
-            developer: game.developer,
-            publisher: game.publisher,
-            genres: game.genres,
-            platforms: game.platforms,
-            coverImage: game.coverImage,
-            screenshots: game.screenshots,
-            rating: game.rating,
-            isFeatured: game.isFeatured,
-            isNewRelease: game.isNewRelease,
-          });
+    const loadGame = async () => {
+      if (editMode && urlId) {
+        try {
+          setIsLoading(true);
+          const response = await import('@/data/games.json');
+          console.log('Loading game with ID:', urlId);
+          const gameId = Number.parseInt(urlId, 10);
+          console.log('Parsed game ID:', gameId);
+          const game = response.default.games.find(g => g.id === gameId);
+          console.log('Found game:', game);
+          
+          if (game) {
+            setInitialData(game);
+            setGenres(game.genres);
+            setPlatforms(game.platforms);
+            setScreenshots(game.screenshots);
+            
+            form.reset({
+              title: game.title,
+              description: game.description,
+              price: {
+                amount: game.price.amount,
+                currency: game.price.currency,
+                discount: game.price.discount,
+              },
+              releaseDate: game.releaseDate,
+              developer: game.developer,
+              publisher: game.publisher,
+              genres: game.genres,
+              platforms: game.platforms,
+              coverImage: game.coverImage,
+              screenshots: game.screenshots,
+              rating: game.rating,
+              isFeatured: game.isFeatured,
+              isNewRelease: game.isNewRelease,
+            });
+          } else {
+            console.error('Game not found with ID:', gameId);
+            showToast.error('Jeu non trouvé');
+            navigate('/admin/games');
+          }
+        } catch (error) {
+          console.error('Erreur lors du chargement du jeu:', error);
+          showToast.error('Erreur lors du chargement du jeu');
+        } finally {
+          setIsLoading(false);
         }
-      } catch (err) {
-        console.error('Failed to fetch game:', err);
-      } finally {
-        setIsLoading(false);
       }
     };
 
-    fetchGame();
-  }, [editMode, urlId, form]);
+    loadGame();
+  }, [editMode, urlId, form, navigate]);
 
   const addGenre = () => {
     // Validation du genre
@@ -200,38 +214,32 @@ export default function GameFormPage({ editMode = false }: GameFormProps) {
 
   const onSubmit = async (data: GameFormValues) => {
     try {
-      // Check that genres and platforms have been added
-      if (genres.length === 0) {
-        showToast.error('Please add at least one genre');
-        return;
-      }
-
-      if (platforms.length === 0) {
-        showToast.error('Please add at least one platform');
-        return;
-      }
-
-      // Build the complete game object
       const gameData: Game = {
         id: initialData?.id || Math.floor(Date.now() / 1000),
         gameId: initialData?.gameId || Math.floor(Date.now() / 1000),
-        ...data,
-        genres,
-        platforms,
-        coverImage: data.coverImage || getImageUrl(''),
-        screenshots: initialData?.screenshots || [],
-        rating: initialData?.rating || 0,
+        title: data.title,
+        description: data.description,
+        price: data.price,
+        releaseDate: data.releaseDate,
+        developer: data.developer,
+        publisher: data.publisher,
+        genres: data.genres,
+        platforms: data.platforms,
+        coverImage: data.coverImage,
+        screenshots: data.screenshots,
+        rating: data.rating,
+        isFeatured: data.isFeatured,
+        isNewRelease: data.isNewRelease,
       };
 
-      // In a real application, this would make an API request
-      console.log('Submitting game data:', gameData);
+      console.log('Données du jeu à envoyer:', gameData);
 
       showToast.success(
-        editMode ? 'Produit mis à jour avec succès' : 'Produit créé avec succès'
+        editMode ? 'Jeu mis à jour avec succès' : 'Jeu créé avec succès'
       );
-      navigate('/admin/products');
-    } catch (err) {
-      console.error('Failed to save game:', err);
+      navigate('/admin/games');
+    } catch (error) {
+      console.error('Erreur lors de la soumission:', error);
       showToast.error('Une erreur est survenue');
     }
   };
@@ -551,7 +559,7 @@ export default function GameFormPage({ editMode = false }: GameFormProps) {
             <Button
               type="button"
               variant="outline"
-              onClick={() => navigate('/admin/products')}
+              onClick={() => navigate('/admin/games')}
             >
               Cancel
             </Button>

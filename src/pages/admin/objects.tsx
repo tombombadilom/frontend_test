@@ -14,7 +14,7 @@ import {
   Trash2,
   ChevronDown,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   Table,
@@ -37,6 +37,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import ObjectFormPage from './object-form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 interface AdminObjectsPageProps {
   isNew?: boolean;
@@ -46,24 +54,98 @@ interface AdminObjectsPageProps {
 export default function AdminObjectsPage({ isNew, isEdit }: AdminObjectsPageProps) {
   const { id } = useParams();
   const [searchQuery, setSearchQuery] = useState('');
-  const [objects, _setObjects] = useState<GameItem[]>([]);
-  const [isLoading, _setIsLoading] = useState(true);
+  const [objects, setObjects] = useState<GameItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
-  const [selectedValue, _setSelectedValue] = useState('');
-  const [language, _setLanguage] = useState('fr');
+  const [selectedValue, setSelectedValue] = useState('');
+  const [_language, _setLanguage] = useState('fr');
+  const [filters, setFilters] = useState({
+    category: '',
+    rarity: '',
+    priceRange: '',
+    sortBy: '',
+  });
+  const [showFilters, setShowFilters] = useState(false);
 
-  const filteredObjects = objects.filter((object) =>
-    object.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    object.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    object.rarity.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    object.category.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Charger les données
+  useEffect(() => {
+    const loadObjects = async () => {
+      try {
+        setIsLoading(true);
+        const response = await import('@/data/objects.json');
+        const items = response.default.items || [];
+        // S'assurer que tous les objets ont la propriété isLimited
+        const validItems = items.map(item => ({
+          ...item,
+          availability: {
+            ...item.availability,
+            isLimited: item.availability?.isLimited ?? false
+          }
+        })) as GameItem[];
+        setObjects(validItems);
+      } catch (error) {
+        console.error('Erreur lors du chargement des objets:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadObjects();
+  }, []);
+
+  // Obtenir les options uniques pour les filtres
+  const categories = Array.from(new Set(objects.map(obj => obj.category)));
+  const rarities = Array.from(new Set(objects.map(obj => obj.rarity)));
+  const priceRanges = [
+    { label: '0€ - 10€', min: 0, max: 10 },
+    { label: '10€ - 30€', min: 10, max: 30 },
+    { label: '30€ - 60€', min: 30, max: 60 },
+    { label: '60€+', min: 60, max: Number.POSITIVE_INFINITY },
+  ];
+
+  // Filtrer les objets
+  const filteredObjects = objects.filter((object) => {
+    const matchesSearch = 
+      object.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      object.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      object.rarity.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      String(object.category).toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesCategory = !filters.category || String(object.category) === filters.category;
+    const matchesRarity = !filters.rarity || object.rarity === filters.rarity;
+    const matchesPriceRange = !filters.priceRange || priceRanges.find(_range => {
+      const [min, max] = filters.priceRange.split('-').map(Number);
+      return object.price.amount >= min && object.price.amount <= max;
+    });
+
+    return matchesSearch && matchesCategory && matchesRarity && matchesPriceRange;
+  });
+
+  // Trier les objets
+  const sortedObjects = [...filteredObjects].sort((a, b) => {
+    switch (filters.sortBy) {
+      case 'price-asc':
+        return a.price.amount - b.price.amount;
+      case 'price-desc':
+        return b.price.amount - a.price.amount;
+      case 'name-asc':
+        return a.name.localeCompare(b.name);
+      case 'name-desc':
+        return b.name.localeCompare(a.name);
+      case 'rarity-asc':
+        return a.rarity.localeCompare(b.rarity);
+      case 'rarity-desc':
+        return b.rarity.localeCompare(a.rarity);
+      default:
+        return 0;
+    }
+  });
 
   if (isNew) {
     return (
       <div className="container mx-auto py-6">
         <h1 className="text-3xl font-bold mb-6">Créer un nouvel objet</h1>
-        {/* Formulaire de création */}
+        <ObjectFormPage />
       </div>
     );
   }
@@ -72,7 +154,7 @@ export default function AdminObjectsPage({ isNew, isEdit }: AdminObjectsPageProp
     return (
       <div className="container mx-auto py-6">
         <h1 className="text-3xl font-bold mb-6">Modifier l'objet</h1>
-        {/* Formulaire d'édition avec l'ID {id} */}
+        <ObjectFormPage editMode />
       </div>
     );
   }
@@ -99,21 +181,23 @@ export default function AdminObjectsPage({ isNew, isEdit }: AdminObjectsPageProp
                 className="w-full justify-start"
                 onClick={() => setOpen(!open)}
               >
-                <span>{selectedValue || (language === 'fr' ? 'Sélectionner...' : 'Select...')}</span>
+                <Search className="mr-2 h-4 w-4" />
+                <span>{selectedValue || 'Rechercher un objet...'}</span>
                 <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-full p-0" align="start">
-              <Command>
+            <PopoverContent className="w-[300px] p-0" align="start">
+              <Command className="bg-popover border-popover-border">
                 <CommandInput 
                   placeholder="Rechercher un objet..." 
                   value={searchQuery}
                   onValueChange={setSearchQuery}
+                  className="bg-popover text-popover-foreground"
                 />
-                <CommandList>
+                <CommandList className="bg-popover">
                   <CommandEmpty>Aucun objet trouvé</CommandEmpty>
-                  <CommandGroup heading="Objets">
-                    {filteredObjects.map((object) => (
+                  <CommandGroup heading="Objets" className="text-popover-foreground">
+                    {sortedObjects.slice(0, 10).map((object) => (
                       <CommandItem
                         key={object.id}
                         value={object.name}
@@ -122,6 +206,7 @@ export default function AdminObjectsPage({ isNew, isEdit }: AdminObjectsPageProp
                           setSelectedValue(object.name);
                           setOpen(false);
                         }}
+                        className="bg-popover hover:bg-accent/10 data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground"
                       >
                         <div className="flex items-center gap-2">
                           <img
@@ -135,7 +220,7 @@ export default function AdminObjectsPage({ isNew, isEdit }: AdminObjectsPageProp
                               {object.rarity}
                             </span>
                             <span className="text-xs text-muted-foreground">
-                              {object.category}
+                              {formatPrice(object.price)}
                             </span>
                           </div>
                         </div>
@@ -147,10 +232,121 @@ export default function AdminObjectsPage({ isNew, isEdit }: AdminObjectsPageProp
             </PopoverContent>
           </Popover>
         </div>
-        <Button variant="outline" className="w-full md:w-auto">
-          <Filter className="mr-2 h-4 w-4" />
-          Filtres
-        </Button>
+
+        <Popover open={showFilters} onOpenChange={setShowFilters}>
+          <PopoverTrigger asChild>
+            <Button variant="outline" className="w-full md:w-auto" disabled>
+              <Filter className="mr-2 h-4 w-4" />
+              Filtres
+              {Object.values(filters).some(v => v !== '') && (
+                <span className="ml-2 rounded-full bg-primary w-2 h-2" />
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-80">
+            <div className="grid gap-4">
+              <div className="space-y-2">
+                <h4 className="font-medium leading-none">Catégorie</h4>
+                <Select
+                  value={filters.category}
+                  onValueChange={(value) => setFilters(f => ({ ...f, category: value }))}
+                >
+                  <SelectTrigger className="bg-popover border-popover-border">
+                    <SelectValue placeholder="Toutes les catégories" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-popover border-popover-border">
+                    <SelectItem value="" className="bg-popover hover:bg-accent/10">Toutes les catégories</SelectItem>
+                    {categories.map(category => (
+                      <SelectItem 
+                        key={category} 
+                        value={String(category)}
+                        className="bg-popover hover:bg-accent/10 data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground"
+                      >
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-medium leading-none">Rareté</h4>
+                <Select
+                  value={filters.rarity}
+                  onValueChange={(value) => setFilters(f => ({ ...f, rarity: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Toutes les raretés" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Toutes les raretés</SelectItem>
+                    {rarities.map(rarity => (
+                      <SelectItem key={rarity} value={rarity}>
+                        {rarity}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-medium leading-none">Prix</h4>
+                <Select
+                  value={filters.priceRange}
+                  onValueChange={(value) => setFilters(f => ({ ...f, priceRange: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Tous les prix" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Tous les prix</SelectItem>
+                    {priceRanges.map(range => (
+                      <SelectItem key={range.label} value={`${range.min}-${range.max}`}>
+                        {range.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-medium leading-none">Trier par</h4>
+                <Select
+                  value={filters.sortBy}
+                  onValueChange={(value) => setFilters(f => ({ ...f, sortBy: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Trier par..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Par défaut</SelectItem>
+                    <SelectItem value="price-asc">Prix croissant</SelectItem>
+                    <SelectItem value="price-desc">Prix décroissant</SelectItem>
+                    <SelectItem value="name-asc">Nom A-Z</SelectItem>
+                    <SelectItem value="name-desc">Nom Z-A</SelectItem>
+                    <SelectItem value="rarity-asc">Rareté croissante</SelectItem>
+                    <SelectItem value="rarity-desc">Rareté décroissante</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  setFilters({
+                    category: '',
+                    rarity: '',
+                    priceRange: '',
+                    sortBy: '',
+                  });
+                  setShowFilters(false);
+                }}
+              >
+                Réinitialiser les filtres
+              </Button>
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
 
       <div className="rounded-md border">
@@ -188,17 +384,19 @@ export default function AdminObjectsPage({ isNew, isEdit }: AdminObjectsPageProp
             {isLoading ? (
               <TableRow>
                 <TableCell colSpan={5} className="text-center py-8">
-                  Chargement...
+                  <div className="flex justify-center">
+                    <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                  </div>
                 </TableCell>
               </TableRow>
-            ) : filteredObjects.length === 0 ? (
+            ) : sortedObjects.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
                   Aucun objet trouvé
                 </TableCell>
               </TableRow>
             ) : (
-              filteredObjects.map((object) => (
+              sortedObjects.map((object) => (
                 <TableRow key={object.id}>
                   <TableCell>
                     <div className="flex items-center gap-3">
@@ -248,7 +446,7 @@ export default function AdminObjectsPage({ isNew, isEdit }: AdminObjectsPageProp
 
       <div className="flex items-center justify-between">
         <div className="text-sm text-muted-foreground">
-          Affichage de {filteredObjects.length} objets
+          Affichage de {sortedObjects.length} objets
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" disabled>

@@ -1,0 +1,263 @@
+/* Styles pour les composants d'administration */
+
+/* Styles globaux pour les popups */
+.select-content,
+[role="dialog"],
+[role="listbox"],
+[data-radix-popper-content-wrapper] {
+  z-index: 1000 !important;
+  background-color: white !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Mode sombre */
+.dark .select-content,
+.dark [role="dialog"],
+.dark [role="listbox"],
+.dark [data-radix-popper-content-wrapper] {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+}
+
+/* Styles pour les éléments de liste */
+[role="option"],
+[role="menuitem"],
+[data-radix-collection-item] {
+  background-color: transparent !important;
+  transition: background-color 0.2s !important;
+}
+
+[role="option"]:hover,
+[role="menuitem"]:hover,
+[data-radix-collection-item]:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.dark [role="option"]:hover,
+.dark [role="menuitem"]:hover,
+.dark [data-radix-collection-item]:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Styles pour l'élément sélectionné */
+[role="option"][data-highlighted],
+[role="menuitem"][data-highlighted],
+[data-radix-collection-item][data-highlighted] {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.dark [role="option"][data-highlighted],
+.dark [role="menuitem"][data-highlighted],
+.dark [data-radix-collection-item][data-highlighted] {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Popover et Command */
+[data-slot="popover"] [data-slot="command"] {
+  background-color: oklch(var(--background));
+  border: 1px solid oklch(var(--border));
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+[data-slot="command-list"] {
+  background-color: oklch(var(--background));
+}
+
+[data-slot="command-input"] {
+  background-color: oklch(var(--background));
+}
+
+[data-slot="command-item"] {
+  background-color: oklch(var(--background));
+}
+
+[data-slot="command-item"]:hover {
+  background-color: oklch(var(--accent));
+  color: oklch(var(--accent-foreground));
+}
+
+/* Select */
+.select-content {
+  background-color: oklch(var(--background));
+  border: 1px solid oklch(var(--border));
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  z-index: 50;
+}
+
+/* Popover */
+[data-slot="popover"] [role="dialog"] {
+  z-index: 50;
+  background-color: oklch(var(--background));
+  border: 1px solid oklch(var(--border));
+  border-radius: 0.375rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+/* Ajustements pour les listes déroulantes */
+.command-dialog,
+.select-content,
+[data-slot="popover"] [role="dialog"] {
+  z-index: 50;
+}
+
+/* Fond pour les éléments sélectionnés */
+[data-slot="command-item"][data-selected="true"] {
+  background-color: oklch(var(--accent));
+  color: oklch(var(--accent-foreground));
+}
+
+/* Styles pour les groupes de commandes */
+[data-slot="command-group"] {
+  background-color: oklch(var(--background));
+}
+
+/* Styles pour l'input de recherche */
+[data-slot="command-input-wrapper"] {
+  background-color: oklch(var(--background));
+  border-bottom: 1px solid oklch(var(--border));
+}
+
+/* Styles pour le contenu des popovers */
+[data-slot="popover"] [role="dialog"] {
+  background-color: oklch(var(--background));
+  border: 1px solid oklch(var(--border));
+  border-radius: 0.375rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+/* Ajustements supplémentaires pour la visibilité */
+.select-content,
+[data-slot="popover"] [role="dialog"],
+[data-slot="command"] {
+  position: relative;
+  background-color: oklch(var(--background));
+  border: 1px solid oklch(var(--border));
+  box-shadow: 
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* Styles pour CMDK */
+div[cmdk-list-sizer] {
+  position: fixed !important;
+  z-index: 2147483647 !important;
+  background-color: hsl(var(--background)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+  max-height: 300px !important;
+  overflow-y: auto !important;
+}
+
+/* Mode sombre pour CMDK */
+.dark div[cmdk-list-sizer] {
+  background-color: hsl(var(--background)) !important;
+  border-color: hsl(var(--border)) !important;
+}
+
+/* Groupe d'items */
+div[cmdk-group] {
+  background-color: hsl(var(--background)) !important;
+  padding: 8px !important;
+}
+
+/* En-tête du groupe */
+div[cmdk-group-heading] {
+  color: hsl(var(--muted-foreground)) !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  padding: 8px !important;
+}
+
+/* Items individuels */
+div[cmdk-item] {
+  display: flex !important;
+  align-items: center !important;
+  padding: 8px !important;
+  margin: 2px 0 !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  background-color: transparent !important;
+}
+
+div[cmdk-item][data-selected="true"] {
+  background-color: hsl(var(--accent)) !important;
+  color: hsl(var(--accent-foreground)) !important;
+}
+
+div[cmdk-item]:hover {
+  background-color: hsl(var(--accent) / 0.1) !important;
+}
+
+/* Styles pour les portails Radix */
+[data-radix-popper-content-wrapper] {
+  z-index: 2147483647 !important;
+  position: relative !important;
+}
+
+/* Styles pour les listes déroulantes */
+[role="listbox"],
+[role="dialog"] {
+  z-index: 2147483647 !important;
+  background-color: var(--background) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Styles pour les éléments de la liste */
+[role="option"],
+[role="menuitem"] {
+  background-color: transparent !important;
+  transition: background-color 0.2s !important;
+}
+
+/* Styles pour l'élément sélectionné */
+[role="option"][data-highlighted],
+[role="menuitem"][data-highlighted] {
+  background-color: var(--accent) !important;
+  color: var(--accent-foreground) !important;
+}
+
+/* Mode sombre */
+.dark [role="listbox"],
+.dark [role="dialog"] {
+  background-color: var(--background) !important;
+  border-color: var(--border) !important;
+}
+
+.dark [role="option"][data-highlighted],
+.dark [role="menuitem"][data-highlighted] {
+  background-color: var(--accent) !important;
+  color: var(--accent-foreground) !important;
+}
+
+/* Styles pour le select/autocomplete */
+.data-\[selected\=true\]\:bg-accent {
+  background-color: var(--accent) !important;
+}
+
+.data-\[selected\=true\]\:text-accent-foreground {
+  color: var(--accent-foreground) !important;
+}
+
+.text-muted-foreground {
+  color: var(--muted-foreground) !important;
+}
+
+/* Ajustements pour le z-index */
+[role="listbox"],
+[role="dialog"],
+[role="presentation"] {
+  z-index: 9999 !important;
+  position: relative !important;
+}
+
+/* Styles pour les items */
+[cmdk-item] {
+  position: relative !important;
+  z-index: 9999 !important;
+} 

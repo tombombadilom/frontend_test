@@ -95,7 +95,7 @@ export function useAuth() {
 
       localStorage.setItem('user', JSON.stringify(mockUser));
       setUser(mockUser);
-      navigate('/');
+      navigate(mockUser.role === 'admin' ? '/admin' : '/');
 
       return { success: true };
     } catch (error) {

@@ -29,37 +29,30 @@ import { z } from 'zod';
 const objectSchema = z.object({
   name: z
     .string()
-    .min(3, 'Name must be at least 3 characters')
-    .max(100, 'Name cannot exceed 100 characters')
-    .regex(
-      /^[a-zA-Z0-9\s\-':,.!?]+$/,
-      'Name contains invalid characters'
-    ),
+    .min(3, 'Le nom doit contenir au moins 3 caractères')
+    .max(100, 'Le nom ne peut pas dépasser 100 caractères'),
   description: z
     .string()
-    .min(10, 'Description must be at least 10 characters')
-    .max(2000, 'Description cannot exceed 2000 characters'),
+    .min(10, 'La description doit contenir au moins 10 caractères')
+    .max(2000, 'La description ne peut pas dépasser 2000 caractères'),
+  category: z.coerce.number().min(1, 'La catégorie est requise'),
+  rarity: z.string().min(1, 'La rareté est requise'),
   amount: z.coerce
     .number()
-    .min(0.01, 'Price must be greater than 0')
-    .max(999999.99, 'Price cannot exceed 999,999.99'),
+    .min(0.01, 'Le prix doit être supérieur à 0')
+    .max(999999.99, 'Le prix ne peut pas dépasser 999,999.99'),
   currency: z
     .string()
-    .min(1, 'Currency is required')
-    .max(10, 'Currency cannot exceed 10 characters'),
-  category: z.coerce
-    .number()
-    .min(1, 'Category is required'),
-  type: z.string().optional(),
-  rarity: z.string().min(1, 'Rarity is required'),
-  isLimited: z.boolean(),
+    .min(1, 'La devise est requise')
+    .max(10, 'La devise ne peut pas dépasser 10 caractères'),
+  gameId: z.coerce.number().min(1, 'L\'ID du jeu est requis'),
+  isLimited: z.boolean().default(false),
   startDate: z.string().optional(),
   endDate: z.string().optional(),
-  imageUrl: z.string().min(1, 'Image URL is required'),
+  imageUrl: z.string().min(1, 'L\'image est requise'),
   videoUrl: z.string().optional(),
   modelUrl: z.string().optional(),
-  isFeatured: z.boolean().optional(),
-  isNewRelease: z.boolean().optional(),
+  isFeatured: z.boolean().default(false),
 });
 
 type ObjectFormValues = z.infer<typeof objectSchema>;
@@ -79,73 +72,88 @@ export default function ObjectFormPage({ editMode = false }: ObjectFormProps) {
   const form = useForm<ObjectFormValues>({
     resolver: zodResolver(objectSchema),
     defaultValues: {
-      name: initialData?.name || '',
-      description: initialData?.description || '',
-      amount: initialData?.price.amount || 0,
-      currency: initialData?.price.currency || 'USD',
-      category: initialData?.category || 1,
-      type: initialData?.type || '',
-      rarity: initialData?.rarity || '',
-      isLimited: initialData?.availability.isLimited || false,
-      startDate: initialData?.availability.startDate || '',
-      endDate: initialData?.availability.endDate || '',
-      imageUrl: initialData?.preview.imageUrl || '',
-      videoUrl: initialData?.preview.videoUrl || '',
-      modelUrl: initialData?.preview.modelUrl || '',
-      isFeatured: initialData?.isFeatured || false,
-      isNewRelease: initialData?.isNewRelease || false,
+      name: '',
+      description: '',
+      category: 0,
+      rarity: '',
+      amount: 0,
+      currency: 'EUR',
+      gameId: 0,
+      isLimited: false,
+      startDate: '',
+      endDate: '',
+      imageUrl: '',
+      videoUrl: '',
+      modelUrl: '',
+      isFeatured: false,
     },
   });
 
-  // Charger les données de l'objet si en mode édition
   useEffect(() => {
-    if (editMode && urlId) {
-      const fetchObject = async () => {
+    const loadObject = async () => {
+      if (editMode && urlId) {
         try {
           setIsLoading(true);
-          // Dans une application réelle, cela ferait une requête API
           const response = await import('@/data/objects.json');
-          const items = (response.default.items || []) as GameItem[];
-          const numericId = Number.parseInt(urlId, 10);
-          const item = items.find((i) => i.id === numericId);
-
-          if (item) {
-            setInitialData(item);
-            setTags(item.tags || []);
-
+          console.log('Loading object with ID:', urlId);
+          const objectId = Number.parseInt(urlId, 10);
+          console.log('Parsed object ID:', objectId);
+          const object = response.default.items.find(o => o.id === objectId);
+          console.log('Found object:', object);
+          
+          if (object) {
+            const validObject: GameItem = {
+              ...object,
+              availability: {
+                isLimited: object.availability?.isLimited ?? false,
+                startDate: object.availability?.startDate,
+                endDate: object.availability?.endDate,
+              },
+              preview: {
+                imageUrl: object.preview?.imageUrl || '',
+                videoUrl: object.preview?.videoUrl,
+                modelUrl: object.preview?.modelUrl,
+              },
+              metadata: object.metadata || {},
+              isFeatured: object.isFeatured || false,
+              isNewRelease: object.isNewRelease || false,
+            };
+            
+            setInitialData(validObject);
+            setTags(validObject.tags);
+            
             form.reset({
-              name: item.name,
-              description: item.description,
-              amount: item.price.amount,
-              currency: item.price.currency,
-              category: item.category,
-              type: item.type,
-              rarity: item.rarity,
-              isLimited: item.availability.isLimited,
-              startDate: item.availability.startDate,
-              endDate: item.availability.endDate,
-              imageUrl: item.preview.imageUrl,
-              videoUrl: item.preview.videoUrl,
-              modelUrl: item.preview.modelUrl,
-              isFeatured: item.isFeatured,
-              isNewRelease: item.isNewRelease,
+              name: validObject.name,
+              description: validObject.description,
+              category: validObject.category,
+              rarity: validObject.rarity,
+              amount: validObject.price.amount,
+              currency: validObject.price.currency,
+              gameId: validObject.gameId,
+              isLimited: validObject.availability.isLimited,
+              startDate: validObject.availability.startDate || '',
+              endDate: validObject.availability.endDate || '',
+              imageUrl: validObject.preview.imageUrl,
+              videoUrl: validObject.preview.videoUrl || '',
+              modelUrl: validObject.preview.modelUrl || '',
+              isFeatured: validObject.isFeatured,
             });
           } else {
+            console.error('Object not found with ID:', objectId);
             showToast.error('Objet non trouvé');
             navigate('/admin/objects');
           }
         } catch (error) {
           console.error('Erreur lors du chargement de l\'objet:', error);
           showToast.error('Erreur lors du chargement de l\'objet');
-          navigate('/admin/objects');
         } finally {
           setIsLoading(false);
         }
-      };
+      }
+    };
 
-      fetchObject();
-    }
-  }, [editMode, urlId, navigate, form]);
+    loadObject();
+  }, [editMode, urlId, form, navigate]);
 
   const addTag = () => {
     if (!newTag.trim()) return;
@@ -170,7 +178,6 @@ export default function ObjectFormPage({ editMode = false }: ObjectFormProps) {
 
   const onSubmit = async (data: ObjectFormValues) => {
     try {
-      // Build the complete object data
       const objectData: GameItem = {
         id: initialData?.id || Math.floor(Date.now() / 1000),
         name: data.name,
@@ -182,21 +189,19 @@ export default function ObjectFormPage({ editMode = false }: ObjectFormProps) {
           currency: data.currency,
         },
         availability: {
+          isLimited: data.isLimited,
           startDate: data.startDate,
           endDate: data.endDate,
-          isLimited: data.isLimited,
         },
         preview: {
           imageUrl: data.imageUrl,
           videoUrl: data.videoUrl,
           modelUrl: data.modelUrl,
         },
-        gameId: initialData?.gameId || 0, // This should be set based on the selected game
+        gameId: data.gameId,
         tags,
         metadata: {},
-        type: data.type,
         isFeatured: data.isFeatured,
-        isNewRelease: data.isNewRelease,
       };
 
       console.log('Données de l\'objet à envoyer:', objectData);
@@ -345,15 +350,15 @@ export default function ObjectFormPage({ editMode = false }: ObjectFormProps) {
 
               <FormField
                 control={form.control}
-                name="type"
+                name="rarity"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Type</FormLabel>
+                    <FormLabel>Rarity</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter object type" {...field} />
+                      <Input placeholder="Enter rarity" {...field} />
                     </FormControl>
                     <FormDescription>
-                      The type of the object (e.g., Weapon, Armor).
+                      The rarity of the object.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -418,27 +423,6 @@ export default function ObjectFormPage({ editMode = false }: ObjectFormProps) {
                         <FormLabel>Featured</FormLabel>
                         <FormDescription>
                           Show this object in the featured section.
-                        </FormDescription>
-                      </div>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="isNewRelease"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-center space-x-3 space-y-0">
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <div className="space-y-1 leading-none">
-                        <FormLabel>New Release</FormLabel>
-                        <FormDescription>
-                          Show this object in the new releases section.
                         </FormDescription>
                       </div>
                     </FormItem>

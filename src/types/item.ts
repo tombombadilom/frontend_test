@@ -23,8 +23,10 @@ export interface GameItem {
   preview: ItemPreview;
   gameId: number;
   tags: string[];
-  metadata?: Record<string, unknown>;
+  metadata: {
+    isFeatured?: boolean;
+    isNewRelease?: boolean;
+    [key: string]: unknown;
+  };
   type?: string;
-  isFeatured?: boolean;
-  isNewRelease?: boolean;
 } 
