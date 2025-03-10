@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { GameDisplay } from '@/components/catalog/game-display';
-import { PackDisplay } from '@/components/catalog/pack-display';
-import { ObjectDisplay } from '@/components/catalog/object-display';
+import { GameDisplay } from '@/components/catalog/games/game-display';
+import { PackDisplay } from '@/components/catalog/packs/pack-display';
+import { ObjectDisplay } from '@/components/catalog/objects/object-display';
 import { DisplayModeSwitcher } from '@/components/catalog/display-mode-switcher';
 
 export default function CatalogPage() {

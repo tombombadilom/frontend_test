@@ -1,11 +1,11 @@
 'use client';
 
-import { useFilterStore } from '@/store/filter-store';
+import { useGameFilterStore } from '@/store/filter-store';
 import type { Game } from '@/types/game';
 import { useMemo } from 'react';
 
 export function useFilters(games: Game[]) {
-  const filters = useFilterStore();
+  const filters = useGameFilterStore();
 
   const filteredGames = useMemo(() => {
     let filtered = [...games];

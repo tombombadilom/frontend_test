@@ -45,8 +45,28 @@ export default function PackPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left column - Description */}
+          {/* Left column - Image and Description */}
           <div className="space-y-4">
+            <motion.div
+              className="relative rounded-lg overflow-hidden bg-muted"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <motion.img
+                src={packData.coverImage}
+                alt={packData.name}
+                className="w-full aspect-video object-cover"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              />
+              {(packData.price.discount ?? 0) > 0 && (
+                <Badge className="absolute top-4 right-4 text-lg px-3 py-1.5 bg-primary text-primary-foreground">
+                  -{packData.price.discount ?? 0}%
+                </Badge>
+              )}
+            </motion.div>
+
             <motion.div
               className="relative rounded-lg overflow-hidden bg-muted p-6"
               whileHover={{ scale: 1.02 }}

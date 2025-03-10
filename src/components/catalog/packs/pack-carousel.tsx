@@ -1,16 +1,8 @@
 'use client';
 
-const _ITEMS_PER_VIEW = 1; // Nombre d'items affichés à la fois dans le carrousel
-
-import { PackCard } from '@/components/packs/pack-card';
+import { PackCardCarousel } from '@/components/catalog/packs/pack-card-carousel';
 import type { Pack } from '@/types/pack';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface PackCarouselProps {
   packs: Pack[];
@@ -20,26 +12,18 @@ interface PackCarouselProps {
 
 export function PackCarousel({ packs, onPrevious, onNext }: PackCarouselProps) {
   return (
-    <div className="relative h-[calc(100dvh-12rem)] overflow-hidden px-0">
-      <Carousel
-        opts={{
-          align: 'start',
-          loop: true,
-        }}
-        className="w-full"
-      >
-        <CarouselContent>
-          {packs.map((pack) => (
-            <CarouselItem key={pack.id} className="basis-full">
-              <div className="p-1">
-                <PackCard pack={pack} />
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious className="text-white" onClick={onPrevious} />
-        <CarouselNext className="text-white" onClick={onNext} />
-      </Carousel>
+    <div className="relative group">
+      <AnimatePresence mode="popLayout">
+        <motion.div
+          key={packs[0].id}
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+          transition={{ duration: 0.3 }}
+        >
+          <PackCardCarousel pack={packs[0]} onPrevious={onPrevious} onNext={onNext} />
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 } 

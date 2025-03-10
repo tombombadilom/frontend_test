@@ -17,6 +17,8 @@ const PacksPage = lazy(() => import('./pages/catalog/packs/packs'));
 const PackPage = lazy(() => import('./pages/catalog/packs/pack'));
 const LoginPage = lazy(() => import('./pages/auth/login'));
 const RegisterPage = lazy(() => import('./pages/auth/register'));
+const WishlistPage = lazy(() => import('./pages/wishlist'));
+const CartPage = lazy(() => import('./pages/cart'));
 
 // Pages utilisateur
 const UserProfilePage = lazy(() => import('./pages/user/profile').then(module => ({ default: module.default })));
@@ -70,6 +72,8 @@ const publicRoutes = [
       { path: 'packs/:id', element: <PackPage /> },
       { path: 'objects', element: <ObjectsPage /> },
       { path: 'objects/:id', element: <ObjectPage /> },
+      { path: 'wishlist', element: <WishlistPage /> },
+      { path: 'cart', element: <CartPage /> },
     ],
   },
 ];

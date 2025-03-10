@@ -1,16 +1,8 @@
 'use client';
 
-const _ITEMS_PER_VIEW = 1; // Nombre d'items affichés à la fois dans le carrousel
-
-import { ObjectCard } from '@/components/objects/object-card';
+import { ObjectCardCarousel } from '@/components/catalog/objects/object-card-carousel';
 import type { GameItem } from '@/types/game';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface ObjectCarouselProps {
   objects: GameItem[];
@@ -20,26 +12,18 @@ interface ObjectCarouselProps {
 
 export function ObjectCarousel({ objects, onPrevious, onNext }: ObjectCarouselProps) {
   return (
-    <div className="relative h-[calc(100dvh-12rem)] overflow-hidden px-0">
-      <Carousel
-        opts={{
-          align: 'start',
-          loop: true,
-        }}
-        className="w-full"
-      >
-        <CarouselContent>
-          {objects.map((object) => (
-            <CarouselItem key={object.id} className="basis-full">
-              <div className="p-1">
-                <ObjectCard object={object} />
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious className="text-white" onClick={onPrevious} />
-        <CarouselNext className="text-white" onClick={onNext} />
-      </Carousel>
+    <div className="relative group">
+      <AnimatePresence mode="popLayout">
+        <motion.div
+          key={objects[0].id}
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+          transition={{ duration: 0.3 }}
+        >
+          <ObjectCardCarousel object={objects[0]} onPrevious={onPrevious} onNext={onNext} />
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 } 

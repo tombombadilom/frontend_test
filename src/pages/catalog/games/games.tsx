@@ -8,10 +8,10 @@ import { prepareFilterOptions, prepareTagOptions } from '@/components/catalog/ut
 import { Skeleton } from '@/components/ui/skeleton';
 
 const GameFilterSidebarLazy = lazy(() => 
-  import('@/components/catalog/game-filter-sidebar').then(mod => ({ default: mod.GameFilterSidebar }))
+  import('@/components/catalog/games/game-filter-sidebar').then(mod => ({ default: mod.GameFilterSidebar }))
 );
 const GameDisplayLazy = lazy(() => 
-  import('@/components/catalog/game-display').then(mod => ({ default: mod.GameDisplay }))
+  import('@/components/catalog/games/game-display').then(mod => ({ default: mod.GameDisplay }))
 );
 
 // Skeleton component for the filter sidebar
@@ -86,6 +86,7 @@ export default function GamesPage() {
   return (
     <CatalogLayout
       title="Jeux"
+      type="games"
       filterSidebar={
         <Suspense fallback={<FilterSidebarSkeleton />}>
           <GameFilterSidebarLazy 

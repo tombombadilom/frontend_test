@@ -22,7 +22,7 @@ const CountBadge = ({ count, className }: { count: number; className?: string })
         initial="initial"
         animate="animate"
         exit="exit"
-        className={`absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full text-xs font-medium ${className}`}
+        className={`absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full text-xs font-medium bg-primary text-primary-foreground ${className}`}
       >
         {count}
       </motion.span>
@@ -32,8 +32,10 @@ const CountBadge = ({ count, className }: { count: number; className?: string })
 
 export default function ActionButtons() {
   const { theme, setTheme } = useTheme();
-  const totalItems = useCartStore((state) => state.totalItems);
-  const wishlistItems = useWishlistStore((state) => state.items);
+  const { items } = useCartStore();
+  const cartItemsCount = items.reduce((total, item) => total + item.quantity, 0);
+  const { games, objects, packs } = useWishlistStore();
+  const wishlistCount = games.length + objects.length + packs.length;
 
   return (
     <div className='flex items-center space-x-2'>
@@ -51,20 +53,14 @@ export default function ActionButtons() {
       <Link to="/wishlist" className="relative cursor-pointer">
         <IconButton ariaLabel='Wishlist'>
           <Heart className='h-5 w-5' />
-          <CountBadge 
-            count={wishlistItems.length} 
-            className="bg-game-accent text-black"
-          />
+          <CountBadge count={wishlistCount} />
         </IconButton>
       </Link>
 
       <Link to="/cart" className="relative cursor-pointer">
         <IconButton ariaLabel='Cart'>
           <ShoppingCart className='h-5 w-5' />
-          <CountBadge 
-            count={totalItems} 
-            className="bg-game-primary text-white"
-          />
+          <CountBadge count={cartItemsCount} />
         </IconButton>
       </Link>
 

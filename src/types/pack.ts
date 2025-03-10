@@ -21,11 +21,15 @@ export interface Pack {
   coverImage: string;
   items: string[];
   isActive: boolean;
-  type: 'starter' | 'collector' | 'ultimate';
+  type: 'starter' | 'collector' | 'ultimate' | 'pack';
   gameId: number;
   tags: string[];
-  isFeatured?: boolean;
-  availability: PackAvailability;
+  isFeatured: boolean;
+  availability: {
+    inStock: boolean;
+    quantity?: number;
+  };
+  preview?: PackPreview;
 }
 
 // Helper function to create a unique ID

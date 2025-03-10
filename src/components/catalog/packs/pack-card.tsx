@@ -17,7 +17,7 @@ interface PackCardProps {
 
 export function PackCard({ pack }: PackCardProps) {
   const { addItem } = useCartStore();
-  const { addItem: addToWishlist, removeItem, isInWishlist } = useWishlistStore();
+  const { addItem: addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault(); // Empêcher la navigation
@@ -27,17 +27,18 @@ export function PackCard({ pack }: PackCardProps) {
       price: pack.price,
       image: pack.preview?.imageUrl || '/placeholder.svg',
       quantity: 1,
+      type: 'pack',
     });
     showToast.success('Added to cart');
   };
 
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault(); // Empêcher la navigation
-    if (isInWishlist(pack.id.toString())) {
-      removeItem(pack.id.toString());
+    if (isInWishlist(pack.id.toString(), 'pack')) {
+      removeFromWishlist(pack.id.toString(), 'pack');
       showToast.success('Retiré des favoris');
     } else {
-      addToWishlist(pack);
+      addToWishlist(pack, 'pack');
       showToast.success('Ajouté aux favoris');
     }
   };
@@ -73,7 +74,7 @@ export function PackCard({ pack }: PackCardProps) {
                 <Heart
                   className={cn(
                     "h-5 w-5",
-                    isInWishlist(pack.id.toString()) && "fill-current text-red-500"
+                    isInWishlist(pack.id.toString(), 'pack') && "fill-current text-red-500"
                   )}
                 />
               </Button>

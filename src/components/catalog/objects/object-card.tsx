@@ -1,8 +1,8 @@
 'use client';
 
 import { useCartStore } from '@/store/cart-store';
-import { useObjectWishlistStore } from '@/store/object-wishlist-store';
-import type { GameItem } from '@/types/game';
+import { useWishlistStore } from '@/store/wishlist-store';
+import type { GameItem } from '@/types/item';
 import { formatPrice, cn } from '@/lib/utils';
 import { Heart, ShoppingCart } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -20,29 +20,35 @@ interface ObjectCardProps {
 
 export function ObjectCard({ object, isLoading = false }: ObjectCardProps) {
   const { addItem } = useCartStore();
-  const { addItem: addToWishlist, removeItem, isInWishlist } = useObjectWishlistStore();
+  const { addItem: addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
   const [imageError, setImageError] = useState(false);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     addItem({
       id: object.id.toString(),
       name: object.name,
       price: object.price,
       image: object.preview?.imageUrl || '/placeholder.svg',
-      quantity: 1,
+      type: 'object',
     });
     showToast.success('Added to cart');
   };
 
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (isInWishlist(object.id.toString())) {
-      removeItem(object.id.toString());
-      showToast.success('Retiré des favoris');
+    e.stopPropagation();
+    const itemId = object.id.toString();
+    if (isInWishlist(itemId, 'object')) {
+      removeFromWishlist(itemId, 'object');
+      showToast.success('Removed from wishlist');
     } else {
-      addToWishlist(object);
-      showToast.success('Ajouté aux favoris');
+      addToWishlist({
+        ...object,
+        type: 'object'
+      }, 'object');
+      showToast.success('Added to wishlist');
     }
   };
 
@@ -106,7 +112,7 @@ export function ObjectCard({ object, isLoading = false }: ObjectCardProps) {
                 <Heart
                   className={cn(
                     "h-5 w-5",
-                    isInWishlist(object.id.toString()) && "fill-current text-red-500"
+                    isInWishlist(object.id.toString(), 'object') && "fill-current text-red-500"
                   )}
                 />
               </Button>

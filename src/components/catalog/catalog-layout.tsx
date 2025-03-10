@@ -7,7 +7,7 @@ import { SortSelector } from '@/components/catalog/sort-selector';
 import { FilterSkeleton } from '@/components/ui/skeletons/filter-skeleton';
 import { CardListSkeleton } from '@/components/ui/skeletons/card-skeleton';
 import { Button } from '@/components/ui/button';
-import { useFilterStore } from '@/store/filter-store';
+import { useCatalogFilters } from '@/hooks/use-catalog-filters';
 import { 
   Sidebar,
   SidebarContent,
@@ -20,12 +20,13 @@ import {
 
 interface CatalogLayoutProps {
   title: string;
+  type: 'games' | 'objects' | 'packs';
   filterSidebar: React.ReactNode;
   content: React.ReactNode;
 }
 
-export function CatalogLayout({ title, filterSidebar, content }: CatalogLayoutProps) {
-  const { resetFilters } = useFilterStore();
+export function CatalogLayout({ title, type, filterSidebar, content }: CatalogLayoutProps) {
+  const { resetFilters } = useCatalogFilters(type);
 
   return (
     <SidebarProvider>
@@ -52,7 +53,7 @@ export function CatalogLayout({ title, filterSidebar, content }: CatalogLayoutPr
         <header className="flex h-16 shrink-0 items-center gap-4 px-4 border-none">
           <SidebarTrigger />
           <div className="flex items-center gap-4 ml-auto">
-            <SortSelector />
+            <SortSelector type={type} />
             <DisplayModeSwitcher />
           </div>
         </header>

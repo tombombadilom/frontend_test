@@ -4,9 +4,9 @@ import type React from 'react';
 import { useState } from 'react';
 import { useCartStore } from '@/store/cart-store';
 import { useWishlistStore } from '@/store/wishlist-store';
-import type { Game } from '@/types/game';
+import type { Pack } from '@/types/pack';
 import { formatPrice } from '@/lib/utils';
-import { useHistoryStore } from '@/store/history-store';
+import { usePackHistoryStore } from '@/store/pack-history-store';
 import { Heart, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { showToast } from '@/lib/toast';
@@ -18,25 +18,25 @@ import { Tilt } from '@/components/motion-primitives/tilt';
 import { Spotlight } from '@/components/motion-primitives/spotlight';
 import { motionConfig } from '@/config/motion';
 
-interface GameCardGridProps {
-  game: Game;
+interface PackCardGridProps {
+  pack: Pack;
 }
 
-export function GameCardGrid({ game }: GameCardGridProps) {
+export function PackCardGrid({ pack }: PackCardGridProps) {
   const [_imageLoading, setImageLoading] = useState(true);
   const [_imageError, setImageError] = useState(false);
   const { addItem } = useCartStore();
   const { addItem: addToWishlist, removeItem, isInWishlist } = useWishlistStore();
-  const { addToRecentlyViewed } = useHistoryStore();
+  const { addToRecentlyViewed } = usePackHistoryStore();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     addItem({
-      id: game.id.toString(),
-      name: game.title,
-      price: game.price,
-      image: game.coverImage,
+      id: pack.id.toString(),
+      name: pack.name,
+      price: pack.price,
+      image: pack.coverImage || '/placeholder.svg',
       quantity: 1,
     });
     showToast.success('Added to cart');
@@ -45,21 +45,21 @@ export function GameCardGrid({ game }: GameCardGridProps) {
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (isInWishlist(game.id.toString())) {
-      removeItem(game.id.toString());
+    if (isInWishlist(pack.id.toString())) {
+      removeItem(pack.id.toString());
       showToast.success('Removed from wishlist');
     } else {
-      addToWishlist(game);
+      addToWishlist(pack);
       showToast.success('Added to wishlist');
     }
   };
 
-  const handleGameClick = () => {
-    addToRecentlyViewed(game);
+  const handlePackClick = () => {
+    addToRecentlyViewed(pack);
   };
 
   return (
-    <Link to={`/games/${game.id}`} onClick={handleGameClick}>
+    <Link to={`/packs/${pack.id}`} onClick={handlePackClick}>
       <motion.div
         {...motionConfig.cards.container}
       >
@@ -83,8 +83,8 @@ export function GameCardGrid({ game }: GameCardGridProps) {
               transition={motionConfig.cards.image.transition}
             >
               <img
-                src={game.coverImage}
-                alt={game.title}
+                src={pack.coverImage || '/placeholder.svg'}
+                alt={pack.name}
                 className="h-full w-full object-cover"
                 onError={() => setImageError(true)}
                 onLoad={() => setImageLoading(false)}
@@ -92,15 +92,15 @@ export function GameCardGrid({ game }: GameCardGridProps) {
             </motion.div>
             <CardContent className="p-4">
               <h3 className="line-clamp-1 text-lg font-semibold group-hover:text-primary">
-                {game.title}
+                {pack.name}
               </h3>
               <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
-                {game.description}
+                {pack.description}
               </p>
             </CardContent>
             <CardFooter className="p-4 pt-0">
               <div className="flex items-center justify-between w-full">
-                <span className="text-lg font-bold">{formatPrice(game.price)}</span>
+                <span className="text-lg font-bold">{formatPrice(pack.price)}</span>
                 <div className="flex gap-2">
                   <motion.div 
                     className="cursor-pointer" 
@@ -115,7 +115,7 @@ export function GameCardGrid({ game }: GameCardGridProps) {
                     >
                       <Heart className={cn(
                         "h-4 w-4",
-                        isInWishlist(game.id.toString()) && "fill-current text-red-500"
+                        isInWishlist(pack.id.toString()) && "fill-current text-red-500"
                       )} />
                     </Button>
                   </motion.div>

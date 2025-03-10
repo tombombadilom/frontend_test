@@ -1,37 +1,100 @@
 'use client';
 
 import { useDisplayMode } from '@/store/display-mode-store';
-import type { Pack } from '@/types/pack';
-import { usePacks } from '@/hooks/use-packs';
-import { PackGrid } from '@/components/packs/pack-grid';
-import { PackCarousel } from '@/components/packs/pack-carousel';
-import { PackInfiniteScroll } from '@/components/packs/pack-infinite-scroll';
+import type { Game } from '@/types/game';
+import { useGames } from '@/hooks/use-games';
+import { useGameFilterStore } from '@/store/filter-store';
+import { GameCardGrid } from '@/components/catalog/games/game-card/game-card-grid';
+import { GameCardCarousel } from '@/components/catalog/games/game-card/game-card-carousel';
+import { GameCardInfinite } from '@/components/catalog/games/game-card/game-card-infinite';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
   PaginationItem,
   PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useInView } from 'motion/react';
+import { cn } from '@/lib/utils';
 
 const ITEMS_PER_PAGE = 8;
 const ITEMS_PER_SCROLL = 4;
 const SKELETON_KEYS = Array.from({ length: ITEMS_PER_PAGE }, (_, i) => `skeleton-${i}`);
 const MAX_VISIBLE_PAGES = 5;
 
-export function PackDisplay() {
-  const { packs, isLoading } = usePacks();
+export function GameDisplay() {
+  const { games } = useGames();
+  const filters = useGameFilterStore();
   const displayMode = useDisplayMode((state) => state.displayMode);
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
+  const [currentCarouselIndex, _setCurrentCarouselIndex] = useState(0);
   const [displayedItems, _setDisplayedItems] = useState(ITEMS_PER_SCROLL);
+  const [isLoading, setIsLoading] = useState(false);
+  const loaderRef = useRef<HTMLDivElement>(null);
 
-  if (isLoading) {
+  // Filter games based on current filters
+  const filteredGames = useMemo(() => {
+    return games.filter((game) => {
+      const matchesSearch = game.title.toLowerCase().includes(filters.search.toLowerCase());
+      const matchesPlatform = filters.platforms.length === 0 || game.platforms.some(p => filters.platforms.includes(p));
+      const matchesPrice = (!filters.priceRange[0] || game.price.amount >= filters.priceRange[0]) && 
+                          (!filters.priceRange[1] || game.price.amount <= filters.priceRange[1]);
+      const matchesCategories = filters.categories.length === 0 || game.genres.some(c => filters.categories.includes(c));
+      const matchesDiscounted = !filters.onlyDiscounted || (game.price.discount ?? 0) > 0;
+      const matchesNewReleases = !filters.onlyNewReleases || game.isNewRelease;
+
+      return matchesSearch && matchesPlatform && matchesPrice && matchesCategories && 
+             matchesDiscounted && matchesNewReleases;
+    });
+  }, [games, filters]);
+
+  // Utilisation optimisée de l'Intersection Observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const firstEntry = entries[0];
+        if (firstEntry.isIntersecting && displayMode === 'infinite' && !isLoading) {
+          setIsLoading(true);
+          // Simulation d'un délai de chargement pour l'effet visuel
+          setTimeout(() => {
+            _setDisplayedItems(prev => {
+              const newValue = Math.min(prev + ITEMS_PER_SCROLL, filteredGames.length);
+              if (newValue === prev) {
+                observer.disconnect(); // Déconnexion si plus d'items à charger
+              }
+              return newValue;
+            });
+            setIsLoading(false);
+          }, 500);
+        }
+      },
+      {
+        root: null, // Utilise le viewport comme racine
+        rootMargin: '100px', // Déclenche 100px avant d'atteindre le loader
+        threshold: 0.1 // Déclenche quand 10% du loader est visible
+      }
+    );
+
+    if (loaderRef.current && displayMode === 'infinite') {
+      observer.observe(loaderRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [displayMode, filteredGames.length, isLoading]);
+
+  // Reset displayed items when display mode changes
+  useEffect(() => {
+    _setDisplayedItems(ITEMS_PER_SCROLL);
+    setIsLoading(false);
+  }, []);
+
+  if (!games) {
     return (
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {SKELETON_KEYS.map((key) => (
@@ -44,11 +107,11 @@ export function PackDisplay() {
     );
   }
 
-  if (packs.length === 0) {
+  if (filteredGames.length === 0) {
     return (
       <div className="flex h-40 items-center justify-center rounded-lg border bg-card">
         <p className="text-center text-muted-foreground">
-          Aucun pack ne correspond à vos critères de recherche.
+          Aucun jeu ne correspond à vos critères de recherche.
         </p>
       </div>
     );
@@ -56,10 +119,10 @@ export function PackDisplay() {
 
   switch (displayMode) {
     case 'grid': {
-      const totalPages = Math.ceil(packs.length / ITEMS_PER_PAGE);
+      const totalPages = Math.ceil(filteredGames.length / ITEMS_PER_PAGE);
       const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
       const endIndex = startIndex + ITEMS_PER_PAGE;
-      const currentPacks = packs.slice(startIndex, endIndex);
+      const currentGames = filteredGames.slice(startIndex, endIndex);
 
       // Calculate visible page numbers
       let pageNumbers = [];
@@ -79,15 +142,15 @@ export function PackDisplay() {
         <div className="space-y-6">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <AnimatePresence mode="popLayout">
-              {currentPacks.map((pack, index) => (
+              {currentGames.map((game, index) => (
                 <motion.div
-                  key={pack.id}
+                  key={game.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3, delay: index % 4 * 0.1 }}
                 >
-                  <PackGrid packs={[pack]} />
+                  <GameCardGrid game={game} />
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -142,28 +205,20 @@ export function PackDisplay() {
         <div className="relative group">
           <AnimatePresence mode="popLayout">
             <motion.div
-              key={packs[currentCarouselIndex].id}
+              key={filteredGames[currentCarouselIndex].id}
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.3 }}
             >
-              <PackCarousel 
-                packs={[packs[currentCarouselIndex]]}
-                onPrevious={() => setCurrentCarouselIndex((prev) => 
-                  prev === 0 ? packs.length - 1 : prev - 1
-                )}
-                onNext={() => setCurrentCarouselIndex((prev) => 
-                  prev === packs.length - 1 ? 0 : prev + 1
-                )}
-              />
+              <GameCardCarousel game={filteredGames[currentCarouselIndex]} />
             </motion.div>
           </AnimatePresence>
         </div>
       );
     case 'infinite': {
-      const _hasMore = displayedItems < packs.length;
-      const visiblePacks = packs.slice(0, displayedItems);
+      const hasMore = displayedItems < filteredGames.length;
+      const visibleGames = filteredGames.slice(0, displayedItems);
       
       return (
         <div className="relative flex flex-col h-[calc(100dvh-14rem)] -mx-6">
@@ -171,24 +226,51 @@ export function PackDisplay() {
             className="flex-1 flex flex-col divide-y divide-border overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
           >
             <AnimatePresence mode="popLayout">
-              {visiblePacks.map((pack, index) => (
+              {visibleGames.map((game, index) => (
                 <motion.div
-                  key={pack.id}
+                  key={game.id}
                   className="flex-1 min-h-[28%] px-6"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3, delay: index % 4 * 0.1 }}
                 >
-                  <PackInfiniteScroll packs={[pack]} />
+                  <GameCardInfinite game={game} />
                 </motion.div>
               ))}
             </AnimatePresence>
+            
+            {/* Loader optimisé pour l'infinite scroll */}
+            {hasMore && (
+              <div 
+                ref={loaderRef}
+                className="h-20 flex items-center justify-center px-6"
+              >
+                <motion.div
+                  animate={isLoading ? { 
+                    rotate: 360,
+                    scale: [1, 1.2, 1]
+                  } : { 
+                    y: [0, 10, 0]
+                  }}
+                  transition={{ 
+                    duration: isLoading ? 1 : 1.5,
+                    repeat: Number.POSITIVE_INFINITY,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <ChevronDown className={cn(
+                    "h-6 w-6",
+                    isLoading ? "text-primary animate-spin" : "text-muted-foreground"
+                  )} />
+                </motion.div>
+              </div>
+            )}
           </div>
         </div>
       );
     }
     default:
-      return <PackGrid packs={packs} />;
+      return null;
   }
 } 

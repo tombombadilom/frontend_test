@@ -1,6 +1,6 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { GameItem } from "@/types/game";
+import type { GameItem } from "@/types/item";
 import { formatPrice } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,9 @@ interface HomeObjectCardProps {
 export function HomeObjectCard({ object }: HomeObjectCardProps) {
   const [isLoading, setIsLoading] = useState(true);
   const { addItem } = useCartStore();
-  const { addItem: addToWishlist, removeItem, isInWishlist } = useWishlistStore();
+  const { addItem: addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
+
+  console.log('Rendering HomeObjectCard with object:', object);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -31,21 +33,29 @@ export function HomeObjectCard({ object }: HomeObjectCardProps) {
       id: object.id.toString(),
       name: object.name,
       price: object.price,
-      image: object.preview.imageUrl,
-      quantity: 1,
+      image: object.preview?.imageUrl || '/placeholder.svg',
+      type: 'object',
     });
-    showToast.success("Ajouté au panier");
+    showToast.success('Added to cart');
   };
 
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (isInWishlist(object.id.toString())) {
-      removeItem(object.id.toString());
-      showToast.success("Retiré des favoris");
+    const itemId = object.id.toString();
+    console.log('Toggle wishlist for object:', { itemId, object });
+    
+    if (isInWishlist(itemId, 'object')) {
+      console.log('Removing object from wishlist:', itemId);
+      removeFromWishlist(itemId, 'object');
+      showToast.success('Removed from wishlist');
     } else {
-      addToWishlist(object);
-      showToast.success("Ajouté aux favoris");
+      console.log('Adding object to wishlist:', object);
+      addToWishlist({
+        ...object,
+        type: 'object'
+      }, 'object');
+      showToast.success('Added to wishlist');
     }
   };
 
@@ -110,7 +120,7 @@ export function HomeObjectCard({ object }: HomeObjectCardProps) {
                     >
                       <Heart className={cn(
                         "h-4 w-4",
-                        isInWishlist(object.id.toString()) && "fill-current text-red-500"
+                        isInWishlist(object.id.toString(), 'object') && "fill-current text-red-500"
                       )} />
                     </Button>
                   </motion.div>

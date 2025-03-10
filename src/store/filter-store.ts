@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import type { Game, Price } from '@/types/game';
 import type { MigrateFunction } from '@/types/store';
 
-export type SortOption = 'newest' | 'oldest' | 'price-asc' | 'price-desc';
+export type SortOption = 'newest' | 'oldest' | 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | 'rating-desc';
 
 // Interface de base pour tous les filtres
 interface BaseFilterState {

@@ -13,17 +13,42 @@ import { Link } from 'react-router-dom';
 import { showToast } from '@/lib/toast';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
 interface GameCardProps {
   game: Game;
 }
 
+function GameCardSkeleton() {
+  return (
+    <Card className="group flex flex-col sm:flex-row h-full sm:h-[150px] overflow-hidden border-none">
+      <div className="relative h-[200px] sm:h-full sm:w-[150px] w-full shrink-0">
+        <Skeleton className="h-full w-full" />
+      </div>
+      <CardContent className="flex flex-col justify-between p-4 w-full">
+        <div>
+          <Skeleton className="h-6 w-3/4 mb-2" />
+          <Skeleton className="h-4 w-full mb-2" />
+          <Skeleton className="h-4 w-2/3" />
+        </div>
+        <div className="flex items-center justify-between mt-4">
+          <Skeleton className="h-5 w-20" />
+          <div className="flex gap-2">
+            <Skeleton className="h-8 w-8 rounded-full" />
+            <Skeleton className="h-8 w-8 rounded-full" />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 export function GameCard({ game }: GameCardProps) {
   const [_imageLoading, setImageLoading] = useState(true);
   const [_imageError, setImageError] = useState(false);
   const { addItem } = useCartStore();
-  const { addItem: addToWishlist, removeItem, isInWishlist } = useWishlistStore();
+  const { addItem: addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
   const { addToRecentlyViewed } = useHistoryStore();
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -35,6 +60,7 @@ export function GameCard({ game }: GameCardProps) {
       price: game.price,
       image: game.coverImage,
       quantity: 1,
+      type: 'game',
     });
     showToast.success('Added to cart');
   };
@@ -42,11 +68,11 @@ export function GameCard({ game }: GameCardProps) {
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (isInWishlist(game.id.toString())) {
-      removeItem(game.id.toString());
+    if (isInWishlist(game.id.toString(), 'game')) {
+      removeFromWishlist(game.id.toString(), 'game');
       showToast.success('Removed from wishlist');
     } else {
-      addToWishlist(game);
+      addToWishlist(game, 'game');
       showToast.success('Added to wishlist');
     }
   };
@@ -88,7 +114,7 @@ export function GameCard({ game }: GameCardProps) {
                 <Heart
                   className={cn(
                     "h-5 w-5 transition-colors",
-                    isInWishlist(game.id.toString()) && "fill-current text-red-500"
+                    isInWishlist(game.id.toString(), 'game') && "fill-current text-red-500"
                   )}
                 />
               </Button>
@@ -107,3 +133,5 @@ export function GameCard({ game }: GameCardProps) {
     </Link>
   );
 }
+
+GameCard.Skeleton = GameCardSkeleton;

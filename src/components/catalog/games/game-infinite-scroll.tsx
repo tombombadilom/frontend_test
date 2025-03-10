@@ -1,6 +1,6 @@
 'use client';
 
-import { GameCard } from '@/components/games/game-card';
+import { GameCard } from '@/components/catalog/games/game-card';
 import type { Game } from '@/types/game';
 import { motion, AnimatePresence } from 'motion/react';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';

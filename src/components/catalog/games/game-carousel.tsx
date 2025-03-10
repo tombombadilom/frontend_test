@@ -2,7 +2,7 @@
 
 const _ITEMS_PER_VIEW = 1; // Nombre d'items affichés à la fois dans le carrousel
 
-import { GameCard } from '@/components/games/game-card';
+import { GameCard } from '@/components/catalog/games/game-card';
 import type { Game } from '@/types/game';
 import {
   Carousel,

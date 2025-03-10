@@ -1,12 +1,10 @@
-'use client';
-
 import type React from 'react';
 import { useState } from 'react';
 import { useCartStore } from '@/store/cart-store';
 import { useWishlistStore } from '@/store/wishlist-store';
-import type { Game } from '@/types/game';
+import type { GameItem } from '@/types/game';
 import { formatPrice } from '@/lib/utils';
-import { useHistoryStore } from '@/store/history-store';
+import { useObjectHistoryStore } from '@/store/object-history-store';
 import { Heart, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { showToast } from '@/lib/toast';
@@ -14,25 +12,25 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
-interface GameCardInfiniteProps {
-  game: Game;
+interface ObjectCardInfiniteProps {
+  object: GameItem;
 }
 
-export function GameCardInfinite({ game }: GameCardInfiniteProps) {
+export function ObjectCardInfinite({ object }: ObjectCardInfiniteProps) {
   const [_imageLoading, setImageLoading] = useState(true);
   const [_imageError, setImageError] = useState(false);
   const { addItem } = useCartStore();
   const { addItem: addToWishlist, removeItem, isInWishlist } = useWishlistStore();
-  const { addToRecentlyViewed } = useHistoryStore();
+  const { addToRecentlyViewed } = useObjectHistoryStore();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     addItem({
-      id: game.id.toString(),
-      name: game.title,
-      price: game.price,
-      image: game.coverImage,
+      id: object.id.toString(),
+      name: object.name,
+      price: object.price,
+      image: object.preview?.imageUrl || '/placeholder.svg',
       quantity: 1,
     });
     showToast.success('Added to cart');
@@ -41,26 +39,26 @@ export function GameCardInfinite({ game }: GameCardInfiniteProps) {
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (isInWishlist(game.id.toString())) {
-      removeItem(game.id.toString());
+    if (isInWishlist(object.id.toString())) {
+      removeItem(object.id.toString());
       showToast.success('Removed from wishlist');
     } else {
-      addToWishlist(game);
+      addToWishlist(object);
       showToast.success('Added to wishlist');
     }
   };
 
-  const handleGameClick = () => {
-    addToRecentlyViewed(game);
+  const handleObjectClick = () => {
+    addToRecentlyViewed(object);
   };
 
   return (
-    <Link to={`/games/${game.id}`} onClick={handleGameClick} className="block h-full w-full py-2">
+    <Link to={`/objects/${object.id}`} onClick={handleObjectClick} className="block h-full w-full py-2">
       <Card className="grid grid-cols-[60%_1fr] h-full w-full overflow-hidden border-none transition-all hover:bg-accent/5">
         <div className="relative h-full">
           <img
-            src={game.coverImage}
-            alt={game.title}
+            src={object.preview?.imageUrl || '/placeholder.svg'}
+            alt={object.name}
             className="absolute inset-0 h-full w-full object-cover"
             onError={() => setImageError(true)}
             onLoad={() => setImageLoading(false)}
@@ -69,7 +67,7 @@ export function GameCardInfinite({ game }: GameCardInfiniteProps) {
         <CardContent className="flex flex-col justify-between w-full p-4">
           <div className="space-y-2">
             <div className="flex items-start justify-between gap-4">
-              <h3 className="text-lg font-semibold line-clamp-1 flex-1">{game.title}</h3>
+              <h3 className="text-lg font-semibold line-clamp-1 flex-1">{object.name}</h3>
               <div className="flex gap-2 shrink-0">
                 <Button
                   size="icon"
@@ -80,7 +78,7 @@ export function GameCardInfinite({ game }: GameCardInfiniteProps) {
                   <Heart
                     className={cn(
                       "h-5 w-5",
-                      isInWishlist(game.id.toString()) && "fill-current text-red-500"
+                      isInWishlist(object.id.toString()) && "fill-current text-red-500"
                     )}
                   />
                 </Button>
@@ -95,9 +93,9 @@ export function GameCardInfinite({ game }: GameCardInfiniteProps) {
               </div>
             </div>
             <p className="text-sm text-muted-foreground line-clamp-2">
-              {game.description}
+              {object.description}
             </p>
-            <p className="text-lg font-semibold">{formatPrice(game.price)}</p>
+            <p className="text-lg font-semibold">{formatPrice(object.price)}</p>
           </div>
         </CardContent>
       </Card>

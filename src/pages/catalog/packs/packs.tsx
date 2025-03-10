@@ -9,10 +9,10 @@ import packsData from '@/data/packs.json';
 import type { Pack } from '@/types/pack';
 
 const PackFilterSidebarLazy = lazy(() => 
-  import('@/components/catalog/pack-filter-sidebar').then(mod => ({ default: mod.PackFilterSidebar }))
+  import('@/components/catalog/packs/pack-filter-sidebar').then(mod => ({ default: mod.PackFilterSidebar }))
 );
 const PackDisplayLazy = lazy(() => 
-  import('@/components/catalog/pack-display').then(mod => ({ default: mod.PackDisplay }))
+  import('@/components/catalog/packs/pack-display').then(mod => ({ default: mod.PackDisplay }))
 );
 
 // Skeleton component for the filter sidebar
@@ -49,7 +49,7 @@ const _FilterSidebarSkeleton = () => {
 
 export default function PacksPage() {
   const { getAllCategories } = useCategories('packs');
-  const { packs, isLoading } = usePacks();
+  const { packs } = usePacks();
 
   // Get unique games and their counts
   const games = packs.reduce((acc: { id: string; name: string; count: number }[], pack: Pack) => {
@@ -124,26 +124,32 @@ export default function PacksPage() {
   const packSkeletons = Array.from({ length: 8 }, (_, i) => `pack-skeleton-${i}`);
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 p-4">
-      <PackFilterSidebarLazy
-        games={games}
-        types={types}
-        platforms={platforms}
-        maxPrice={maxPrice}
-        discountedCount={discountedCount}
-        newReleasesCount={newReleasesCount}
-      />
-      <div className="flex-1">
-        {isLoading ? (
+    <CatalogLayout
+      title="Packs"
+      type="packs"
+      filterSidebar={
+        <Suspense fallback={<_FilterSidebarSkeleton />}>
+          <PackFilterSidebarLazy
+            games={games}
+            types={types}
+            platforms={platforms}
+            maxPrice={maxPrice}
+            discountedCount={discountedCount}
+            newReleasesCount={newReleasesCount}
+          />
+        </Suspense>
+      }
+      content={
+        <Suspense fallback={
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {packSkeletons.map(id => (
               <Skeleton key={id} className="h-[300px] rounded-lg" />
             ))}
           </div>
-        ) : (
+        }>
           <PackDisplayLazy />
-        )}
-      </div>
-    </div>
+        </Suspense>
+      }
+    />
   );
 } 

@@ -22,7 +22,7 @@ interface HomePackCardProps {
 export function HomePackCard({ pack }: HomePackCardProps) {
   const [isLoading, setIsLoading] = useState(true);
   const { addItem } = useCartStore();
-  const { addItem: addToWishlist, removeItem, isInWishlist } = useWishlistStore();
+  const { addItem: addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -32,20 +32,24 @@ export function HomePackCard({ pack }: HomePackCardProps) {
       name: pack.name,
       price: pack.price,
       image: pack.coverImage,
-      quantity: 1,
+      type: 'pack',
     });
-    showToast.success("Ajouté au panier");
+    showToast.success('Added to cart');
   };
 
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (isInWishlist(pack.id.toString())) {
-      removeItem(pack.id.toString());
-      showToast.success("Retiré des favoris");
+    const itemId = pack.id.toString();
+    if (isInWishlist(itemId, 'pack')) {
+      removeFromWishlist(itemId, 'pack');
+      showToast.success('Removed from wishlist');
     } else {
-      addToWishlist(pack);
-      showToast.success("Ajouté aux favoris");
+      addToWishlist({
+        ...pack,
+        type: 'pack'
+      }, 'pack');
+      showToast.success('Added to wishlist');
     }
   };
 
@@ -110,7 +114,7 @@ export function HomePackCard({ pack }: HomePackCardProps) {
                     >
                       <Heart className={cn(
                         "h-4 w-4",
-                        isInWishlist(pack.id.toString()) && "fill-current text-red-500"
+                        isInWishlist(pack.id.toString(), 'pack') && "fill-current text-red-500"
                       )} />
                     </Button>
                   </motion.div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { PackCard } from '@/components/packs/pack-card';
+import { PackCard } from '@/components/catalog/packs/pack-card';
 import { usePacks } from '@/hooks/use-packs';
 import { Button } from '@/components/ui/button';
 import { ChevronRight } from 'lucide-react';

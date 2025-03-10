@@ -7,7 +7,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { type SortOption, useFilterStore } from '@/store/filter-store';
+import type { SortOption } from '@/store/filter-store';
+import { useCatalogFilters } from '@/hooks/use-catalog-filters';
 
 const sortOptions: { value: SortOption; label: string }[] = [
   { value: 'newest', label: 'Les plus récents' },
@@ -18,8 +19,12 @@ const sortOptions: { value: SortOption; label: string }[] = [
   { value: 'rating-desc', label: 'Meilleures notes' },
 ];
 
-export function SortSelector() {
-  const { sortBy, setSortBy } = useFilterStore();
+interface SortSelectorProps {
+  type: 'games' | 'objects' | 'packs';
+}
+
+export function SortSelector({ type }: SortSelectorProps) {
+  const { sortBy, setSortBy } = useCatalogFilters(type);
 
   return (
     <div className="flex items-center gap-2">

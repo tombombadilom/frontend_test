@@ -1,6 +1,6 @@
 'use client';
 
-import { GameCard } from '@/components/games/game-card';
+import { GameCard } from '@/components/catalog/games/game-card';
 import type { Game } from '@/types/game';
 
 interface GameGridProps {

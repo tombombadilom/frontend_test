@@ -118,7 +118,7 @@ export const Header = memo(function Header() {
 
   const headerClasses = useMemo(() => 
     cn(
-      'sticky top-0 z-50 border-b backdrop-blur-md transition-all duration-300',
+      'sticky top-0 z-50 backdrop-blur-md transition-all duration-300',
       isScrolled ? 'bg-background/90 shadow-sm' : 'bg-background/80'
     )
   , [isScrolled]);

@@ -22,7 +22,7 @@ interface HomeGameCardProps {
 export function HomeGameCard({ game }: HomeGameCardProps) {
   const [isLoading, setIsLoading] = useState(true);
   const { addItem } = useCartStore();
-  const { addItem: addToWishlist, removeItem, isInWishlist } = useWishlistStore();
+  const { addItem: addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
 
   console.log('Game data:', game);
   console.log('Rendering HomeGameCard');
@@ -41,29 +41,31 @@ export function HomeGameCard({ game }: HomeGameCardProps) {
       name: game.title,
       price: game.price,
       image: game.coverImage,
-      quantity: 1,
+      type: 'game',
     });
-    showToast.success("Ajouté au panier");
+    showToast.success('Added to cart');
   };
 
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (isInWishlist(game.id.toString())) {
-      removeItem(game.id.toString());
-      showToast.success("Retiré des favoris");
+    const itemId = game.id.toString();
+    if (isInWishlist(itemId, 'game')) {
+      removeFromWishlist(itemId, 'game');
+      showToast.success('Removed from wishlist');
     } else {
-      addToWishlist(game);
-      showToast.success("Ajouté aux favoris");
+      addToWishlist({
+        ...game,
+        type: 'game'
+      }, 'game');
+      showToast.success('Added to wishlist');
     }
   };
 
   return (
     <Link to={`/games/${game.id}`}>
       <motion.div
-        initial={motionConfig.transitions.entry.initial}
-        animate={motionConfig.transitions.entry.animate}
-        transition={motionConfig.transitions.entry.transition}
+        {...motionConfig.cards.container}
       >
         <Tilt 
           className="group relative w-full" 
@@ -81,8 +83,8 @@ export function HomeGameCard({ game }: HomeGameCardProps) {
           <Card className="h-full overflow-hidden transition-all hover:shadow-lg border-none">
             <motion.div 
               className="relative aspect-[16/9] overflow-hidden"
-              whileHover={{ scale: motionConfig.transitions.hover.scale }}
-              transition={{ duration: motionConfig.transitions.hover.duration }}
+              whileHover={motionConfig.cards.image.hover}
+              transition={motionConfig.cards.image.transition}
             >
               {isLoading && (
                 <Skeleton className="h-full w-full absolute inset-0" />
@@ -110,8 +112,8 @@ export function HomeGameCard({ game }: HomeGameCardProps) {
                 <div className="flex gap-2">
                   <motion.div 
                     className="cursor-pointer" 
-                    whileHover={{ scale: motionConfig.buttons.hover.scale }}
-                    whileTap={{ scale: motionConfig.buttons.tap.scale }}
+                    whileHover={motionConfig.buttons.hover}
+                    whileTap={motionConfig.buttons.tap}
                   >
                     <Button
                       size="icon"
@@ -121,14 +123,14 @@ export function HomeGameCard({ game }: HomeGameCardProps) {
                     >
                       <Heart className={cn(
                         "h-4 w-4",
-                        isInWishlist(game.id.toString()) && "fill-current text-red-500"
+                        isInWishlist(game.id.toString(), 'game') && "fill-current text-red-500"
                       )} />
                     </Button>
                   </motion.div>
                   <motion.div 
-                    className="cursor-pointer"
-                    whileHover={{ scale: motionConfig.buttons.hover.scale }}
-                    whileTap={{ scale: motionConfig.buttons.tap.scale }}
+                    className="cursor-pointer" 
+                    whileHover={motionConfig.buttons.hover}
+                    whileTap={motionConfig.buttons.tap}
                   >
                     <Button
                       size="icon"

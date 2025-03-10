@@ -5,12 +5,13 @@ import { useObjects } from '@/hooks/use-objects';
 import { useCategories } from '@/hooks/use-categories';
 import { CatalogLayout } from '@/components/catalog/catalog-layout';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ErrorBoundary } from '@/components/ui/error-boundary';
 
 const ObjectFilterSidebarLazy = lazy(() => 
-  import('@/components/catalog/object-filter-sidebar').then(mod => ({ default: mod.ObjectFilterSidebar }))
+  import('@/components/catalog/objects/object-filter-sidebar').then(mod => ({ default: mod.ObjectFilterSidebar }))
 );
 const ObjectDisplayLazy = lazy(() => 
-  import('@/components/catalog/object-display').then(mod => ({ default: mod.ObjectDisplay }))
+  import('@/components/catalog/objects/object-display').then(mod => ({ default: mod.ObjectDisplay }))
 );
 
 // Skeleton component for the filter sidebar
@@ -115,32 +116,35 @@ export default function ObjectsPage() {
   }).length;
 
   return (
-    <CatalogLayout
-      title="Objets"
-      filterSidebar={
-        <Suspense fallback={<FilterSidebarSkeleton />}>
-          <ObjectFilterSidebarLazy 
-            games={games}
-            categories={categories}
-            rarities={rarities}
-            platforms={platforms}
-            maxPrice={maxPrice}
-            discountedCount={discountedCount}
-            newReleasesCount={newReleasesCount}
-          />
-        </Suspense>
-      }
-      content={
-        <Suspense fallback={
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {Array.from({ length: 8 }).map((_, index) => (
-              <Skeleton key={`object-grid-skeleton-${index + 1}`} className="h-[300px] rounded-lg" />
-            ))}
-          </div>
-        }>
-          <ObjectDisplayLazy />
-        </Suspense>
-      }
-    />
+    <ErrorBoundary>
+      <CatalogLayout
+        title="Objets"
+        type="objects"
+        filterSidebar={
+          <Suspense fallback={<FilterSidebarSkeleton />}>
+            <ObjectFilterSidebarLazy 
+              games={games}
+              categories={categories}
+              rarities={rarities}
+              platforms={platforms}
+              maxPrice={maxPrice}
+              discountedCount={discountedCount}
+              newReleasesCount={newReleasesCount}
+            />
+          </Suspense>
+        }
+        content={
+          <Suspense fallback={
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {Array.from({ length: 8 }).map((_, index) => (
+                <Skeleton key={`object-grid-skeleton-${index + 1}`} className="h-[300px] rounded-lg" />
+              ))}
+            </div>
+          }>
+            <ObjectDisplayLazy />
+          </Suspense>
+        }
+      />
+    </ErrorBoundary>
   );
 } 
