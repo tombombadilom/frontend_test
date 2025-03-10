@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { HomePackCard } from './HomePackCard';
+import { motionConfig } from '@/config/motion';
 
 export function FeaturedPacks() {
   const { packs, isLoading } = usePacks();
@@ -15,10 +16,7 @@ export function FeaturedPacks() {
     <section className="game-section">
       <div className="game-container">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          {...motionConfig.sections.header}
           className="mb-8 flex items-center justify-between"
         >
           <h2 className="text-2xl font-bold md:text-3xl">Packs à la une</h2>
@@ -44,10 +42,8 @@ export function FeaturedPacks() {
             {featuredPacks.map((pack, index) => (
               <motion.div
                 key={pack.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                {...motionConfig.sections.grid.item}
+                transition={motionConfig.sections.grid.item.transition(index)}
               >
                 <HomePackCard pack={pack} />
               </motion.div>

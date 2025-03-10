@@ -31,7 +31,8 @@
       "**/*.test.tsx",
       "**/*.spec.ts",
       "**/*.spec.tsx",
-      "**/components/ui/**"
+      "**/components/ui/**",
+      "**/components/motion-primitives/**"
     ]
   },
   "formatter": {
