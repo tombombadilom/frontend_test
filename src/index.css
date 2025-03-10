@@ -1,4 +1,4 @@
-@import './styles/admin.css';
+@import "tailwindcss";
 
 @tailwind base;
 @tailwind components;
@@ -112,10 +112,5 @@
     transition: background 0.3s ease-in-out, color 0.3s ease-in-out !important;
   }
 
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+ 
 }

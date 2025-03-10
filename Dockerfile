@@ -5,19 +5,35 @@ WORKDIR /app
 # Configure pnpm and network settings
 ENV PNPM_TIMEOUT=1200000 \
     PNPM_FETCH_RETRIES=10 \
-    PNPM_REGISTRY=https://registry.npmjs.org \
+    PNPM_REGISTRY=https://registry.npmjs.cf \
     NODE_OPTIONS="--max-old-space-size=4096" \
     NODE_TLS_REJECT_UNAUTHORIZED=0 \
     NODE_DNS_LOOKUP_TIMEOUT=120000 \
-    NODE_DNS_LOOKUP_RETRIES=10
+    NODE_DNS_LOOKUP_RETRIES=10 \
+    NPM_CONFIG_REGISTRY=https://registry.npmjs.cf \
+    NPM_CONFIG_FETCH_RETRIES=10 \
+    NPM_CONFIG_FETCH_RETRY_FACTOR=2 \
+    NPM_CONFIG_FETCH_RETRY_MINTIMEOUT=10000 \
+    NPM_CONFIG_FETCH_RETRY_MAXTIMEOUT=60000
 
-# Install pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# Install pnpm with retry mechanism
+RUN corepack enable && \
+    for i in {1..3}; do \
+        corepack prepare pnpm@latest --activate && break || \
+        if [ $i -eq 3 ]; then exit 1; fi; \
+        echo "Retrying pnpm installation..."; \
+        sleep 5; \
+    done
 
 # Install dependencies with retry mechanism and cache
 COPY package.json pnpm-lock.yaml ./
 RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
-    pnpm install --no-frozen-lockfile --prefer-offline
+    for i in {1..3}; do \
+        pnpm install --no-frozen-lockfile --prefer-offline && break || \
+        if [ $i -eq 3 ]; then exit 1; fi; \
+        echo "Retrying dependency installation..."; \
+        sleep 10; \
+    done
 
 # Build the app
 COPY . .
