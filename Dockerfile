@@ -17,11 +17,6 @@ RUN pnpm build
 FROM nginx:1.25-alpine-slim
 WORKDIR /usr/share/nginx/html
 
-# Create nginx user and group with non-root privileges
-RUN addgroup -g 101 -S nginx \
-    && adduser -S -D -H -u 101 -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
-    && rm -rf /usr/share/nginx/html/*
-
 # Copy nginx configuration
 COPY --chown=nginx:nginx nginx.conf /etc/nginx/conf.d/default.conf
 

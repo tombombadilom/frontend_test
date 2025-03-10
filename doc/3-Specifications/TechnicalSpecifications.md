@@ -30,13 +30,13 @@ Before detailing the technical specifications, it's important to acknowledge the
 ### Frontend Framework
 
 **Primary Framework: React with Vite**
-- React 19 for component-based architecture
-- Vite 6.2 for fast development and building
-- React Router DOM 7.2 for routing
-- TypeScript for type safety and developer experience
+- React 19.0.0 for component-based architecture
+- Vite 6.2.0 for fast development and building
+- React Router DOM 7.2.0 for routing
+- TypeScript 5.7.3 for type safety and developer experience
 
 **State Management**
-- Zustand for global state management
+- Zustand 5.0.3 for global state management
   - Lightweight and performant alternative to Redux
   - Simple API with hooks-based approach
   - Built-in middleware for persistence and devtools
@@ -46,31 +46,40 @@ Before detailing the technical specifications, it's important to acknowledge the
 - URL parameters for shareable state
 
 **UI Component Library**
-- Shadcn UI as the foundation component system
-- Custom components built on these foundations
-- Skeleton loading components for all data-dependent UI elements
+- Shadcn UI with Radix UI primitives
+  - @radix-ui/react-* components for accessible UI primitives
+  - Custom styled components built on these foundations
+  - Skeleton loading components for all data-dependent UI elements
 
 **Styling**
-- Tailwind CSS 4 for utility-first styling
+- Tailwind CSS 4.0.10 for utility-first styling
 - CSS Variables for theming and customization
+- tailwind-merge for conditional class merging
+- class-variance-authority for component variants
+
+**Form Management**
+- React Hook Form 7.54.2 for form handling
+- Zod 3.24.2 for schema validation
 
 **Animation**
-- CSS transitions for simple animations
-- Optional: Framer Motion for more complex animations if time permits
+- Motion 12.4.10 for animations
+- Motion Primitives 0.1.0 for reusable animation components
+  - Performant animation primitives
+  - Built-in spring animations
+  - Gesture support
+  - Layout animations
 
 **Code Quality**
-- Biome for linting and formatting
+- Biome 1.9.4 for linting and formatting
   - Single tool replacing ESLint and Prettier
   - Significantly faster performance
-  - Consistent code style enforcement
   - TypeScript-aware linting rules
   - Built-in formatter with opinionated defaults
-  - Minimal configuration required
 
 **Testing**
-- Vitest for unit and component testing
-- React Testing Library for component testing
-- MSW (Mock Service Worker) for API mocking in tests
+- Vitest 1.6.0 for unit and component testing
+- React Testing Library 15.0.6 for component testing
+- Jest DOM 6.4.2 for DOM testing utilities
 
 ### Simulated Backend
 
@@ -89,29 +98,51 @@ Before detailing the technical specifications, it's important to acknowledge the
 
 ## Architecture
 
-### Component Architecture
-
-The interface will follow a modular component architecture with the following layers:
+The interface follows a modular component architecture with the following layers:
 
 1. **Core Components**
-   - Fundamental UI elements (buttons, inputs, cards)
-   - Shared layout components (grids, containers)
-   - Utility components (loaders, error states)
-   - Skeleton components for loading states
+   - UI elements from Shadcn UI and Radix UI
+   - Shared layout components (Header, Sidebar)
+   - Form components with React Hook Form and Zod
+   - Data display components (Tables, Cards)
 
-2. **Feature Components**
-   - Display mode components (carousel, grid, infinite scroll)
-   - Navigation components (tabs, breadcrumbs)
-   - Purchase flow components (cart, checkout)
+2. **Admin Features**
+   - Categories Management
+     - List view with sorting and filtering
+     - Create/Edit forms with validation
+     - Category hierarchy management
+   
+   - Games Management
+     - Game catalog with advanced filters
+     - Game creation and editing
+     - Asset management and previews
+   
+   - Objects Management
+     - Object catalog with filters
+     - Object creation and editing
+     - Availability and pricing management
+   
+   - Packs Management
+     - Pack configuration interface
+     - Item bundling system
+     - Scheduling and availability
+   
+   - Orders Management
+     - Order tracking and history
+     - Status management
+     - Customer information
 
 3. **Page Components**
-   - Shop pages (main shop, category views)
-   - Detail pages (item details)
+   - Admin dashboard pages
+   - Management interfaces
+   - Detail views
+   - Form pages
 
 4. **Layout Components**
-   - Page layouts
-   - Navigation containers
-   - Modal and overlay containers
+   - Admin layout with sidebar
+   - Form layouts
+   - List layouts
+   - Modal and drawer containers
 
 ### Display Mode Components
 
@@ -169,82 +200,95 @@ The project will implement three distinct display mode components as required:
 
 ### State Management with Zustand
 
-Zustand provides a lightweight yet powerful state management solution that is well-suited for this type of e-commerce interface:
+The application uses Zustand for efficient state management across the admin interface:
 
-**Store Structure:**
 ```typescript
-interface StoreState {
-  // Display mode state
-  displayMode: 'carousel' | 'grid' | 'infiniteScroll';
-  setDisplayMode: (mode: 'carousel' | 'grid' | 'infiniteScroll') => void;
+interface AdminStore {
+  // Authentication state
+  user: User | null;
+  isAuthenticated: boolean;
+  login: (credentials: Credentials) => Promise<void>;
+  logout: () => void;
+
+  // UI state
+  sidebarOpen: boolean;
+  setSidebarOpen: (open: boolean) => void;
+  theme: 'light' | 'dark';
+  setTheme: (theme: 'light' | 'dark') => void;
+
+  // Data management
+  items: {
+    games: Game[];
+    objects: GameItem[];
+    packs: Pack[];
+    categories: Category[];
+    orders: Order[];
+  };
   
-  // Product state
-  products: Product[];
-  isLoading: boolean;
-  error: Error | null;
-  fetchProducts: () => Promise<void>;
+  // CRUD operations
+  createItem: <T>(type: ItemType, item: T) => Promise<void>;
+  updateItem: <T>(type: ItemType, id: string, item: T) => Promise<void>;
+  deleteItem: (type: ItemType, id: string) => Promise<void>;
   
-  // Filtering state
-  filters: FilterCriteria;
-  setFilters: (filters: FilterCriteria) => void;
+  // Filters and sorting
+  filters: Record<string, FilterState>;
+  setFilter: (type: ItemType, filter: FilterState) => void;
   
-  // Cart state
-  cart: CartItem[];
-  addToCart: (product: Product, quantity: number) => void;
-  removeFromCart: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
-  clearCart: () => void;
+  // Loading states
+  loading: Record<string, boolean>;
+  error: Record<string, Error | null>;
 }
 ```
 
-**Benefits for this Project:**
-- Simple API reduces boilerplate compared to Redux
-- Built-in persistence middleware for cart storage
-- Efficient updates minimize re-renders
-- Easy integration with React components
-- TypeScript support for type safety
+### Form Management
 
-### Loading State Management
+Forms are built using React Hook Form with Zod validation:
 
-The application will implement comprehensive loading state management:
+```typescript
+// Example of a category form schema
+const categorySchema = z.object({
+  name: z
+    .string()
+    .min(3, 'Le nom doit contenir au moins 3 caractères')
+    .max(100, 'Le nom ne peut pas dépasser 100 caractères'),
+  description: z
+    .string()
+    .min(10, 'La description doit contenir au moins 10 caractères')
+    .max(2000, 'La description ne peut pas dépasser 2000 caractères'),
+  gameId: z.coerce
+    .number()
+    .min(1, 'L\'ID du jeu est requis'),
+  order: z.coerce
+    .number()
+    .min(0, 'L\'ordre doit être positif'),
+  isActive: z
+    .boolean()
+    .default(true),
+});
 
-1. **Skeleton Loading Components**
-   - Product card skeletons
-   - Carousel item skeletons
-   - Detail page skeleton
-   - Navigation skeleton
-   - Cart item skeletons
-
-2. **Implementation Strategy**
-   - Consistent design language for all skeletons
-   - Subtle animation (pulse effect) to indicate loading
-   - Appropriate sizing to prevent layout shifts
-   - Conditional rendering based on loading state
-   - Gradual fade-in of actual content when loaded
-
-3. **Image Loading Optimization**
-   - Blur-up technique for images
-   - Low-resolution placeholders
-   - Progressive loading for larger images
-   - Proper width and height attributes to prevent layout shifts
+type CategoryFormValues = z.infer<typeof categorySchema>;
+```
 
 ### Data Flow Architecture
 
-The application will implement a unidirectional data flow architecture:
+The application implements a unidirectional data flow:
 
 1. **Data Sources**
-   - JSON files for shop configuration
-   - Local Storage for user preferences and cart
+   - JSON files for mock data
+   - Local Storage for preferences
+   - Future API integration points
 
 2. **State Management**
-   - Zustand stores for global application state
-   - Component-specific state
-   - URL parameters for shareable state
+   - Zustand stores for global state
+   - React Query for data fetching
+   - Form state with React Hook Form
+   - URL parameters for navigation state
 
-3. **UI Rendering**
-   - Component-based rendering
-   - Conditional rendering based on state
-   - List rendering with keys for optimization
+3. **UI Updates**
+   - Optimistic updates for better UX
+   - Loading states with skeletons
+   - Error handling with toast notifications
+   - Form validation feedback
 
 ### Responsive Design Architecture
 

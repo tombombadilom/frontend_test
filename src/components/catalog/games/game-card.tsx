@@ -57,10 +57,12 @@ export function GameCard({ game }: GameCardProps) {
     addItem({
       id: game.id.toString(),
       name: game.title,
-      price: game.price,
+      price: {
+        amount: game.price,
+        currency: 'EUR'
+      },
       image: game.coverImage,
-      quantity: 1,
-      type: 'game',
+      type: 'game'
     });
     showToast.success('Added to cart');
   };
@@ -110,6 +112,7 @@ export function GameCard({ game }: GameCardProps) {
                 variant="ghost"
                 className="h-8 w-8 hover:bg-background/80"
                 onClick={handleToggleWishlist}
+                aria-label={isInWishlist(game.id.toString(), 'game') ? 'Retirer des favoris' : 'Ajouter aux favoris'}
               >
                 <Heart
                   className={cn(
@@ -123,6 +126,7 @@ export function GameCard({ game }: GameCardProps) {
                 variant="ghost"
                 className="h-8 w-8 hover:bg-background/80"
                 onClick={handleAddToCart}
+                aria-label="Ajouter au panier"
               >
                 <ShoppingCart className="h-5 w-5" />
               </Button>

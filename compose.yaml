@@ -1,3 +1,12 @@
+x-bake:
+  services:
+    frontend:
+      build:
+        cache-from:
+          - type=gha
+        cache-to:
+          - type=gha,mode=max
+
 services:
   traefik:
     image: traefik:v2.10
@@ -28,7 +37,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: game-store-frontend:latest
+      pull: false
     container_name: game-store-frontend
     restart: unless-stopped
     expose:
