@@ -17,6 +17,16 @@ vi.mock('@/hooks/use-settings', () => ({
   })
 }));
 
+vi.mock('@/contexts/auth-context', () => ({
+  useAuthContext: () => ({
+    user: { id: '1', email: 'test@example.com', name: 'Test User' },
+    isAuthenticated: true,
+    login: vi.fn(),
+    logout: vi.fn(),
+    register: vi.fn()
+  })
+}));
+
 describe('SettingsPage', () => {
   const renderPage = () => {
     const Wrapper = ({ children }: { children: React.ReactNode }) => {
@@ -35,6 +45,6 @@ describe('SettingsPage', () => {
 
   it('affiche le titre', () => {
     renderPage();
-    expect(screen.getByText('Settings')).toBeInTheDocument();
+    expect(screen.getByText('Paramètres')).toBeInTheDocument();
   });
 });

@@ -75,9 +75,9 @@ describe('PackFormPage', () => {
     await userEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText('Name must be at least 3 characters')).toBeInTheDocument();
-      expect(screen.getByText('Description must be at least 10 characters')).toBeInTheDocument();
-      expect(screen.getByText('Price must be greater than 0')).toBeInTheDocument();
+      expect(screen.getByText('Le nom doit contenir au moins 3 caractères')).toBeInTheDocument();
+      expect(screen.getByText('La description doit contenir au moins 10 caractères')).toBeInTheDocument();
+      expect(screen.getByText('Le prix doit être supérieur à 0')).toBeInTheDocument();
     }, { timeout: 1000 });
   });
 }); 
