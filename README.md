@@ -41,7 +41,7 @@ This project implements a flexible and powerful solution for configuring in-game
   - Dark mode support
   - Accessibility compliance (ARIA)
   - Form validation with Zod
-  - Motion animations with Framer Motion
+  - Motion animations with Motion
 
 ## Project Structure
 
