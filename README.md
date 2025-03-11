@@ -167,14 +167,6 @@ src/
 - `pnpm format` - Format code with Biome
 - `pnpm test` - Run tests with Vitest
 
-## Environment Variables
-
-```env
-VITE_API_URL=http://localhost:3000/api
-VITE_SUPABASE_URL=your-supabase-url
-VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
-```
-
 ## Contributing
 
 1. Fork the repository
